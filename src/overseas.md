@@ -45,9 +45,9 @@ permalink: /overseas/
 
 出典: [湯一路 overseas.php](https://ds2.yublog.com/info/overseas.php)
 
-## 距離適性との関係
+## 距離適性・脚質との関係
 
-凱旋門賞は芝2400m。距離適性の読み方は [育成ページの距離適性](/ikusei/#kyori-tekisei) を参照。皐月賞→ダービー→凱旋門のプレイ例（適性の記載は記事内要確認）は [ピヨたけジャパン](https://piyotakejapan.com/47708/)（<span class="label label-unknown">出典要確認</span>）。
+凱旋門賞は芝2400m。距離適性は [育成ページの距離適性](/ikusei/#kyori-tekisei)、脚質・作戦・ダービー前ローテの報告は [脚質・作戦](/ikusei/#kyakushitsu-sakusen) を参照。皐月賞→ダービー→凱旋門のプレイ例（適性の記載は記事内要確認）は [ピヨたけジャパン](https://piyotakejapan.com/47708/)（<span class="label label-unknown">出典要確認</span>）。
 
 ## その他の海外レース
 
