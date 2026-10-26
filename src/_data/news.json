@@ -14,6 +14,53 @@
   },
   {
     "date": "2026-10-26",
+    "title": "すくらっちBC交流杯#05（芝マイル・ビギナー部門）",
+    "summary": "今週開催のコミュニティBC。芝のマイル戦で、これまでの中距離中心から変更。ビギナー部門も継続。",
+    "label": "ダビスタ2で確認済み",
+    "sourceNote": "note 上の開催告知（YouTube配信予定の記載あり）。",
+    "sources": [
+      {
+        "url": "https://note.com/yuki_scr_ch/n/n1f0c9b7d24e1",
+        "title": "yu-ki＠ダビスタswitch攻略 — すくらっちBC交流杯#05"
+      }
+    ]
+  },
+  {
+    "date": "2026-10-26",
+    "title": "凱旋門賞（河合厩舎3歳）打診条件の整理ページを追加",
+    "summary": "湯一路 overseas.php のルートCと掲示板報告を要約。X上の1件の報告（皐月＋ダービー可・ダービー＋宝塚不可）は出典要確認として別掲。",
+    "label": "ダビスタ2で確認済み",
+    "sourceNote": "湯一路はプレイヤー検証のまとめ。公式仕様書ではない。",
+    "sources": [
+      {
+        "url": "https://ds2.yublog.com/info/overseas.php",
+        "title": "湯一路 海外レース出走条件"
+      },
+      {
+        "url": "/overseas/",
+        "title": "当サイト 海外レースページ"
+      }
+    ]
+  },
+  {
+    "date": "2026-10-26",
+    "title": "育成ページに「距離適性」セクションを追加",
+    "summary": "PR TIMES の新作パラメータ説明、攻略記事・プレイヤー報告をラベル付きで整理。前作SFC版IIメモは前作の情報として分離。",
+    "label": "ダビスタ2で確認済み",
+    "sourceNote": "公式はPR TIMESのみ。他は出典要確認として各項目に記載。",
+    "sources": [
+      {
+        "url": "https://prtimes.jp/main/html/rd/p/000000020.000022342.html",
+        "title": "PR TIMES（Game Addict）"
+      },
+      {
+        "url": "/ikusei/#kyori-tekisei",
+        "title": "当サイト 育成・距離適性"
+      }
+    ]
+  },
+  {
+    "date": "2026-10-26",
     "title": "BCアップロード「不正なデータを検知しました」— 対応予定の報告",
     "summary": "プレイヤー報告では、サポートからBCアップロード拒否（「不正なデータを検知しました」）への修正対応が予定されているとの返答があった。公式サイトでの告知・修正日は本メモでは不明。",
     "label": "ダビスタ2で確認済み",
@@ -41,13 +88,13 @@
   {
     "date": "2026-10-05",
     "title": "パッチ Ver.1.0.1",
-    "summary": "最新パッチは Ver.1.0.1（2026年10月5日）。内容は不具合修正のみとの情報。",
+    "summary": "最新パッチは Ver.1.0.1（2026年10月5日）。公式ページでは不具合修正のみと記載。",
     "label": "ダビスタ2で確認済み",
-    "sourceNote": "出典URL未指定のため、公式パッチノートは要確認。",
+    "sourceNote": "Game Addict 公式アップデート情報。",
     "sources": [
       {
-        "url": "",
-        "title": "出典要確認（ユーザー提供メモのみ）"
+        "url": "https://www.gameaddict.co.jp/derbystallion2/update1005.php",
+        "title": "Game Addict — Ver.1.0.1 更新情報"
       }
     ]
   },
