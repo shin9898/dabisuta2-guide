@@ -88,6 +88,15 @@ async function runViewport(browser, viewport, prefix) {
   await page.waitForSelector("#schedule-preset-chronicle:not([hidden])");
   await shot(page, `${prefix}-preset-dirt-route`);
 
+  await page.locator(".schedule-preset-btn[data-preset='mixed3yoDouble']").click();
+  await page.waitForTimeout(500);
+  await page.waitForSelector(".schedule-route-conflicts");
+  await shot(page, `${prefix}-preset-mixed-3yo`);
+
+  await page.locator(".schedule-preset-btn[data-preset='mixedOlder']").click();
+  await page.waitForTimeout(500);
+  await shot(page, `${prefix}-preset-mixed-older`);
+
   if (consoleErrors.length) {
     issues.push(`${prefix} JS: ${consoleErrors.join(" | ")}`);
   }
