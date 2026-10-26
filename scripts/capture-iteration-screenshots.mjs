@@ -12,6 +12,10 @@ const pages = [
     file: "mobile-stud-dubaimajesty-390.png",
     path: "/stud/" + encodeURIComponent("ドバイマジェスティ") + "/",
   },
+  {
+    file: "mobile-stud-northerntaste-390.png",
+    path: "/stud/" + encodeURIComponent("ノーザンテースト") + "/",
+  },
 ];
 
 const browser = await chromium.launch();

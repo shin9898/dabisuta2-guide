@@ -25,7 +25,7 @@
     tbody.innerHTML = "";
     for (const h of rows) {
       const tr = document.createElement("tr");
-      const link = `${studBase}${h.slug}/`;
+      const link = `${studBase}${encodeURIComponent(h.slug)}/`;
       tr.innerHTML = `
         <td><a href="${link}">${h.name}</a></td>
         <td>${h.typeJa}</td>

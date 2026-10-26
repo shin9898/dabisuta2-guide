@@ -1,7 +1,12 @@
 const categoriesMeta = require("./horse_categories.json");
 
+/** URL path segment and output directory name (Unicode). Do not use encodeURIComponent — static hosts decode URLs to Unicode paths. */
 function horseSlug(name) {
-  return encodeURIComponent(name);
+  if (!name) return "unknown";
+  return String(name)
+    .trim()
+    .replace(/[/\\?#]/g, "")
+    .replace(/\s+/g, " ");
 }
 
 function categorizeAchievement(text) {

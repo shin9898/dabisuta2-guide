@@ -4,6 +4,7 @@
   "description": "ダービースタリオン２ 攻略まとめ（出典リンク付き）",
   "scripts": {
     "build": "eleventy",
+    "postbuild": "node scripts/verify-horse-pages.mjs",
     "dev": "eleventy --serve",
     "preview": "eleventy --serve"
   },
