@@ -1,12 +1,79 @@
 ---
 layout: layouts/base.njk
 title: 育成・選別
-description: コメント・繁殖移行・戦績と仔の能力
+description: コメント・繁殖移行・戦績と仔の能力・距離適性
 updated: 2026-10-26
 permalink: /ikusei/
 ---
 
 [[toc]]
+
+<h2 id="kyori-tekisei">距離適性</h2>
+
+### 本作で追加されたパラメータ（公式）
+
+<span class="label label-verified">ダビスタ2で確認済み</span>
+
+[PR TIMES（Game Addict）](https://prtimes.jp/main/html/rd/p/000000020.000022342.html) では、入厩前に**距離適性**・**芝／ダート適性**・**重馬場適性**が分かる旨が掲載されている（本作で新たに追加されたパラメータとしての説明）。
+
+出典: [PR TIMES リリース](https://prtimes.jp/main/html/rd/p/000000020.000022342.html)
+
+### レース選びの考え方（攻略記事）
+
+<span class="label label-unknown">出典要確認</span>（メディア・攻略サイトの整理。ゲーム内公式ルールの再現ではない）
+
+| 内容 | 出典 |
+| --- | --- |
+| レース選びは**距離適性を重視**するが、能力が高ければ適性外でも勝てる場合がある | [アルジェスト](https://al-gest.com/derbystallion2/derbystallion2-new-topics/) |
+| **弱いオープン戦**なら、多少の適性外でも勝てる、という説明 | [ファミ通](https://www.famitsu.com/article/202609/88094) |
+
+### 種牡馬の距離適性（マスター整理）
+
+<span class="label label-unknown">出典要確認</span>
+
+攻略サイトの種牡馬一覧では、種牡馬にも距離適性（例: **ディープインパクト 1800〜3000m**、**キズナ 1600〜2400m**）が掲載されている。
+
+出典: [アルジェスト 種牡馬リスト](https://al-gest.com/derbystallion2/derbystallion2-japan-stallion-list/)
+
+### 胴の長さと距離の目安（wiki）
+
+<span class="label label-unknown">出典要確認</span>（サイトの信頼性は当サイト未検証）
+
+[JPGameZ ダビスタ2攻略Wiki](https://jpgamez.com/dabisuta2-wiki/) では、**胴の長さ**などが距離の目安になる、といった説明がある（当サイトはwiki本文の個別検証は未実施）。
+
+出典: [JPGameZ Wiki](https://jpgamez.com/dabisuta2-wiki/)
+
+### プレイヤー報告（競馬ちゃんねる・要確認）
+
+<span class="label label-unknown">出典要確認</span>（同一チャンネル上の動画・記事要約。当サイトは動画未視聴）
+
+| 報告の要約 | 出典 |
+| --- | --- |
+| 距離適性 **1400〜2000m** の馬が**不良馬場**で日本ダービーに勝利 | [競馬ちゃんねる](https://www.keibachan.com/232089/) |
+| 適性 **2000mまで**の馬が**日本ダービー・菊花賞**に勝利 | [競馬ちゃんねる](https://www.keibachan.com/232875/) |
+| 適性 **2000mまで**の馬が**菊花賞**に勝利（別動画） | [競馬ちゃんねる](https://www.keibachan.com/231209/) |
+
+### プレイ記事（凱旋門までの例）
+
+<span class="label label-unknown">出典要確認</span>
+
+[ピヨたけジャパン](https://piyotakejapan.com/47708/) に、**皐月賞→ダービー→凱旋門賞**までのプレイ記事がある。記事内で距離適性がどう記載されているかは**当サイト未確認**（海外レース条件は [海外レースページ](/overseas/)）。
+
+出典: [ピヨたけジャパン](https://piyotakejapan.com/47708/)
+
+### 当サイトでは不明な点
+
+- 距離適性が**調教や年齢で変化するか**
+- 距離適性が**血統からどう決まるか**（本作の確定ルール）
+- **適性外**の状態で**凱旋門賞を勝った**報告（出典付き）は当サイトでは未収集
+
+### 前作の情報（SFC版II）
+
+<span class="label label-prev">前作の情報</span>
+
+個人ページ [SFC版IIメモ](https://www2u.biglobe.ne.jp/~kakeru/old/sfc/ds2_memo.htm) では、距離の**下限はスピード**、**上限はスタミナ**への補正として働く、といった整理がある。**ダビスタ2（本作）に同じ仕様かは不明**。
+
+出典: [kakeru SFC版IIメモ](https://www2u.biglobe.ne.jp/~kakeru/old/sfc/ds2_memo.htm)
 
 ## 「いいお母さん」コメント
 
@@ -40,7 +107,3 @@ permalink: /ikusei/
 <span class="label label-unknown">出典要確認</span>
 
 出典: piyotake ブログ（URL・記事特定は **要確認** — ユーザー提供メモのみ）
-
-<div class="placeholder-box">
-  <p>育成パラメータ・選別基準の表は、出典付きデータが揃い次第追記します。</p>
-</div>

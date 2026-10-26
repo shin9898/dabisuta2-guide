@@ -34,7 +34,7 @@ permalink: /
       {% for s in item.sources %}
       <li>
         {% if s.url %}
-        <a href="{{ s.url }}" rel="noopener noreferrer">{{ s.title }}</a>
+        <a href="{{ s.url | url }}" rel="noopener noreferrer">{{ s.title }}</a>
         {% else %}
         <span class="source-pending">{{ s.title }}</span>
         {% endif %}
