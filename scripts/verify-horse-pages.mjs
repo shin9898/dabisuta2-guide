@@ -40,5 +40,25 @@ if (missing.length) {
   process.exit(1);
 }
 
+let linkErrors = 0;
+for (const horse of horses) {
+  const pagePath = path.join(siteDir, horse.slug, "index.html");
+  const encodedPath = path.join(
+    siteDir,
+    ...horse.slug.split("/").map((seg) => seg),
+    "index.html"
+  );
+  if (!fs.existsSync(pagePath) && pagePath !== encodedPath) {
+    linkErrors++;
+  }
+  const hrefSlug = encodeURIComponent(horse.slug);
+  if (hrefSlug !== horse.slug && !fs.existsSync(pagePath)) {
+    console.error("List link would 404:", horse.名前, hrefSlug);
+    linkErrors++;
+  }
+}
+
+if (linkErrors) process.exit(1);
+
 console.log(`OK: ${horses.length} horse pages present under _site/stud/<name>/index.html`);
 console.log(`List links use encodeURIComponent(slug); slugs are Unicode path segments.`);

@@ -1,0 +1,57 @@
+---
+layout: layouts/base.njk
+title: 大系統（種牡馬系統）
+description: ツール計算ルートに基づく系統別の傾向
+updated: 2026-10-26
+permalink: /sire-lines/
+---
+
+<nav class="toc" aria-label="目次">
+  <p class="toc-title">目次</p>
+  <ul class="toc-list">
+    <li><a href="#about">このページについて</a></li>
+    <li><a href="#ranking">典型牝馬向けランキング</a></li>
+    <li><a href="#stallions">種牡馬の系統一覧</a></li>
+  </ul>
+</nav>
+
+<h2 id="about">このページについて</h2>
+<p><span class="label label-tool">ツールの計算値（ゲーム内未検証）</span></p>
+<p>種牡馬の<strong>大系統</strong>は、湯一路マスター由来の <code>horses_stats.json</code> の「系統」列（例: <code>Ne/サドラーズウェルズ</code>）を用います。ゲーム内の「大系統」表示と表記が一致するかは未検証です。データに無い場合は推測しません。</p>
+<p>{{ computedRoutes.大系統ランキング_典型牝馬.典型牝馬の定義 }}について、3代ルート探索の終点種牡馬の系統を集計しました（{{ computedRoutes.大系統ランキング_典型牝馬.集計 }}）。</p>
+
+<h2 id="ranking">典型牝馬向けランキング（終点系統）</h2>
+<table>
+  <thead>
+    <tr>
+      <th>系統</th>
+      <th>ルート件数</th>
+      <th>平均スコア</th>
+      <th>完璧終点</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for row in computedRoutes.大系統ランキング_典型牝馬.ランキング %}
+    <tr>
+      <td>{{ row.系統 }}</td>
+      <td>{{ row.ルート件数 }}</td>
+      <td>{{ row.平均スコア }}</td>
+      <td>{{ row.完璧終点 }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<h2 id="stallions">種牡馬の系統一覧</h2>
+<p>種牡馬237頭を系統でグループ化（出典: 湯一路マスター / horses_stats）。</p>
+
+{% for entry in stallionsByLine %}
+<details class="line-group">
+  <summary>{{ entry[0] }}（{{ entry[1].length }}頭）</summary>
+  <ul class="line-horse-list">
+    {% for name in entry[1] %}
+    <li><a href="{{ ('/stud/' + (name | horseSlug) + '/') | url }}">{{ name }}</a></li>
+    {% endfor %}
+  </ul>
+</details>
+{% endfor %}

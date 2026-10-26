@@ -10,12 +10,19 @@ eleventyComputed:
   description: "湯一路マスターデータとおすすめ3代ルート"
   updated: "2026-10-26"
 ---
+{% from "route-table.njk" import render as routeTable %}
 
 <nav class="toc" aria-label="目次">
   <p class="toc-title">目次</p>
   <ul class="toc-list">
     <li><a href="#stats">能力・条件</a></li>
-    <li><a href="#routes">おすすめ3代ルート</a></li>
+    {% if horse.horseType == "mare" %}
+    <li><a href="#routes-from">この牝馬から（3代ルート）</a></li>
+    <li><a href="#routes-galileo">ガリレオ（Galileo）で締める</a></li>
+    {% endif %}
+    {% if horse.horseType == "stallion" %}
+    <li><a href="#routes-end">終点種牡馬としてのルート</a></li>
+    {% endif %}
   </ul>
 </nav>
 
@@ -51,28 +58,32 @@ eleventyComputed:
   </tbody>
 </table>
 
-<h2 id="routes">おすすめ3代ルート</h2>
-<p><span class="label label-tool">ツールの計算値（ゲーム内未検証）</span> — {{ routes.注記 }}</p>
+{% if horse.horseType == "mare" %}
+<h2 id="routes-from">この牝馬から（3代ルート）</h2>
+<p><span class="label label-tool">ツールの計算値（ゲーム内未検証）</span> — {{ computedRoutes.探索方法.説明 }}</p>
+{{ routeTable(horse.routeSets.fromStart, true) }}
 
-{% if horse.routes and horse.routes.length %}
+<h2 id="routes-galileo">ガリレオ（Galileo）で締める</h2>
+<p>終点種牡馬が <strong>Galileo</strong> のルートのみ（最大3件）。</p>
+{{ routeTable(horse.routeSets.galileoFinish, true) }}
+{% endif %}
+
+{% if horse.horseType == "stallion" %}
+<h2 id="routes-end">終点種牡馬としてのルート</h2>
+<p>他の繁殖牝馬から3代配合し、終点が <strong>{{ horse.名前 }}</strong> となる例（価格上位牝馬起点の探索結果から最大5件）。</p>
+<p><span class="label label-tool">ツールの計算値（ゲーム内未検証）</span></p>
+{% if horse.routeSets.asEnd and horse.routeSets.asEnd.length %}
 <table>
   <thead>
-    <tr>
-      <th>ルート</th>
-      <th>種付け</th>
-      <th>種付料合計</th>
-      <th>終点評価</th>
-      <th>終点インブリード</th>
-    </tr>
+    <tr><th>起点牝馬</th><th>ルート</th><th>終点評価</th><th>インブリード</th></tr>
   </thead>
   <tbody>
-    {% for r in horse.routes %}
+    {% for r in horse.routeSets.asEnd %}
     {% set last = r.各代[r.各代.length - 1] %}
-    <tr>
+    <tr class="{% if horse.名前 == 'Galileo' %}route-galileo{% endif %}">
+      <td>{{ r._startMare or "—" }}</td>
       <td>{{ r.route }}</td>
-      <td>{{ r.種付け | join(" → ") }}</td>
-      <td>{{ r.種付料合計_万円 }}万円</td>
-      <td>{{ r | routeSummary }}{% if last.完璧 %}（完璧）{% endif %}</td>
+      <td>{{ r | routeSummary }}</td>
       <td>{{ last.インブリード | join("、") if last.インブリード and last.インブリード.length else "—" }}</td>
     </tr>
     {% endfor %}
@@ -80,4 +91,8 @@ eleventyComputed:
 </table>
 {% else %}
 <p class="placeholder-box">探索では見つからず（不可能とは限らない）</p>
+{% endif %}
+{% if horse.名前 == 'Galileo' %}
+<p class="data-note">配合ページの「ガリレオで締めるルート」に、全繁殖牝馬起点の一覧があります。</p>
+{% endif %}
 {% endif %}

@@ -1,0 +1,45 @@
+---
+layout: layouts/base.njk
+title: 自家製馬ルート計算
+description: ブラウザ上で3代ルートを試算（湯一路 logic.js）
+updated: 2026-10-26
+permalink: /calculator/
+---
+
+<nav class="toc" aria-label="目次">
+  <p class="toc-title">目次</p>
+  <ul class="toc-list">
+    <li><a href="#about">使い方</a></li>
+    <li><a href="#form">入力</a></li>
+    <li><a href="#results">結果</a></li>
+  </ul>
+</nav>
+
+<h2 id="about">使い方</h2>
+<p><span class="label label-tool">ツールの計算値（ゲーム内未検証）</span></p>
+<p>自家製<strong>繁殖牝馬</strong>を「父＝種牡馬」「母＝繁殖牝馬」として仮定し、湯一路公開の <code>logic.js</code> と同じ判定で<strong>3代ルート</strong>をブラウザ内探索します（危険配合は除外、ビーム幅18）。</p>
+<p>深い祖先の手入力は将来拡張予定。現版はマスター血統＋選択した父母のみで計算します。</p>
+
+<h2 id="form">入力</h2>
+<div class="horse-filters calculator-form">
+  <label>
+    父（種牡馬）
+    <select id="hb-sire"></select>
+  </label>
+  <label>
+    母（繁殖牝馬）
+    <select id="hb-dam"></select>
+  </label>
+  <button type="button" id="hb-calc" class="calc-button">ルートを計算</button>
+</div>
+<p id="hb-status" class="filter-count" aria-live="polite"></p>
+
+<h2 id="results">おすすめルート（全終点）</h2>
+<div id="hb-results"></div>
+
+<h3>ガリレオ（Galileo）で締めるルート</h3>
+<div id="hb-results-galileo"></div>
+
+<script type="text/plain" id="master-data-url">{{ '/assets/data/masterData.json' | url }}</script>
+<script src="{{ '/assets/vendor/logic.js' | url }}"></script>
+<script src="{{ '/assets/js/breeding-browser.js' | url }}"></script>

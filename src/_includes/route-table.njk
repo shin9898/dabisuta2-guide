@@ -1,0 +1,30 @@
+{% macro render(routes, highlightGalileo) %}
+{% if routes and routes.length %}
+<table>
+  <thead>
+    <tr>
+      <th>ルート</th>
+      <th>種付け</th>
+      <th>種付料合計</th>
+      <th>終点評価</th>
+      <th>終点インブリード</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for r in routes %}
+    {% set last = r.各代[r.各代.length - 1] %}
+    {% set finalSire = r._finalSire or r.種付け[r.種付け.length - 1] %}
+    <tr class="{% if highlightGalileo and (finalSire == 'Galileo' or finalSire == 'ガリレオ') %}route-galileo{% endif %}">
+      <td>{{ r.route }}</td>
+      <td>{{ r.種付け | join(" → ") }}</td>
+      <td>{{ r.種付料合計_万円 }}万円</td>
+      <td>{{ r | routeSummary }}{% if last.完璧 %}（完璧）{% endif %}</td>
+      <td>{{ last.インブリード | join("、") if last.インブリード and last.インブリード.length else "—" }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p class="placeholder-box">探索では見つからず（不可能とは限らない）</p>
+{% endif %}
+{% endmacro %}

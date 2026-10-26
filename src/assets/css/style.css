@@ -412,6 +412,43 @@ a {
   color: var(--muted);
 }
 
+.route-galileo {
+  background: #eef6ff;
+}
+
+.route-galileo td:first-child {
+  border-left: 3px solid var(--accent);
+}
+
+.route-method-note {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.line-group {
+  margin: 0.5rem 0;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.35rem 0.65rem;
+}
+
+.line-horse-list {
+  margin: 0.35rem 0 0.5rem;
+  padding-left: 1.25rem;
+  font-size: 0.88rem;
+  columns: 2;
+}
+
+.calc-button {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+}
+
 .data-note {
   font-size: 0.9rem;
   background: #f0f4f8;

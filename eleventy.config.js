@@ -14,9 +14,13 @@ const strongHorsesData = JSON.parse(
 const horsesStats = JSON.parse(
   fs.readFileSync(path.join(__dirname, "src/_data/horses_stats.json"), "utf8")
 );
-const routesData = JSON.parse(
-  fs.readFileSync(path.join(__dirname, "src/_data/routes.json"), "utf8")
+const computedRoutesPath = path.join(
+  __dirname,
+  "src/_data/computed_routes.json"
 );
+const routesData = fs.existsSync(computedRoutesPath)
+  ? JSON.parse(fs.readFileSync(computedRoutesPath, "utf8"))
+  : { 繁殖牝馬起点: {}, 種牡馬終点: {}, ガリレオ終点_繁殖牝馬起点: {} };
 
 module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/assets");
@@ -29,8 +33,40 @@ module.exports = function (eleventyConfig) {
 
   const horses = horseUtils.buildHorses(horsesStats);
   horses.forEach((h) => {
-    h.routes = horseUtils.routesForHorse(routesData, h);
+    h.routeSets = horseUtils.routesForHorse(routesData, h);
   });
+
+  const galileoRoutesFlat = [];
+  for (const [mareName, routes] of Object.entries(
+    routesData.ガリレオ終点_繁殖牝馬起点 || {}
+  )) {
+    for (const r of routes) {
+      galileoRoutesFlat.push({
+        mareName,
+        route: r,
+        score: r._score || 0,
+      });
+    }
+  }
+  galileoRoutesFlat.sort((a, b) => b.score - a.score);
+
+  eleventyConfig.addGlobalData("computedRoutes", routesData);
+  eleventyConfig.addGlobalData("galileoRoutesFlat", galileoRoutesFlat);
+
+  const stallionsByLine = {};
+  for (const h of horses) {
+    if (h.horseType !== "stallion") continue;
+    const line = h.系統 || "不明";
+    if (!stallionsByLine[line]) stallionsByLine[line] = [];
+    stallionsByLine[line].push(h.名前);
+  }
+  for (const line of Object.keys(stallionsByLine)) {
+    stallionsByLine[line].sort((a, b) => a.localeCompare(b, "ja"));
+  }
+  eleventyConfig.addGlobalData(
+    "stallionsByLine",
+    Object.entries(stallionsByLine).sort((a, b) => a[0].localeCompare(b[0], "ja"))
+  );
 
   eleventyConfig.addCollection("horses", () => horses);
 

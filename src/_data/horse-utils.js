@@ -64,10 +64,17 @@ function buildHorses(stats) {
 }
 
 function routesForHorse(routes, horse) {
-  if (horse.horseType === "stallion") {
-    return routes.種牡馬終点?.[horse.名前] || [];
-  }
-  return routes.繁殖牝馬起点?.[horse.名前] || [];
+  const fromStart = routes.繁殖牝馬起点?.[horse.名前] || [];
+  const asEnd = routes.種牡馬終点?.[horse.名前] || [];
+  const galileoFinish =
+    horse.horseType === "mare"
+      ? routes.ガリレオ終点_繁殖牝馬起点?.[horse.名前] || []
+      : [];
+  return {
+    fromStart,
+    asEnd: horse.horseType === "stallion" ? asEnd : [],
+    galileoFinish,
+  };
 }
 
 function routeSummary(route) {

@@ -3,8 +3,10 @@
   "private": true,
   "description": "ダービースタリオン２ 攻略まとめ（出典リンク付き）",
   "scripts": {
+    "prebuild": "node scripts/compute-routes.cjs",
     "build": "eleventy",
     "postbuild": "node scripts/verify-horse-pages.mjs",
+    "compute-routes": "node scripts/compute-routes.cjs",
     "dev": "eleventy --serve",
     "preview": "eleventy --serve"
   },

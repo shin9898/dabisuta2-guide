@@ -3,6 +3,7 @@
 『ダービースタリオン２』（Game Addict / 2026-09-24）向けの**個人攻略メモ**を、出典リンクと確認ラベル付きで公開する静的サイトです。
 
 - ビルド: [Eleventy](https://www.11ty.dev/)（Markdown + データファイル）
+- ルート計算: `npm run prebuild` → `scripts/compute-routes.cjs`（湯一路 `logic.js` + `vendor/yublog/masterData.json`）
 - デプロイ: GitHub Actions → GitHub Pages（`main` ブランチへの push 時）
 
 ## ローカルでプレビュー
