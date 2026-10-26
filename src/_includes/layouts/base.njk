@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="{{ '/assets/css/style.css' | url }}">
   <link rel="stylesheet" href="{{ '/assets/css/sire-line-colors.css' | url }}">
 </head>
-<body>
+<body{% if layoutWide %} class="layout-wide"{% endif %}>
   <a class="skip-link" href="#main">本文へスキップ</a>
 
   <div class="site-chrome">
@@ -25,6 +25,7 @@
           <li><a href="{{ '/calculator/' | url }}" {% if page.url == "/calculator/" %}aria-current="page"{% endif %}>計算</a></li>
           <li><a href="{{ '/homebred-stallion/' | url }}" {% if page.url == "/homebred-stallion/" %}aria-current="page"{% endif %}>自家製種牡馬</a></li>
           <li><a href="{{ '/sire-lines/' | url }}" {% if page.url == "/sire-lines/" %}aria-current="page"{% endif %}>大系統</a></li>
+          <li><a href="{{ '/schedule/' | url }}" {% if page.url == "/schedule/" %}aria-current="page"{% endif %}>番組</a></li>
           <li><a href="{{ '/overseas/' | url }}" {% if page.url == "/overseas/" %}aria-current="page"{% endif %}>海外</a></li>
           <li><a href="{{ '/ikusei/' | url }}" {% if page.url == "/ikusei/" %}aria-current="page"{% endif %}>育成</a></li>
           <li><a href="{{ '/ranch/' | url }}" {% if page.url == "/ranch/" %}aria-current="page"{% endif %}>施設</a></li>
