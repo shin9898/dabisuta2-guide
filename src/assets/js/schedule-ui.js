@@ -69,7 +69,61 @@
       filter: isDirtGradedStakes,
       chronicle: true,
     },
+    mixed3yoDouble: {
+      label: "3歳 芝三冠＋ダート三冠",
+      route: true,
+      note:
+        "湯一路番組表のGI名称・月週・年齢表記どおりのリスト。ダブル三冠が可能かは未検証。",
+      sections: [
+        {
+          title: "芝三冠（GI・3歳表記）",
+          names: ["皐月賞", "日本ダービー", "菊花賞"],
+        },
+        {
+          title: "ダート三冠（GI・3歳表記）",
+          names: ["羽田盃", "東京ダービー", "ジャパンダートC"],
+        },
+        {
+          title: "前走候補（任意・番組表の3歳重賞）",
+          optional: true,
+          names: [
+            "弥生賞ディープ記念",
+            "青葉賞",
+            "フローラステークス",
+            "京都新聞杯",
+            "ユニコーンS",
+          ],
+        },
+      ],
+    },
+    mixedOlder: {
+      label: "古馬 芝ダート混合",
+      route: true,
+      note:
+        "湯一路番組表に掲載のGIのみ（年齢は各レースの表記どおり）。ローテの推奨ではありません。",
+      sections: [
+        {
+          title: "年間GI（芝・ダート・番組表順）",
+          names: [
+            "フェブラリーS",
+            "大阪杯",
+            "天皇賞（春）",
+            "宝塚記念",
+            "帝王賞",
+            "天皇賞（秋）",
+            "JBCクラシック",
+            "ジャパンカップ",
+            "チャンピオンズC",
+            "有馬記念",
+            "東京大賞典",
+          ],
+        },
+      ],
+    },
   };
+
+  const ROUTE_UNVERIFIED =
+    "出走可否・間隔の影響は未確認。ゲームが複数冠を認めるか、疲労・休養の扱いは当サイトでは検証していません。";
 
   const $ = (s, root = document) => root.querySelector(s);
   const $$ = (s, root = document) => Array.from(root.querySelectorAll(s));
@@ -341,6 +395,10 @@
 
     const preset = activePresetDef();
     if (preset?.filter && !preset.filter(r)) return false;
+    if (preset?.route) {
+      const names = new Set(getAllPresetNames(preset));
+      if (!r.race_name || !names.has(r.race_name)) return false;
+    }
 
     if (state.grade) {
       if (state.grade === "none" && r.grade_raw != null) return false;
@@ -379,9 +437,169 @@
       .toLowerCase()
       .replace(/\s+/g, "");
 
+  function getAllPresetNames(preset) {
+    if (!preset) return [];
+    if (preset.names) return [...preset.names];
+    if (!preset.sections) return [];
+    return preset.sections.flatMap((s) => s.names);
+  }
+
   function presetNameSet() {
-    if (!activePreset || !PRESETS[activePreset]) return null;
-    return new Set(PRESETS[activePreset].names);
+    const preset = activePresetDef();
+    if (!preset) return null;
+    const names = getAllPresetNames(preset);
+    return names.length ? new Set(names) : null;
+  }
+
+  function findRaceByName(name) {
+    return allRaces.find((r) => r.race_name === name) || null;
+  }
+
+  function resolveSectionRaces(section) {
+    const found = [];
+    const missing = [];
+    for (const name of section.names) {
+      const r = findRaceByName(name);
+      if (r) found.push(r);
+      else missing.push(name);
+    }
+    return { found, missing };
+  }
+
+  function analyzeRouteTiming(races) {
+    const sorted = [...races].sort((a, b) => periodOrder(a) - periodOrder(b));
+    const conflicts = [];
+    const byPeriod = new Map();
+    for (const r of sorted) {
+      if (!byPeriod.has(r.period_id)) byPeriod.set(r.period_id, []);
+      byPeriod.get(r.period_id).push(r);
+    }
+    for (const group of byPeriod.values()) {
+      if (group.length < 2) continue;
+      const alt = sorted
+        .filter((x) => !group.includes(x))
+        .map((x) => `${x.race_name}（${x.period_label}）`);
+      conflicts.push({
+        kind: "sameWeek",
+        period_label: group[0].period_label,
+        races: group.map((r) => r.race_name),
+        alternatives: alt.length ? alt.join("、") : "リスト内に別週の候補なし",
+      });
+    }
+    for (let i = 0; i < sorted.length - 1; i++) {
+      const slotGap = periodOrder(sorted[i + 1]) - periodOrder(sorted[i]);
+      if (slotGap <= 1) {
+        conflicts.push({
+          kind: "tight",
+          from: sorted[i].race_name,
+          to: sorted[i + 1].race_name,
+          slotGap,
+          fromLabel: sorted[i].period_label,
+          toLabel: sorted[i + 1].period_label,
+        });
+      }
+    }
+    return { sorted, conflicts };
+  }
+
+  function crossWeekConflicts(coreRaces, extraRaces) {
+    const out = [];
+    const coreByPeriod = new Map();
+    for (const r of coreRaces) {
+      if (!coreByPeriod.has(r.period_id)) coreByPeriod.set(r.period_id, []);
+      coreByPeriod.get(r.period_id).push(r);
+    }
+    for (const r of extraRaces) {
+      const coreSame = coreByPeriod.get(r.period_id);
+      if (coreSame?.length) {
+        out.push({
+          optional: r.race_name,
+          period_label: r.period_label,
+          core: coreSame.map((c) => c.race_name),
+        });
+      }
+    }
+    return out;
+  }
+
+  function intervalLine(prev, next) {
+    if (!prev || !next) return "";
+    const slotGap = periodOrder(next) - periodOrder(prev);
+    if (slotGap <= 0) {
+      return `<p class="schedule-route-interval schedule-route-interval--warn">同一週（${esc(prev.period_label)}）— 番組表スロット差 ${slotGap}</p>`;
+    }
+    const cls = slotGap <= 1 ? "schedule-route-interval--warn" : "schedule-route-interval";
+    return `<p class="schedule-route-interval ${cls}">↑ から <strong>${slotGap}</strong> スロット（約 ${slotGap - 1} 週空き）→ ${esc(next.period_label)}</p>`;
+  }
+
+  function renderRoutePlan(box, preset) {
+    const coreRaces = [];
+    const optionalRaces = [];
+    const missingAll = [];
+    let sectionsHtml = "";
+
+    for (const section of preset.sections || []) {
+      const { found, missing } = resolveSectionRaces(section);
+      missingAll.push(...missing);
+      if (section.optional) optionalRaces.push(...found);
+      else coreRaces.push(...found);
+
+      const sorted = [...found].sort((a, b) => periodOrder(a) - periodOrder(b));
+      let prev = null;
+      const steps = sorted
+        .map((r) => {
+          const gap = intervalLine(prev, r);
+          prev = r;
+          return `${gap}<li class="schedule-route-step">${renderRaceCard(r)}</li>`;
+        })
+        .join("");
+      const missNote = missing.length
+        ? `<p class="schedule-route-missing">番組表に未掲載: ${missing.map(esc).join("、")}</p>`
+        : "";
+      sectionsHtml += `<section class="schedule-route-section">
+        <h4>${esc(section.title)}${section.optional ? ' <span class="label label-unknown">任意</span>' : ""}</h4>
+        ${missNote}
+        <ol class="schedule-route-steps">${steps}</ol>
+      </section>`;
+    }
+
+    const coreAnalysis = analyzeRouteTiming(coreRaces);
+    const fullAnalysis = analyzeRouteTiming([...coreRaces, ...optionalRaces]);
+    const cross = crossWeekConflicts(coreRaces, optionalRaces);
+
+    let conflictHtml = "";
+    const seen = new Set();
+    const allConflicts = [...coreAnalysis.conflicts, ...fullAnalysis.conflicts];
+    for (const c of allConflicts) {
+      const key =
+        c.kind === "sameWeek"
+          ? `sw:${c.period_label}:${c.races.join()}`
+          : `t:${c.from}:${c.to}`;
+      if (seen.has(key)) continue;
+      seen.add(key);
+      if (c.kind === "sameWeek") {
+        conflictHtml += `<li class="schedule-route-conflict schedule-route-conflict--same"><strong>同一週（${esc(c.period_label)}）</strong>: ${esc(c.races.join(" / "))} — 併記のためどちらか一方のみ想定（未検証）。<span class="schedule-route-alt">別週のリスト内候補: ${esc(c.alternatives)}</span></li>`;
+      } else {
+        conflictHtml += `<li class="schedule-route-conflict schedule-route-conflict--tight"><strong>間隔が詰まる</strong>: ${esc(c.from)}（${esc(c.fromLabel)}）→ ${esc(c.to)}（${esc(c.toLabel)}）— 番組表スロット差 ${c.slotGap}</li>`;
+      }
+    }
+    for (const x of cross) {
+      conflictHtml += `<li class="schedule-route-conflict schedule-route-conflict--cross"><strong>任意レースと本線の同一週</strong>: ${esc(x.optional)}（${esc(x.period_label)}）× 本線 ${esc(x.core.join(" / "))}</li>`;
+    }
+
+    const conflictBlock = conflictHtml
+      ? `<div class="schedule-route-conflicts" role="alert"><h4>月週の重なり・間隔（番組表データ）</h4><ul>${conflictHtml}</ul></div>`
+      : `<p class="schedule-route-conflicts-none">本リスト内で同一週の本線GIは検出されませんでした（任意レースは別枠）。</p>`;
+
+    box.hidden = false;
+    box.innerHTML = `
+      <h3 class="schedule-chronicle-title">${esc(preset.label)}（湯一路番組表）</h3>
+      <p class="schedule-chronicle-disclaimer">${esc(ROUTE_UNVERIFIED)}</p>
+      <p class="schedule-chronicle-disclaimer">各ステップは下記カードのとおり（馬場・回り・距離・格付けは番組データ＋競馬場出典）。<strong>ローテ推奨・二冠可能の断定はしません。</strong></p>
+      ${conflictBlock}
+      ${sectionsHtml}
+      <p class="schedule-chronicle-count">本線 ${coreAnalysis.sorted.length} 件 / 任意 ${optionalRaces.length} 件${missingAll.length ? ` / 未掲載 ${missingAll.length} 件` : ""}</p>
+    `;
   }
 
   function isPresetHighlight(r) {
@@ -524,7 +742,16 @@
     const box = $("#schedule-preset-chronicle");
     if (!box) return;
     const preset = activePresetDef();
-    if (!preset?.chronicle || !activePreset) {
+    if (!activePreset || !preset) {
+      box.hidden = true;
+      box.innerHTML = "";
+      return;
+    }
+    if (preset.route) {
+      renderRoutePlan(box, preset);
+      return;
+    }
+    if (!preset.chronicle) {
       box.hidden = true;
       box.innerHTML = "";
       return;
@@ -644,6 +871,18 @@
           if (sf) sf.value = "dirt";
           const ov = $("#filter-overseas");
           if (ov) ov.checked = true;
+          const gr = $("#filter-grade");
+          if (gr) gr.value = "";
+          setViewMode("list");
+        }
+        if (
+          activePreset === "mixed3yoDouble" ||
+          activePreset === "mixedOlder"
+        ) {
+          state.surface = "";
+          state.grade = "";
+          const sf = $("#filter-surface");
+          if (sf) sf.value = "";
           const gr = $("#filter-grade");
           if (gr) gr.value = "";
           setViewMode("list");
