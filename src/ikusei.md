@@ -1,7 +1,7 @@
 ---
 layout: layouts/base.njk
 title: 育成・選別
-description: コメント・繁殖移行・戦績と仔の能力・距離適性
+description: コメント・繁殖移行・距離適性・脚質・作戦
 updated: 2026-10-26
 permalink: /ikusei/
 ---
@@ -9,6 +9,8 @@ permalink: /ikusei/
 [[toc]]
 
 <h2 id="kyori-tekisei">距離適性</h2>
+
+<p>脚質・作戦は <a href="#kyakushitsu-sakusen">脚質・作戦</a>（距離適性と併せて読む項目）。</p>
 
 ### 本作で追加されたパラメータ（公式）
 
@@ -103,6 +105,72 @@ permalink: /ikusei/
 | SFC版の距離適性・能力の整理（記事全体） | [aikeiba1000 記事251](https://aikeiba1000.net/aikeiba1000/article/251/) |
 
 **ダビスタ2（本作）に同じ仕様かは不明。**
+
+<h2 id="kyakushitsu-sakusen">脚質・作戦</h2>
+
+### 本作の作戦メニュー（攻略記事）
+
+<span class="label label-unknown">出典要確認</span>
+
+[こうゲーマー「作戦・サポート」](https://kou-gamer.com/ds2_strategic-support/) の整理に基づく要約:
+
+| 項目 | 内容 |
+| --- | --- |
+| 作戦 | **おまかせ**、**大逃げ**、**逃げ**、**先行**、**差し**、**追込**（前作の**マーク**は廃止、との記載） |
+| 未指示 | **前走と同じ**作戦になる、との記載 |
+| 初出走 | **おまかせ**になる、との記載 |
+| おまかせ | 展開により位置が変わる、という**書き手の体験** |
+| 大逃げの例 | **58秒通過**でバテて**2着**になった、という**書き手の体験** |
+
+出典: [こうゲーマー ds2_strategic-support](https://kou-gamer.com/ds2_strategic-support/)
+
+### 大逃げとスタミナ（攻略記事）
+
+<span class="label label-unknown">出典要確認</span>
+
+[競馬血統.com](https://keiba-bloodline.com/game/?p=896) では、**大逃げ**は**スタミナ**がないと失速する、という説明がある。
+
+出典: [競馬血統.com](https://keiba-bloodline.com/game/?p=896)
+
+### プレイヤー報告（逃げ・大逃げ・先行・X）
+
+<span class="label label-unknown">出典要確認</span>（個人のX投稿。当サイトは投稿本文を直接検証していない）
+
+**逃げ／大逃げで長距離G1に勝った**、という報告（5件）:
+
+| 出典 |
+| --- |
+| [keibayona の投稿](https://x.com/keibayona/status/2106473368941998488) |
+| [sasapo114 の投稿](https://x.com/sasapo114/status/2109870718267879736) |
+| [AKMASA の投稿](https://x.com/AKMASA/status/2109661195309564126) |
+| [mukaking1971 の投稿](https://x.com/mukaking1971/status/2110641775006343350) |
+| [utiha_yonsimai の投稿](https://x.com/utiha_yonsimai/status/2107305343206535382) |
+
+**先行**に切り替えて**天皇賞（秋）**に勝った、という報告（1件）: [Eclairs530_Mk2 の投稿](https://x.com/Eclairs530_Mk2/status/2112518482701242533)
+
+### プレイヤー報告（ダービー前のステップ・X）
+
+<span class="label label-unknown">出典要確認</span>
+
+| 報告の要約 | 出典 |
+| --- | --- |
+| **青葉賞**2着のあと**日本ダービー**で**11番人気**勝利 | [wins0430 の投稿](https://x.com/wins0430/status/2109525813473288678) |
+| **皐月賞**6着→**京都新聞杯**1着→**放牧**し**日本ダービー**を回避（同一報告者の別投稿あり） | [takezawa0917 の投稿](https://x.com/takezawa0917/status/2113187946761503160) |
+| 別馬で**京都新聞杯**勝利後に**日本ダービー**勝利（**京都新聞杯の距離は投稿要確認のため当サイトでは記載しない**） | [takezawa0917 の投稿](https://x.com/takezawa0917/status/2113220047279985055) |
+
+### 当サイトでは不明な点
+
+- **騎手**の「おすすめ脚質」がどう決まるか、脚質変更の効果の定量
+- **適性外距離**で**逃げ**が機能した報告の出典・再現条件
+- **皐月賞**のあと**青葉賞**へ向けた**疲労**の扱い（ローテ一般則として未確認）
+
+### 前作の情報（SFC版II・騎手）
+
+<span class="label label-prev">前作の情報</span>
+
+[SFC版II 騎手メモ](https://www2u.biglobe.ne.jp/kakeru/old/sfc/ds2_jockey.htm) に、**騎手ごとの得意脚質**などの整理がある。**本作に同じ仕様かは不明**。
+
+出典: [kakeru ds2_jockey.htm](https://www2u.biglobe.ne.jp/kakeru/old/sfc/ds2_jockey.htm)
 
 ## 「いいお母さん」コメント
 
