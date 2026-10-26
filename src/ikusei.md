@@ -4,6 +4,7 @@ title: 育成・選別
 description: コメント・繁殖移行・距離適性・脚質・作戦
 updated: 2026-10-26
 permalink: /ikusei/
+heroId: hero-ikusei
 ---
 
 [[toc]]

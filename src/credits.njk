@@ -1,0 +1,49 @@
+---
+layout: layouts/base.njk
+title: 画像クレジット
+description: サイト掲載写真・イラストの出典とライセンス一覧
+updated: 2026-10-26
+permalink: /credits/
+---
+
+<p>{{ image_credits.policy }}</p>
+<p>ぱくたそ・写真AC・イラストAC・いらすとやは、今回の掲載分では使用していません（すべて <strong>Wikimedia Commons</strong> からダウンロードし、リポジトリ内の WebP を配信）。</p>
+
+<table class="data-table credits-table">
+  <thead>
+    <tr>
+      <th>ファイル</th>
+      <th>プレビュー</th>
+      <th>作者</th>
+      <th>ライセンス</th>
+      <th>原本ページ</th>
+      <th>掲載</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for img in image_credits.images %}
+    <tr>
+      <td><code>{{ img.file }}</code><br><small>{{ img.id }}</small></td>
+      <td>
+        <img
+          src="{{ ('/assets/images/guide/' ~ img.file) | url }}"
+          alt="{{ img.alt }}"
+          width="160"
+          height="90"
+          loading="lazy"
+          decoding="async"
+          class="credits-thumb"
+        >
+      </td>
+      <td>{{ img.author }}</td>
+      <td>
+        <a href="{{ img.license_url }}" rel="noopener noreferrer">{{ img.license }}</a>
+      </td>
+      <td><a href="{{ img.source_page }}" rel="noopener noreferrer">Commons</a></td>
+      <td>{% if img.unused %}<span class="label label-unknown">未掲載（予備）</span>{% else %}ページヒーロー{% endif %}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<p>CC BY / CC BY-SA の画像は、各ページのヒーロー直下にも作者名とライセンスリンクを表示しています（再配布条件のため）。</p>
