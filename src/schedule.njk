@@ -12,6 +12,7 @@ layoutWide: true
   <ul class="toc-list">
     <li><a href="#about">データと出典</a></li>
     <li><a href="#browse">番組を見る</a></li>
+    <li><a href="#legend">凡例・出典</a></li>
   </ul>
 </nav>
 
@@ -39,8 +40,13 @@ layoutWide: true
     <button type="button" class="schedule-preset-btn" data-preset="triple">三冠ルート</button>
     <button type="button" class="schedule-preset-btn" data-preset="fillyTriple">牝馬三冠</button>
     <button type="button" class="schedule-preset-btn" data-preset="arcRoute">凱旋門ルート</button>
+    <button type="button" class="schedule-preset-btn" data-preset="dirtRoute">ダート路線</button>
+    <button type="button" class="schedule-preset-btn" data-preset="dirtGraded">ダート重賞</button>
   </div>
   <p id="schedule-preset-note" class="schedule-preset-note"></p>
+  <div id="schedule-preset-chronicle" class="schedule-chronicle" hidden></div>
+
+  <div id="schedule-chip-filters" class="schedule-chip-filters" aria-label="クイックフィルタ"></div>
 
   <form id="schedule-filters" class="schedule-filters" role="search">
     <label>
@@ -137,13 +143,7 @@ layoutWide: true
         <thead>
           <tr>
             <th>週</th>
-            <th>場</th>
-            <th>レース</th>
-            <th>格</th>
-            <th>馬場</th>
-            <th>距離</th>
-            <th>年齢</th>
-            <th>種別</th>
+            <th>レース（カード）</th>
             <th>関連</th>
             <th>出典</th>
           </tr>
@@ -153,6 +153,11 @@ layoutWide: true
     </div>
     <p id="schedule-list-more" class="schedule-list-more" hidden></p>
   </div>
+</div>
+
+<h2 id="legend">凡例・出典</h2>
+<div id="schedule-legend" class="schedule-legend">
+  <p>読み込み中…</p>
 </div>
 
 <script src="{{ '/assets/js/schedule-ui.js' | url }}"></script>

@@ -1,0 +1,91 @@
+{
+  "note": "コース回りは各出典ページの施設・コース説明に基づく。ゲーム内表記との一致は未検証。地方・海外は出典未整備の場合は不明。",
+  "distance_bands": {
+    "description": "当ページの距離区分は race_schedule の distance_m から機械的に付与（ゲーム公式の区分ではない）",
+    "bands": [
+      { "id": "sprint", "label": "短距離", "min_m": 1000, "max_m": 1400 },
+      { "id": "mile", "label": "マイル", "min_m": 1500, "max_m": 1800 },
+      { "id": "middle", "label": "中距離", "min_m": 1801, "max_m": 2500 },
+      { "id": "long", "label": "長距離", "min_m": 2501, "max_m": 3600 }
+    ],
+    "gap_note": "1401〜1499m は区分に含めずバッジ非表示（上記レンジの隙間）"
+  },
+  "venues": {
+    "札幌": {
+      "direction": "right",
+      "direction_label": "右回り",
+      "sourceURL": "https://www.jra.go.jp/facilities/race/sapporo/course/"
+    },
+    "函館": {
+      "direction": "right",
+      "direction_label": "右回り",
+      "sourceURL": "https://www.jra.go.jp/facilities/race/hakodate/course/"
+    },
+    "福島": {
+      "direction": "right",
+      "direction_label": "右回り",
+      "sourceURL": "https://www.jra.go.jp/facilities/race/fukushima/course/"
+    },
+    "新潟": {
+      "direction": "left",
+      "direction_label": "左回り",
+      "sourceURL": "https://www.jra.go.jp/facilities/race/niigata/course/"
+    },
+    "東京": {
+      "direction": "left",
+      "direction_label": "左回り",
+      "sourceURL": "https://www.jra.go.jp/facilities/race/tokyo/course/"
+    },
+    "中山": {
+      "direction": "right",
+      "direction_label": "右回り",
+      "sourceURL": "https://www.jra.go.jp/facilities/race/nakayama/course/"
+    },
+    "中京": {
+      "direction": "left",
+      "direction_label": "左回り",
+      "sourceURL": "https://www.jra.go.jp/facilities/race/chukyo/course/"
+    },
+    "京都": {
+      "direction": "right",
+      "direction_label": "右回り",
+      "sourceURL": "https://www.jra.go.jp/facilities/race/kyoto/course/"
+    },
+    "阪神": {
+      "direction": "right",
+      "direction_label": "右回り",
+      "sourceURL": "https://www.jra.go.jp/facilities/race/hanshin/course/"
+    },
+    "小倉": {
+      "direction": "right",
+      "direction_label": "右回り",
+      "sourceURL": "https://www.jra.go.jp/facilities/race/kokura/course/"
+    },
+    "大井": {
+      "direction": null,
+      "direction_label": "不明",
+      "sourceURL": null,
+      "note": "回りの一次出典未確認（当サイトでは未記載）"
+    },
+    "船橋": {
+      "direction": null,
+      "direction_label": "不明",
+      "sourceURL": null
+    },
+    "浦和": {
+      "direction": null,
+      "direction_label": "不明",
+      "sourceURL": null
+    },
+    "川崎": {
+      "direction": null,
+      "direction_label": "不明",
+      "sourceURL": null
+    },
+    "盛岡": {
+      "direction": null,
+      "direction_label": "不明",
+      "sourceURL": null
+    }
+  }
+}
