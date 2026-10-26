@@ -12,6 +12,7 @@ permalink: /calculator/
     <li><a href="#about">使い方</a></li>
     <li><a href="#form">入力</a></li>
     <li><a href="#results">結果</a></li>
+    <li><a href="#homebred-stallion">自家製種牡馬</a></li>
   </ul>
 </nav>
 
@@ -41,6 +42,25 @@ permalink: /calculator/
 
 <h3>ガリレオ（Galileo）で締めるルート</h3>
 <div id="hb-results-galileo"></div>
+
+<h2 id="homebred-stallion">自家製種牡馬 → 繁殖牝馬の試算</h2>
+<p><span class="label label-tool">ツールの計算値（ゲーム内未検証）</span></p>
+<p>父・母（いずれもマスター登録馬）から自家製<strong>種牡馬</strong>を仮定し、全繁殖牝馬との配合を評価（危険除外、上位20件）。<a href="{{ '/homebred-stallion/' | url }}">自家製種牡馬ガイド（出典メモ）</a></p>
+<div class="horse-filters calculator-form">
+  <div class="combobox-wrap">
+    <label for="hs-sire-input">種牡馬の父</label>
+    <input id="hs-sire-input" class="combobox-input" type="search" autocomplete="off" aria-controls="hs-sire-list">
+    <ul id="hs-sire-list" class="combobox-list" role="listbox" hidden></ul>
+  </div>
+  <div class="combobox-wrap">
+    <label for="hs-dam-input">種牡馬の母</label>
+    <input id="hs-dam-input" class="combobox-input" type="search" autocomplete="off" aria-controls="hs-dam-list">
+    <ul id="hs-dam-list" class="combobox-list" role="listbox" hidden></ul>
+  </div>
+  <button type="button" id="hs-calc" class="calc-button">配合を試算</button>
+</div>
+<p id="hs-status" class="filter-count" aria-live="polite"></p>
+<div id="hs-results"></div>
 
 <script type="text/plain" id="master-data-url">{{ '/assets/data/masterData.json' | url }}</script>
 <script src="{{ '/assets/vendor/logic.js' | url }}"></script>

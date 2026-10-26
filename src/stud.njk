@@ -21,6 +21,8 @@ permalink: /stud/
 
 <h2 id="list">馬一覧（{{ collections.horses.length }}頭）</h2>
 
+{% include "sire-line-legend.njk" %}
+
 <div class="horse-filters" role="search">
   <label>
     名前検索
@@ -45,6 +47,15 @@ permalink: /stud/
     </select>
   </label>
   <label>
+    大系統
+    <select id="horse-line">
+      <option value="">すべて</option>
+      {% for code in sireLineFilterOptions %}
+      <option value="{{ code }}">{{ code }}</option>
+      {% endfor %}
+    </select>
+  </label>
+  <label>
     成長型（種牡馬）
     <select id="horse-growth">
       <option value="">すべて</option>
@@ -64,6 +75,7 @@ permalink: /stud/
     <thead>
       <tr>
         <th class="col-sticky">名前</th>
+        <th>大系統</th>
         <th>区分</th>
         <th>ダート</th>
         <th>成長型</th>

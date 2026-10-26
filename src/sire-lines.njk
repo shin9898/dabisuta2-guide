@@ -15,9 +15,16 @@ permalink: /sire-lines/
   </ul>
 </nav>
 
+{% from "line-chip.njk" import render as lineChip %}
+
 <h2 id="about">このページについて</h2>
 <p><span class="label label-tool">ツールの計算値（ゲーム内未検証）</span></p>
 <p>種牡馬の<strong>大系統</strong>は、湯一路マスター由来の <code>horses_stats.json</code> の「系統」列（例: <code>Ne/サドラーズウェルズ</code>）を用います。ゲーム内の「大系統」表示と表記が一致するかは未検証です。データに無い場合は推測しません。</p>
+<p class="data-note"><strong>色について:</strong> ダービースタリオン2本編UIの系統色は当サイトでは未確認です。表示色は
+<a href="{{ sire_line_colors.出典URL }}" rel="noopener noreferrer">湯一路配合ツール pedigree.css</a>
+のチップ定義（{{ sire_line_colors.出典説明 }}）に合わせた<strong>当サイト独自の配色</strong>であり、ゲーム画面の色そのものではありません。</p>
+
+{% include "sire-line-legend.njk" %}
 <p>{{ computedRoutes.大系統ランキング_典型牝馬.典型牝馬の定義 }}について、3代ルート探索の終点種牡馬の系統を集計しました（{{ computedRoutes.大系統ランキング_典型牝馬.集計 }}）。</p>
 
 <h2 id="ranking">典型牝馬向けランキング（終点系統）</h2>
@@ -32,8 +39,8 @@ permalink: /sire-lines/
   </thead>
   <tbody>
     {% for row in computedRoutes.大系統ランキング_典型牝馬.ランキング %}
-    <tr>
-      <td>{{ row.系統 }}</td>
+    <tr class="line-row-{{ row.系統 | lineCodeFromStats }}">
+      <td>{{ lineChip(row.系統 | lineCodeFromStats, row.系統 | lineLittleFromStats, row.系統) }}</td>
       <td>{{ row.ルート件数 }}</td>
       <td>{{ row.平均スコア }}</td>
       <td>{{ row.完璧終点 }}</td>
@@ -46,8 +53,8 @@ permalink: /sire-lines/
 <p>種牡馬237頭を系統でグループ化（出典: 湯一路マスター / horses_stats）。</p>
 
 {% for entry in stallionsByLine %}
-<details class="line-group">
-  <summary>{{ entry[0] }}（{{ entry[1].length }}頭）</summary>
+<details class="line-group line-row-{{ entry[0] | lineCodeFromStats }}">
+  <summary>{{ lineChip(entry[0] | lineCodeFromStats, entry[0] | lineLittleFromStats, entry[0]) }}（{{ entry[1].length }}頭）</summary>
   <ul class="line-horse-list">
     {% for name in entry[1] %}
     <li><a href="{{ ('/stud/' + (name | horseSlug) + '/') | url }}">{{ name }}</a></li>

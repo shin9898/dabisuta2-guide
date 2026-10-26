@@ -524,6 +524,126 @@ a {
   padding: 0;
 }
 
+.route-chain-sire-name {
+  font-weight: 600;
+  margin-right: 0.25rem;
+}
+
+.line-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.1rem 0.35rem;
+  border-radius: 4px;
+  border: 1px solid var(--line-border, #9ca3af);
+  background: var(--line-bg, #e5e7eb);
+  color: var(--line-fg, #1a1a1a);
+  font-size: 0.72rem;
+  font-weight: 600;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.line-chip-code {
+  font-family: ui-monospace, monospace;
+  font-size: 0.68rem;
+  opacity: 0.9;
+}
+
+.horse-line-header {
+  margin: 0.35rem 0 0.75rem;
+}
+
+.sire-line-legend {
+  margin: 0.75rem 0 1rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+}
+
+.sire-line-legend summary {
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.sire-line-source {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin: 0.35rem 0;
+}
+
+.sire-line-legend-list {
+  list-style: none;
+  margin: 0.5rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.5rem;
+}
+
+.horse-list-table td:nth-child(2) {
+  min-width: 8.5rem;
+}
+
+.case-pedigree-table td .line-chip {
+  margin-left: 0.35rem;
+}
+
+.route-eval-toolbar {
+  margin: 0.75rem 0;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+}
+
+.route-eval-intro {
+  font-size: 0.85rem;
+  margin: 0 0 0.5rem;
+}
+
+.route-eval-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.route-eval-chip {
+  font-size: 0.78rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: #fff;
+  cursor: pointer;
+}
+
+.route-eval-chip--on {
+  background: #eef6ff;
+  border-color: #6b9fd4;
+  font-weight: 700;
+}
+
+.route-eval-chip-count {
+  font-weight: 400;
+  opacity: 0.85;
+}
+
+.muted-note {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.galileo-cross-details summary {
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.galileo-filly-cross--compact .galileo-filly-cross-table {
+  font-size: 0.8rem;
+}
+
 .compare-badge {
   font-size: 0.8rem;
   font-weight: 700;

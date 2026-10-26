@@ -134,6 +134,40 @@ function isGalileoFinish(name) {
   return GALILEO_NAMES.has(name);
 }
 
+function rebuildBroodmareAlongRoute(startMare, stallionNames, masterData, stallionMap) {
+  let mare = startMare;
+  for (const name of stallionNames) {
+    const st = stallionMap.get(name);
+    if (!st) throw new Error(`Unknown stallion in route: ${name}`);
+    mare = createHomebredHorse(
+      `__route_${startMare.NAME}_${name}`,
+      "broodmare",
+      st,
+      mare,
+      masterData
+    );
+  }
+  return mare;
+}
+
+function rankStallionsForBroodmare(broodmare, stallions, engine, options = {}) {
+  const topN = options.topN ?? 5;
+  const results = [];
+  for (const st of stallions) {
+    const result = evaluateMating(engine, st, broodmare);
+    if (result.dangerous) continue;
+    const row = evalToGenerationRow(result);
+    results.push({
+      name: st.NAME,
+      price: st.PRICE ?? 0,
+      row,
+      score: routeScore(row),
+    });
+  }
+  results.sort((a, b) => b.score - a.score);
+  return results.slice(0, topN);
+}
+
 function searchRoutesForMare(mare, stallions, engine, masterData, options = {}) {
   const beamWidth = options.beamWidth ?? 25;
   const maxRoutes = options.maxRoutes ?? 5;
@@ -200,5 +234,7 @@ module.exports = {
   searchRoutesForMare,
   buildRouteObject,
   isGalileoFinish,
+  rebuildBroodmareAlongRoute,
+  rankStallionsForBroodmare,
   GALILEO_NAMES,
 };

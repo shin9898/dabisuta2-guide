@@ -1,0 +1,27 @@
+/* Generated from src/_data/sire_line_colors.json — do not edit */
+/* Source: https://ds2.yublog.com/assets/pedigree.css?v=28 */
+.line-Ns{--line-bg:#62D568;--line-fg:#1a1a1a;--line-border:#3d9c42;}
+.line-row-Ns{border-left:4px solid #3d9c42;}
+.route-chain-node.line-Ns{background:#62D568;color:#1a1a1a;border-color:#3d9c42;}
+.line-Ro{--line-bg:#FBB2D0;--line-fg:#1a1a1a;--line-border:#d9779f;}
+.line-row-Ro{border-left:4px solid #d9779f;}
+.route-chain-node.line-Ro{background:#FBB2D0;color:#1a1a1a;border-color:#d9779f;}
+.line-Ne{--line-bg:#EFFD80;--line-fg:#1a1a1a;--line-border:#b8c44a;}
+.line-row-Ne{border-left:4px solid #b8c44a;}
+.route-chain-node.line-Ne{background:#EFFD80;color:#1a1a1a;border-color:#b8c44a;}
+.line-Na{--line-bg:#83E0FB;--line-fg:#1a1a1a;--line-border:#3ba8cc;}
+.line-row-Na{border-left:4px solid #3ba8cc;}
+.route-chain-node.line-Na{background:#83E0FB;color:#1a1a1a;border-color:#3ba8cc;}
+.line-Sw{--line-bg:#F4DDE0;--line-fg:#1a1a1a;--line-border:#c9a8ab;}
+.line-row-Sw{border-left:4px solid #c9a8ab;}
+.route-chain-node.line-Sw{background:#F4DDE0;color:#1a1a1a;border-color:#c9a8ab;}
+.line-Hi{--line-bg:#5AA0F9;--line-fg:#ffffff;--line-border:#2563eb;}
+.line-row-Hi{border-left:4px solid #2563eb;}
+.route-chain-node.line-Hi{background:#5AA0F9;color:#ffffff;border-color:#2563eb;}
+.line-Ma{--line-bg:#D0ACF9;--line-fg:#1a1a1a;--line-border:#9b6fd4;}
+.line-row-Ma{border-left:4px solid #9b6fd4;}
+.route-chain-node.line-Ma{background:#D0ACF9;color:#1a1a1a;border-color:#9b6fd4;}
+.line-He{--line-bg:#B6FFFF;--line-fg:#1a1a1a;--line-border:#5cc9c9;}
+.line-row-He{border-left:4px solid #5cc9c9;}
+.route-chain-node.line-He{background:#B6FFFF;color:#1a1a1a;border-color:#5cc9c9;}
+.line-unknown{--line-bg:#e5e7eb;--line-fg:#1a1a1a;--line-border:#9ca3af;}

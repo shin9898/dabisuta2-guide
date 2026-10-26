@@ -11,7 +11,11 @@ const {
   buildRouteObject,
   searchRoutesForMare,
   isGalileoFinish,
+  rebuildBroodmareAlongRoute,
+  rankStallionsForBroodmare,
 } = require("./breeding-lib.cjs");
+
+const TOP_FILLY_CROSS = 5;
 
 const ROOT = path.join(__dirname, "..");
 const OUT = path.join(ROOT, "src/_data/computed_routes.json");
@@ -83,9 +87,13 @@ function main() {
 
   const byMare = {};
   const galileoByMare = {};
+  const galileoFillyCrossByMare = {};
   const byStallionEnd = {};
+  const stallionMap = new Map(stallions.map((s) => [s.NAME, s]));
+  const mareByName = new Map(broodmares.map((m) => [m.NAME, m]));
 
   const t0 = Date.now();
+  const tCross0 = Date.now();
   for (let i = 0; i < broodmares.length; i++) {
     const mare = broodmares[i];
     const routes = searchRoutesForMare(mare, stallions, engine, master, {
@@ -107,6 +115,42 @@ function main() {
       console.log(`  ${i + 1}/${broodmares.length} mares...`);
     }
   }
+
+  let fillyCrossPerfect = 0;
+  for (const [mareName, routes] of Object.entries(galileoByMare)) {
+    if (!routes.length) continue;
+    const best = [...routes].sort((a, b) => (b._score || 0) - (a._score || 0))[0];
+    const startMare = mareByName.get(mareName);
+    if (!startMare || !best.種付け?.length) continue;
+    try {
+      const filly = rebuildBroodmareAlongRoute(
+        startMare,
+        best.種付け,
+        master,
+        stallionMap
+      );
+      const ranked = rankStallionsForBroodmare(filly, stallions, engine, {
+        topN: TOP_FILLY_CROSS,
+      });
+      if (!ranked.length) continue;
+      const hasPerfect = ranked.some((c) => c.row.完璧);
+      if (hasPerfect) fillyCrossPerfect++;
+      galileoFillyCrossByMare[mareName] = {
+        基準ルート_種付け: best.種付け,
+        基準ルートスコア: best._score || 0,
+        ガリレオ牝馬: `自家製_${mareName}_Galileo牝`,
+        候補: ranked.map((c) => ({
+          種牡馬: c.name,
+          種付料_万円: c.price,
+          評価: c.row,
+          _score: c.score,
+        })),
+      };
+    } catch (err) {
+      console.warn("Galileo filly cross skipped:", mareName, err.message);
+    }
+  }
+  const fillyCrossMs = Date.now() - tCross0;
 
   for (const s of stallions) {
     if (!byStallionEnd[s.NAME]) byStallionEnd[s.NAME] = [];
@@ -170,12 +214,18 @@ function main() {
       繁殖牝馬数: broodmares.length,
       ルートが1件以上の繁殖牝馬: maresWithRoutes,
       ガリレオ終点ルートがある繁殖牝馬: galileoMares,
+      ガリレオ牝馬_次配合を計算した繁殖牝馬: Object.keys(galileoFillyCrossByMare).length,
+      ガリレオ牝馬_次配合で完璧が上位候補に含まれる繁殖牝馬: fillyCrossPerfect,
+      ガリレオ牝馬_次配合計算時間_ms: fillyCrossMs,
       種牡馬終点数: Object.keys(byStallionEnd).length,
       計算時間_ms: Date.now() - t0,
     },
     繁殖牝馬起点: byMare,
     種牡馬終点: byStallionEnd,
     ガリレオ終点_繁殖牝馬起点: galileoByMare,
+    ガリレオ牝馬への次配合: galileoFillyCrossByMare,
+    ガリレオ牝馬への次配合_注記:
+      "各繁殖牝馬の最良ガリレオ終点3代ルートを辿って自家製ガリレオ牝馬を仮定し、全種牡馬との1回配合を湯一路 logic.js で評価（危険除外）。中間牝馬はすべて自家製想定。",
     大系統ランキング_典型牝馬: {
       典型牝馬の定義: `価格上位${TYPICAL_MARE_COUNT}頭（horses_stats 繁殖牝馬）`,
       集計: "各ルートの終点種牡馬の系統（horses_stats の「系統」）で集計",

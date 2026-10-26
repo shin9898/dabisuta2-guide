@@ -132,13 +132,27 @@
     return p.length ? p.join("・") : "—";
   }
 
-  function routeChainHtml(start, studs, tag) {
-    let html = '<ol class="route-chain">';
-    html += `<li class="route-chain-node route-chain-start">${start}</li>`;
+  function lineChipHtml(name, horseLineMap) {
+    const line = horseLineMap[name];
+    if (!line || !line.code) {
+      return '<span class="line-chip line-unknown"><span class="line-chip-label">系統未登録</span></span>';
+    }
+    const label = line.display || line.code;
+    return `<span class="line-chip line-${line.code}"><span class="line-chip-code" aria-hidden="true">${line.code}</span><span class="line-chip-label">${label}</span></span>`;
+  }
+
+  function routeChainHtml(start, studs, tag, horseLineMap) {
+    const startLine = horseLineMap[start];
+    const startLineCls =
+      startLine && startLine.code ? ` line-${startLine.code}` : "";
+    let html = '<ol class="route-chain" aria-label="配合チェーン">';
+    html += `<li class="route-chain-node route-chain-start${startLineCls}"><span class="route-chain-sire-name">${start}</span>${lineChipHtml(start, horseLineMap)}</li>`;
     studs.forEach((sire, i) => {
       html += '<li class="route-chain-arrow" aria-hidden="true">→</li>';
       const fin = i === studs.length - 1 ? " route-chain-final" : "";
-      html += `<li class="route-chain-node${fin}"><span class="route-chain-sire">${sire}</span>`;
+      const sl = horseLineMap[sire];
+      const lineCls = sl && sl.code ? ` line-${sl.code}` : "";
+      html += `<li class="route-chain-node${fin}${lineCls}"><span class="route-chain-sire-name">${sire}</span>${lineChipHtml(sire, horseLineMap)}`;
       if (i === studs.length - 1 && tag) {
         html += `<span class="route-chain-tag">${tag}</span>`;
       }
@@ -148,21 +162,91 @@
     return html;
   }
 
-  function renderResults(routes, el, startName) {
+  function evalDataJson(row) {
+    return JSON.stringify({
+      完璧: !!row.完璧,
+      面白い: !!row.面白い,
+      見事: !!row.見事,
+      凝った: !!row.凝った,
+    });
+  }
+
+  function evalToolbarHtml(tableId) {
+    return `<div class="route-eval-toolbar" data-route-eval-for="${tableId}">
+      <p class="route-eval-intro"><span class="label label-tool">ツールの計算値（ゲーム内未検証）</span> 終点の配合評価で絞り込み（複数選択はAND）</p>
+      <div class="route-eval-chips" role="group" aria-label="配合評価フィルタ"></div>
+      <p class="route-eval-status filter-count" aria-live="polite"></p>
+    </div>`;
+  }
+
+  function mountEvalFilter(tableId) {
+    if (window.RouteEvalFilter?.mount) {
+      window.RouteEvalFilter.mount(tableId);
+    }
+  }
+
+  function renderResults(routes, el, startName, horseLineMap) {
     if (!routes.length) {
       el.innerHTML =
         '<p class="placeholder-box">探索では見つからず（不可能とは限らない）</p>';
       return;
     }
-    let html =
-      '<div class="table-scroll table-scroll--sticky"><table class="data-table"><thead><tr><th>ルート</th><th>終点</th><th>クロス</th></tr></thead><tbody>';
+    const tableId = `hb-routes-${el.id || "out"}`;
+    let html = evalToolbarHtml(tableId);
+    html +=
+      '<div class="table-scroll table-scroll--sticky"><table class="data-table" id="' +
+      tableId +
+      '"><thead><tr><th>ルート</th><th>終点</th><th>クロス</th></tr></thead><tbody>';
     for (const r of routes) {
       const last = r.gens[2];
-      const cls = r.finalSire === "Galileo" ? ' class="route-galileo"' : "";
-      html += `<tr${cls}><td>${routeChainHtml(startName, r.studs, labelSummary(last))}</td><td><strong>${r.finalSire}</strong></td><td>${(last.インブリード || []).join("、") || "—"}</td></tr>`;
+      const rowCls =
+        r.finalSire === "Galileo" ? "route-galileo route-eval-row" : "route-eval-row";
+      html += `<tr class="${rowCls}" data-route-eval="${evalDataJson(last)}"><td>${routeChainHtml(startName, r.studs, labelSummary(last), horseLineMap)}</td><td><strong>${r.finalSire}</strong></td><td>${(last.インブリード || []).join("、") || "—"}</td></tr>`;
     }
     html += "</tbody></table></div>";
     el.innerHTML = html;
+    mountEvalFilter(tableId);
+  }
+
+  function formatToolLabels(row) {
+    const p = [];
+    if (row.完璧) p.push("完璧");
+    if (row.面白い) p.push("面白");
+    if (row.見事) p.push("見事");
+    if (row.凝った) p.push("凝った");
+    if (row.ニックス) p.push("ニックス★" + row.ニックス);
+    return p.length ? p.join("・") : "—";
+  }
+
+  function renderStallionMareResults(rows, el, horseLineMap) {
+    if (!rows.length) {
+      el.innerHTML = '<p class="placeholder-box">該当なし（危険配合のみ等）</p>';
+      return;
+    }
+    const tableId = "hs-mare-table";
+    let html = evalToolbarHtml(tableId);
+    html +=
+      '<div class="table-scroll table-scroll--sticky"><table class="data-table" id="' +
+      tableId +
+      '"><thead><tr><th>繁殖牝馬</th><th>評価</th><th>クロス</th></tr></thead><tbody>';
+    for (const r of rows) {
+      html += `<tr class="route-eval-row" data-route-eval="${evalDataJson(r.row)}"><td><strong>${r.name}</strong> ${lineChipHtml(r.name, horseLineMap)}</td><td>${formatToolLabels(r.row)}</td><td>${(r.row.インブリード || []).join("、") || "—"}</td></tr>`;
+    }
+    html += "</tbody></table></div>";
+    el.innerHTML = html;
+    mountEvalFilter(tableId);
+  }
+
+  function rankMaresForStallion(stallionHorse, broodmares, engine, topN) {
+    const results = [];
+    for (const bm of broodmares) {
+      const result = engine.evaluate(stallionHorse, bm, null);
+      if (result.dangerous) continue;
+      const row = evalRow(result);
+      results.push({ name: bm.NAME, row, score: scoreRow(row) });
+    }
+    results.sort((a, b) => b.score - a.score);
+    return results.slice(0, topN);
   }
 
   function mountCombobox(inputId, listId, names) {
@@ -206,10 +290,15 @@
     }
 
     status.textContent = "マスターデータ読み込み中…";
-    const res = await fetch(
-      document.getElementById("master-data-url").textContent.replace(/"/g, "")
-    );
-    const masterData = await res.json();
+    const masterUrl = document
+      .getElementById("master-data-url")
+      .textContent.replace(/"/g, "");
+    const [masterRes, linesRes] = await Promise.all([
+      fetch(masterUrl),
+      fetch(masterUrl.replace(/masterData\.json$/, "horse-lines.json")),
+    ]);
+    const masterData = await masterRes.json();
+    const horseLineMap = linesRes.ok ? await linesRes.json() : {};
     const engine = new BreedingEngine(masterData);
     const stallions = masterData.stallion;
     const broodmares = masterData.broodmare;
@@ -251,13 +340,49 @@
           galileoOnly: true,
         });
         const startLabel = mare.NAME.replace(/^自家製_/, "");
-        renderResults(routes, out, startLabel);
-        renderResults(gal, outGal, startLabel);
+        renderResults(routes, out, startLabel, horseLineMap);
+        renderResults(gal, outGal, startLabel, horseLineMap);
         status.textContent = "完了（危険配合は除外）";
       }, 10);
     });
 
     btn.click();
+
+    const hsSire = document.getElementById("hs-sire-input");
+    const hsDam = document.getElementById("hs-dam-input");
+    const hsBtn = document.getElementById("hs-calc");
+    const hsOut = document.getElementById("hs-results");
+    const hsStatus = document.getElementById("hs-status");
+    if (hsSire && hsDam && hsBtn && hsOut) {
+      mountCombobox("hs-sire-input", "hs-sire-list", sireNames);
+      mountCombobox("hs-dam-input", "hs-dam-list", damNames);
+      hsSire.value = "Galileo";
+      hsDam.value = "ドバイマジェスティ";
+      hsBtn.addEventListener("click", () => {
+        const sire = stallions.find((s) => s.NAME === hsSire.value.trim());
+        const dam = broodmares.find((b) => b.NAME === hsDam.value.trim());
+        if (!sire || !dam) {
+          hsStatus.textContent = "父母をリストから選んでください。";
+          return;
+        }
+        const colt = createHomebredHorse(
+          "自家製種牡馬_" + sire.NAME + "_" + dam.NAME,
+          "stallion",
+          sire,
+          dam,
+          masterData
+        );
+        hsStatus.textContent = "計算中…";
+        setTimeout(() => {
+          const ranked = rankMaresForStallion(colt, broodmares, engine, 20);
+          renderStallionMareResults(ranked, hsOut, horseLineMap);
+          hsStatus.textContent = `完了（上位${ranked.length}件 / 危険除外）`;
+        }, 10);
+      });
+      if (location.hash === "#homebred-stallion") {
+        hsBtn.click();
+      }
+    }
   }
 
   if (document.readyState === "loading") {

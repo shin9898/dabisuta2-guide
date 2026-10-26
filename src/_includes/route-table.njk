@@ -1,9 +1,13 @@
 {% from "route-chain.njk" import render as routeChain %}
+{% from "route-eval-filter.njk" import toolbar as routeEvalToolbar %}
+{% from "route-eval.njk" import rowData as routeEvalRowData %}
 
-{% macro render(routes, highlightGalileo, startMareName) %}
+{% macro render(routes, highlightGalileo, startMareName, tableId) %}
 {% if routes and routes.length %}
+{% set tid = tableId or ('route-table-' ~ (startMareName or 'x') ~ '-' ~ routes.length) %}
+{{ routeEvalToolbar(tid) }}
 <div class="table-scroll table-scroll--sticky">
-<table class="data-table route-table">
+<table class="data-table route-table" id="{{ tid }}">
   <thead>
     <tr>
       <th scope="col">ルート</th>
@@ -18,7 +22,7 @@
     {% set finalSire = r._finalSire or r.種付け[r.種付け.length - 1] %}
     {% set startName = startMareName or (r.route | routeStart) %}
     {% set endLabel = (r | routeSummary) ~ (last.完璧 and '（完璧）' or '') %}
-    <tr class="{% if highlightGalileo and (finalSire == 'Galileo' or finalSire == 'ガリレオ') %}route-galileo{% endif %}">
+    <tr class="route-eval-row{% if highlightGalileo and (finalSire == 'Galileo' or finalSire == 'ガリレオ') %} route-galileo{% endif %}" data-route-eval="{{ routeEvalRowData(last) }}">
       <td data-label="ルート">
         {{ routeChain(startName, r.種付け, endLabel) }}
         <p class="route-text-fallback visually-hidden-focusable">{{ r.route }}</p>

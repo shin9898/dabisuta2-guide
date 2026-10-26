@@ -1,0 +1,88 @@
+---
+layout: layouts/base.njk
+title: 自家製種牡馬ガイド
+description: 出典付きのメモと、湯一路 logic による配合試算
+updated: 2026-10-26
+permalink: /homebred-stallion/
+---
+
+<nav class="toc" aria-label="目次">
+  <p class="toc-title">目次</p>
+  <ul class="toc-list">
+    <li><a href="#about">このページについて</a></li>
+    <li><a href="#sourced">出典あり（ダビスタ2）</a></li>
+    <li><a href="#prev">前作の情報</a></li>
+    <li><a href="#unknown">不明・未検証</a></li>
+    <li><a href="#tool">配合試算ツール</a></li>
+  </ul>
+</nav>
+
+<h2 id="about">このページについて</h2>
+<p>ゲーム内の自家製種牡馬の仕様は、当サイトでは<strong>公式一次資料を十分に収集できていません</strong>。以下はプレイ記事・攻略wiki・配合理論ツールの<strong>出典リンク付き要約</strong>です。推測で仕様を補完しません。</p>
+
+<h2 id="sourced">出典あり（ダービースタリオン2）</h2>
+<table class="data-table">
+  <thead>
+    <tr><th>項目</th><th>記載内容（要約）</th><th>出典</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>種牡馬入りの操作</td>
+      <td>競走牡馬を引退させ、引退時の選択肢から「種牡馬入り」を選ぶことで自家製種牡馬にできる（プレイ記事の実例）。</td>
+      <td><a href="https://piyotakejapan.com/46325/" rel="noopener noreferrer">ピヨたけジャパン プレイ日記⑧</a></td>
+    </tr>
+    <tr>
+      <td>因子の表示</td>
+      <td>種牡馬画面で馬名の上に因子（例: ダート）が表示される例がある。</td>
+      <td><a href="https://piyotakejapan.com/46325/" rel="noopener noreferrer">同上</a></td>
+    </tr>
+    <tr>
+      <td>引退週と因子</td>
+      <td>同一個体で引退週を変えると因子構成が変わる例（ダートは残り早熟型の有無が変化）と、同一週では結果が固定される例が報告されている。</td>
+      <td><a href="https://piyotakejapan.com/46358/" rel="noopener noreferrer">ピヨたけジャパン 検証記事</a>、<a href="https://piyotakejapan.com/47756/" rel="noopener noreferrer">因子付与の仮説記事</a>（いずれも検証中・確定仕様ではない）</td>
+    </tr>
+    <tr>
+      <td>中盤以降の配合</td>
+      <td>自家製種牡馬の因子が乗り始めると配合の再現性が上がる、という<strong>攻略wiki上の説明</strong>（ゲーム内検証は当サイト未実施）。</td>
+      <td><a href="https://jpgamez.com/dabisuta2-wiki/" rel="noopener noreferrer">JPGameZ ダビスタ2攻略Wiki</a></td>
+    </tr>
+    <tr>
+      <td>配合UIの評価表示</td>
+      <td>種付け画面でインブリード・ニックス・面白い／見事／凝った配合などが表示される（湯一路FAQはモード説明中心で因子仕様は未記載）。</td>
+      <td><a href="https://jpgamez.com/dabisuta2-wiki/" rel="noopener noreferrer">JPGameZ Wiki</a>、<a href="https://ds2.yublog.com/info/faq.php" rel="noopener noreferrer">湯一路 FAQ</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="prev">前作の情報</h2>
+<p><span class="label label-prev">前作の情報</span></p>
+<table class="data-table">
+  <thead>
+    <tr><th>項目</th><th>記載（前作）</th><th>出典</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>種牡馬入り条件の例</td>
+      <td>G1レース1勝以上で引退、ホースパーク馬柵星4拡張、自家製種牡馬は最大4頭まで、など<strong>スイッチ版</strong>の整理。</td>
+      <td><a href="https://dabista.yuruge.jp/article/506" rel="noopener noreferrer">ダビスタスイッチ攻略ガイド</a></td>
+    </tr>
+    <tr>
+      <td>能力の決まり方</td>
+      <td>前作系の検証メモ（距離・成長・気性などの推測表）。<strong>ダビスタ2での同一性は未確認</strong>。</td>
+      <td><a href="https://dabista.yuruge.jp/article/506" rel="noopener noreferrer">同上</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="unknown">不明・未検証</h2>
+<ul>
+  <li>ダビスタ2の<strong>公式</strong>な種牡馬入り条件・因子の確定ルール：当サイトでは<strong>不明</strong>（上記はプレイ記事・wiki・検証ブログのみ）。</li>
+  <li>自家製種牡馬の能力が産駒にどう継承されるかの数式：<strong>不明</strong>（ツールの血統計算は別系統）。</li>
+  <li>「どの繁殖牝馬が向くか」のゲーム内公式リスト：<strong>不明</strong>。下の試算は湯一路 logic.js の配合評価のみ。</li>
+</ul>
+
+<h2 id="tool">配合試算ツール</h2>
+<p><span class="label label-tool">ツールの計算値（ゲーム内未検証）</span></p>
+<p>マスター上の父母から<strong>自家製種牡馬（仮）</strong>を組み立て、327頭の繁殖牝馬との1回配合をすべて試し、スコア上位を表示します（危険配合除外）。因子・種牡馬入り条件は反映しません。</p>
+<p>例: ガリレオ終点ルートで得た牝系を想定する場合は、計算ページの「自家製種牡馬」欄で父母を指定してください。</p>
+<p><a href="{{ '/calculator/#homebred-stallion' | url }}">計算ページの自家製種牡馬セクションへ</a></p>

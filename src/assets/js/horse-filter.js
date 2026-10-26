@@ -16,6 +16,7 @@
   const typeSelect = document.getElementById("horse-type");
   const dirtSelect = document.getElementById("horse-dirt");
   const growthSelect = document.getElementById("horse-growth");
+  const lineSelect = document.getElementById("horse-line");
 
   const PAGE = 40;
   let filtered = [];
@@ -27,14 +28,25 @@
     return "—";
   }
 
+  function lineChipHtml(h) {
+    const code = h.lineCode || "";
+    const label = h.lineDisplay || code || "不明";
+    if (!code) {
+      return '<span class="line-chip line-unknown"><span class="line-chip-label">不明</span></span>';
+    }
+    return `<span class="line-chip line-${code}"><span class="line-chip-code">${code}</span><span class="line-chip-label">${label}</span></span>`;
+  }
+
   function render() {
     tbody.innerHTML = "";
     const slice = filtered.slice(0, visibleCount);
     for (const h of slice) {
       const tr = document.createElement("tr");
+      if (h.lineCode) tr.className = `line-row-${h.lineCode}`;
       const link = `${studBase}${encodeURIComponent(h.slug)}/`;
       tr.innerHTML = `
         <td class="col-sticky"><a href="${link}">${h.name}</a></td>
+        <td>${lineChipHtml(h)}</td>
         <td>${h.typeJa}</td>
         <td>${h.dirt || "—"}</td>
         <td>${h.growth || "—"}</td>
@@ -60,19 +72,21 @@
     const type = typeSelect?.value || "";
     const dirt = dirtSelect?.value || "";
     const growth = growthSelect?.value || "";
+    const line = lineSelect?.value || "";
 
     filtered = horses.filter((h) => {
       if (type && h.type !== type) return false;
       if (dirt && h.dirt !== dirt) return false;
       if (growth && h.growth !== growth) return false;
+      if (line && h.lineCode !== line) return false;
       if (q && !h.name.toLowerCase().includes(q)) return false;
       return true;
     });
-    visibleCount = q.length >= 1 ? filtered.length : PAGE;
+    visibleCount = q.length >= 1 || line ? filtered.length : PAGE;
     render();
   }
 
-  [searchInput, typeSelect, dirtSelect, growthSelect].forEach((el) => {
+  [searchInput, typeSelect, dirtSelect, growthSelect, lineSelect].forEach((el) => {
     el?.addEventListener("input", applyFilters);
     el?.addEventListener("change", applyFilters);
   });

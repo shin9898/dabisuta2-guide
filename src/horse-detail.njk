@@ -11,6 +11,8 @@ eleventyComputed:
   updated: "2026-10-26"
 ---
 {% from "route-table.njk" import render as routeTable %}
+{% from "line-chip.njk" import render as lineChip %}
+{% from "galileo-filly-cross.njk" import render as galileoFillyCross %}
 
 <nav class="toc" aria-label="目次">
   <p class="toc-title">目次</p>
@@ -19,6 +21,9 @@ eleventyComputed:
     {% if horse.horseType == "mare" %}
     <li><a href="#routes-from">この牝馬から（3代ルート）</a></li>
     <li><a href="#routes-galileo">ガリレオ（Galileo）で締める</a></li>
+    {% if horse.routeSets.galileoFillyCross %}
+    <li><a href="#galileo-filly-cross">ガリレオ牝馬への次配合</a></li>
+    {% endif %}
     {% endif %}
     {% if horse.horseType == "stallion" %}
     <li><a href="#routes-end">終点種牡馬としてのルート</a></li>
@@ -29,6 +34,7 @@ eleventyComputed:
 <p><a href="{{ '/stud/' | url }}">← 一覧に戻る</a></p>
 
 <h2 id="stats">{{ horse.名前 }} <span class="horse-type-badge">{{ horse.horseTypeJa }}</span></h2>
+<p class="horse-line-header">{{ lineChip(horse.lineCode, horse.lineLittle, horse.lineDisplay) }}</p>
 <p>出典: <a href="https://ds2.yublog.jp/" rel="noopener noreferrer">湯一路マスターデータ</a>（{{ horse.出典 }}）</p>
 
 {% if horse.horseType == "mare" and horse.名前 == "ドバイマジェスティ" %}
@@ -61,11 +67,18 @@ eleventyComputed:
 {% if horse.horseType == "mare" %}
 <h2 id="routes-from">この牝馬から（3代ルート）</h2>
 <p><span class="label label-tool">ツールの計算値（ゲーム内未検証）</span> — {{ computedRoutes.探索方法.説明 }}</p>
-{{ routeTable(horse.routeSets.fromStart, true, horse.名前) }}
+{{ routeTable(horse.routeSets.fromStart, true, horse.名前, 'routes-from-' ~ horse.slug) }}
 
 <h2 id="routes-galileo">ガリレオ（Galileo）で締める</h2>
 <p>終点種牡馬が <strong>Galileo</strong> のルートのみ（最大3件）。</p>
-{{ routeTable(horse.routeSets.galileoFinish, true, horse.名前) }}
+{{ routeTable(horse.routeSets.galileoFinish, true, horse.名前, 'routes-gal-' ~ horse.slug) }}
+
+{% if horse.routeSets.galileoFillyCross %}
+<h3 id="galileo-filly-cross">ガリレオ牝馬への次配合（4叉目）</h3>
+<p><span class="label label-tool">ツールの計算値（ゲーム内未検証）</span></p>
+<p class="data-note">上の<strong>最良</strong>ガリレオ終点3代ルートで自家製ガリレオ牝馬（仮）を想定し、全種牡馬との1回配合を評価（危険除外）。ゲーム内の手順・制約の再現ではありません。<a href="https://ds2.yublog.jp/theory.php" rel="noopener noreferrer">湯一路 配合理論</a>の自家繁殖ガリレオ牝馬の説明は<a href="{{ '/haigo/#perfect' | url }}">配合ページ</a>に要約があります。</p>
+{{ galileoFillyCross(horse.routeSets.galileoFillyCross, horse.名前) }}
+{% endif %}
 {% endif %}
 
 {% if horse.horseType == "stallion" %}
@@ -73,7 +86,7 @@ eleventyComputed:
 <p>他の繁殖牝馬から3代配合し、終点が <strong>{{ horse.名前 }}</strong> となる例（価格上位牝馬起点の探索結果から最大5件）。</p>
 <p><span class="label label-tool">ツールの計算値（ゲーム内未検証）</span></p>
 {% if horse.routeSets.asEnd and horse.routeSets.asEnd.length %}
-{{ routeTable(horse.routeSets.asEnd, horse.名前 == 'Galileo') }}
+{{ routeTable(horse.routeSets.asEnd, horse.名前 == 'Galileo', null, 'routes-end-' ~ horse.slug) }}
 {% else %}
 <p class="placeholder-box">探索では見つからず（不可能とは限らない）</p>
 {% endif %}

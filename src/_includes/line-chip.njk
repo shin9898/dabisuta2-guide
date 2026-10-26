@@ -1,0 +1,21 @@
+{% macro render(code, little, display) %}
+{% if code %}
+<span class="line-chip line-{{ code }}" title="{{ little or code }}">
+  <span class="line-chip-code" aria-hidden="true">{{ code }}</span>
+  <span class="line-chip-label">{% if display %}{{ display }}{% elif little %}{{ code }} · {{ little }}{% else %}{{ code }}{% endif %}</span>
+</span>
+{% else %}
+<span class="line-chip line-unknown">
+  <span class="line-chip-label">大系統不明</span>
+</span>
+{% endif %}
+{% endmacro %}
+
+{% macro forName(horseName) %}
+{% set line = horseLineMap[horseName] %}
+{% if line %}
+{{ render(line.code, line.little, line.display) }}
+{% else %}
+<span class="line-chip line-unknown"><span class="line-chip-label">{{ horseName }}（系統未登録）</span></span>
+{% endif %}
+{% endmacro %}

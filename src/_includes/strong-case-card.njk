@@ -1,3 +1,4 @@
+{% from "line-chip.njk" import forName as lineChipForName %}
 {% macro render(case) %}
 <article class="case-card" id="case-{{ case.馬名 | horseSlug }}">
   <header class="case-card-header">
@@ -11,9 +12,9 @@
       <tr><th>区分</th><th>馬名</th></tr>
     </thead>
     <tbody>
-      <tr><th scope="row">父</th><td>{{ case.父 or "不明" }}</td></tr>
-      <tr><th scope="row">母</th><td>{{ case.母 or "不明" }}</td></tr>
-      <tr><th scope="row">母父</th><td>{{ case.母父 or "不明" }}</td></tr>
+      <tr><th scope="row">父</th><td>{% if case.父 %}{{ case.父 }} {{ lineChipForName(case.父) }}{% else %}不明{% endif %}</td></tr>
+      <tr><th scope="row">母</th><td>{% if case.母 %}{{ case.母 }}{% if case.母 != "(名前不明)" %} {{ lineChipForName(case.母) }}{% endif %}{% else %}不明{% endif %}</td></tr>
+      <tr><th scope="row">母父</th><td>{% if case.母父 %}{{ case.母父 }} {{ lineChipForName(case.母父) }}{% else %}不明{% endif %}</td></tr>
     </tbody>
   </table>
 

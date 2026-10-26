@@ -70,10 +70,15 @@ function routesForHorse(routes, horse) {
     horse.horseType === "mare"
       ? routes.ガリレオ終点_繁殖牝馬起点?.[horse.名前] || []
       : [];
+  const galileoFillyCross =
+    horse.horseType === "mare"
+      ? routes.ガリレオ牝馬への次配合?.[horse.名前] || null
+      : null;
   return {
     fromStart,
     asEnd: horse.horseType === "stallion" ? asEnd : [],
     galileoFinish,
+    galileoFillyCross,
   };
 }
 
