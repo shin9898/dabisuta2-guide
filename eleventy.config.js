@@ -166,6 +166,11 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addFilter("join", (arr, sep = "、") =>
     Array.isArray(arr) ? arr.join(sep) : ""
   );
+  eleventyConfig.addFilter("routeStart", (route) => {
+    if (!route || typeof route !== "string") return "—";
+    const idx = route.indexOf(" →");
+    return idx === -1 ? route : route.slice(0, idx);
+  });
 
   const pathPrefix =
     process.env.ELEVENTY_PATH_PREFIX ||

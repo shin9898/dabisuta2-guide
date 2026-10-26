@@ -132,31 +132,73 @@
     return p.length ? p.join("・") : "—";
   }
 
-  function renderResults(routes, el) {
+  function routeChainHtml(start, studs, tag) {
+    let html = '<ol class="route-chain">';
+    html += `<li class="route-chain-node route-chain-start">${start}</li>`;
+    studs.forEach((sire, i) => {
+      html += '<li class="route-chain-arrow" aria-hidden="true">→</li>';
+      const fin = i === studs.length - 1 ? " route-chain-final" : "";
+      html += `<li class="route-chain-node${fin}"><span class="route-chain-sire">${sire}</span>`;
+      if (i === studs.length - 1 && tag) {
+        html += `<span class="route-chain-tag">${tag}</span>`;
+      }
+      html += "</li>";
+    });
+    html += "</ol>";
+    return html;
+  }
+
+  function renderResults(routes, el, startName) {
     if (!routes.length) {
       el.innerHTML =
         '<p class="placeholder-box">探索では見つからず（不可能とは限らない）</p>';
       return;
     }
     let html =
-      '<table><thead><tr><th>ルート</th><th>終点</th><th>評価</th><th>クロス</th></tr></thead><tbody>';
+      '<div class="table-scroll table-scroll--sticky"><table class="data-table"><thead><tr><th>ルート</th><th>終点</th><th>クロス</th></tr></thead><tbody>';
     for (const r of routes) {
       const last = r.gens[2];
       const cls = r.finalSire === "Galileo" ? ' class="route-galileo"' : "";
-      html += `<tr${cls}><td>${r.route}</td><td>${r.finalSire}</td><td>${labelSummary(last)}</td><td>${(last.インブリード || []).join("、") || "—"}</td></tr>`;
+      html += `<tr${cls}><td>${routeChainHtml(startName, r.studs, labelSummary(last))}</td><td><strong>${r.finalSire}</strong></td><td>${(last.インブリード || []).join("、") || "—"}</td></tr>`;
     }
-    html += "</tbody></table>";
+    html += "</tbody></table></div>";
     el.innerHTML = html;
   }
 
+  function mountCombobox(inputId, listId, names) {
+    const input = document.getElementById(inputId);
+    const list = document.getElementById(listId);
+    if (!input || !list) return;
+    const render = () => {
+      const q = input.value.trim().toLowerCase();
+      const matches = names.filter((n) => !q || n.toLowerCase().includes(q)).slice(0, 12);
+      list.innerHTML = "";
+      matches.forEach((name) => {
+        const li = document.createElement("li");
+        li.setAttribute("role", "option");
+        li.textContent = name;
+        li.addEventListener("mousedown", (e) => {
+          e.preventDefault();
+          input.value = name;
+          list.hidden = true;
+        });
+        list.appendChild(li);
+      });
+      list.hidden = matches.length === 0;
+    };
+    input.addEventListener("input", render);
+    input.addEventListener("focus", render);
+    input.addEventListener("blur", () => setTimeout(() => (list.hidden = true), 120));
+  }
+
   async function init() {
-    const sireSel = document.getElementById("hb-sire");
-    const damSel = document.getElementById("hb-dam");
+    const sireInput = document.getElementById("hb-sire-input");
+    const damInput = document.getElementById("hb-dam-input");
     const btn = document.getElementById("hb-calc");
     const out = document.getElementById("hb-results");
     const outGal = document.getElementById("hb-results-galileo");
     const status = document.getElementById("hb-status");
-    if (!sireSel || !damSel || !btn) return;
+    if (!sireInput || !damInput || !btn) return;
 
     if (!window.BreedingEngine) {
       status.textContent = "logic.js の読み込みに失敗しました。";
@@ -172,34 +214,26 @@
     const stallions = masterData.stallion;
     const broodmares = masterData.broodmare;
 
-    const fill = (sel, list) => {
-      sel.innerHTML = "";
-      for (const h of list) {
-        const o = document.createElement("option");
-        o.value = h.NAME;
-        o.textContent = h.NAME;
-        sel.appendChild(o);
-      }
-    };
-    fill(sireSel, stallions);
-    fill(damSel, broodmares);
+    const sireNames = stallions.map((s) => s.NAME);
+    const damNames = broodmares.map((b) => b.NAME);
+    mountCombobox("hb-sire-input", "hb-sire-list", sireNames);
+    mountCombobox("hb-dam-input", "hb-dam-list", damNames);
 
     const exampleSire = "ノーザンテースト";
     const exampleDam = "ドバイマジェスティ";
-    if ([...sireSel.options].some((o) => o.value === exampleSire)) {
-      sireSel.value = exampleSire;
-    }
-    if ([...damSel.options].some((o) => o.value === exampleDam)) {
-      damSel.value = exampleDam;
-    }
+    sireInput.value = exampleSire;
+    damInput.value = exampleDam;
 
     status.textContent =
       "父（種牡馬）・母（繁殖牝馬）を選び、自家製繁殖牝馬として3代ルートを探索します。";
 
     btn.addEventListener("click", () => {
-      const sire = stallions.find((s) => s.NAME === sireSel.value);
-      const dam = broodmares.find((b) => b.NAME === damSel.value);
-      if (!sire || !dam) return;
+      const sire = stallions.find((s) => s.NAME === sireInput.value.trim());
+      const dam = broodmares.find((b) => b.NAME === damInput.value.trim());
+      if (!sire || !dam) {
+        status.textContent = "リストから馬名を選ぶか、正確に入力してください。";
+        return;
+      }
       const mare = createHomebredHorse(
         "自家製_" + sire.NAME + "_" + dam.NAME,
         "broodmare",
@@ -216,8 +250,9 @@
           beam: 18,
           galileoOnly: true,
         });
-        renderResults(routes, out);
-        renderResults(gal, outGal);
+        const startLabel = mare.NAME.replace(/^自家製_/, "");
+        renderResults(routes, out, startLabel);
+        renderResults(gal, outGal, startLabel);
         status.textContent = "完了（危険配合は除外）";
       }, 10);
     });

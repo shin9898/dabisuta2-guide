@@ -1,0 +1,14 @@
+{% macro render(startName, 種付け, finalTag) %}
+<ol class="route-chain" aria-label="配合チェーン">
+  <li class="route-chain-node route-chain-start">{{ startName }}</li>
+  {% for sire in 種付け %}
+  <li class="route-chain-arrow" aria-hidden="true">→</li>
+  <li class="route-chain-node{% if loop.last %} route-chain-final{% endif %}">
+    <span class="route-chain-sire">{{ sire }}</span>
+    {% if loop.last and finalTag %}
+    <span class="route-chain-tag">{{ finalTag }}</span>
+    {% endif %}
+  </li>
+  {% endfor %}
+</ol>
+{% endmacro %}

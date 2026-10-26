@@ -27,13 +27,19 @@
   </p>
   {% endif %}
 
+  {% if case.出典との比較 and "不一致" in case.出典との比較 %}
+  <p class="compare-badge compare-badge--mismatch">出典とツール計算が不一致</p>
+  {% elif case.出典との比較 and "一致" in case.出典との比較 %}
+  <p class="compare-badge compare-badge--match">出典とツール計算が一致</p>
+  {% endif %}
+
   <div class="case-compare-grid">
-    <div class="case-compare-col">
+    <div class="case-compare-col case-compare-col--source">
       <h4>出典の表示</h4>
       <p><strong>ラベル:</strong> {{ case.出典表示ラベル | formatSourceLabels }}</p>
       <p><strong>クロス:</strong> {{ case.出典表示クロス or "（記載なし）" }}</p>
     </div>
-    <div class="case-compare-col">
+    <div class="case-compare-col case-compare-col--tool">
       <h4>ツール計算</h4>
       <span class="label label-tool">ツールの計算値（ゲーム内未検証）</span>
       {% if case.ツール計算 %}

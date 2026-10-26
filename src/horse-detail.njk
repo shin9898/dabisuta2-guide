@@ -61,11 +61,11 @@ eleventyComputed:
 {% if horse.horseType == "mare" %}
 <h2 id="routes-from">この牝馬から（3代ルート）</h2>
 <p><span class="label label-tool">ツールの計算値（ゲーム内未検証）</span> — {{ computedRoutes.探索方法.説明 }}</p>
-{{ routeTable(horse.routeSets.fromStart, true) }}
+{{ routeTable(horse.routeSets.fromStart, true, horse.名前) }}
 
 <h2 id="routes-galileo">ガリレオ（Galileo）で締める</h2>
 <p>終点種牡馬が <strong>Galileo</strong> のルートのみ（最大3件）。</p>
-{{ routeTable(horse.routeSets.galileoFinish, true) }}
+{{ routeTable(horse.routeSets.galileoFinish, true, horse.名前) }}
 {% endif %}
 
 {% if horse.horseType == "stallion" %}
@@ -73,22 +73,7 @@ eleventyComputed:
 <p>他の繁殖牝馬から3代配合し、終点が <strong>{{ horse.名前 }}</strong> となる例（価格上位牝馬起点の探索結果から最大5件）。</p>
 <p><span class="label label-tool">ツールの計算値（ゲーム内未検証）</span></p>
 {% if horse.routeSets.asEnd and horse.routeSets.asEnd.length %}
-<table>
-  <thead>
-    <tr><th>起点牝馬</th><th>ルート</th><th>終点評価</th><th>インブリード</th></tr>
-  </thead>
-  <tbody>
-    {% for r in horse.routeSets.asEnd %}
-    {% set last = r.各代[r.各代.length - 1] %}
-    <tr class="{% if horse.名前 == 'Galileo' %}route-galileo{% endif %}">
-      <td>{{ r._startMare or "—" }}</td>
-      <td>{{ r.route }}</td>
-      <td>{{ r | routeSummary }}</td>
-      <td>{{ last.インブリード | join("、") if last.インブリード and last.インブリード.length else "—" }}</td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+{{ routeTable(horse.routeSets.asEnd, horse.名前 == 'Galileo') }}
 {% else %}
 <p class="placeholder-box">探索では見つからず（不可能とは限らない）</p>
 {% endif %}

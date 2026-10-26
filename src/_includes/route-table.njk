@@ -1,29 +1,36 @@
-{% macro render(routes, highlightGalileo) %}
+{% from "route-chain.njk" import render as routeChain %}
+
+{% macro render(routes, highlightGalileo, startMareName) %}
 {% if routes and routes.length %}
-<table>
+<div class="table-scroll table-scroll--sticky">
+<table class="data-table route-table">
   <thead>
     <tr>
-      <th>ルート</th>
-      <th>種付け</th>
-      <th>種付料合計</th>
-      <th>終点評価</th>
-      <th>終点インブリード</th>
+      <th scope="col">ルート</th>
+      <th scope="col">種付料</th>
+      <th scope="col">終点</th>
+      <th scope="col">クロス</th>
     </tr>
   </thead>
   <tbody>
     {% for r in routes %}
     {% set last = r.各代[r.各代.length - 1] %}
     {% set finalSire = r._finalSire or r.種付け[r.種付け.length - 1] %}
+    {% set startName = startMareName or (r.route | routeStart) %}
+    {% set endLabel = (r | routeSummary) ~ (last.完璧 and '（完璧）' or '') %}
     <tr class="{% if highlightGalileo and (finalSire == 'Galileo' or finalSire == 'ガリレオ') %}route-galileo{% endif %}">
-      <td>{{ r.route }}</td>
-      <td>{{ r.種付け | join(" → ") }}</td>
-      <td>{{ r.種付料合計_万円 }}万円</td>
-      <td>{{ r | routeSummary }}{% if last.完璧 %}（完璧）{% endif %}</td>
-      <td>{{ last.インブリード | join("、") if last.インブリード and last.インブリード.length else "—" }}</td>
+      <td data-label="ルート">
+        {{ routeChain(startName, r.種付け, endLabel) }}
+        <p class="route-text-fallback visually-hidden-focusable">{{ r.route }}</p>
+      </td>
+      <td data-label="種付料">{{ r.種付料合計_万円 }}万円</td>
+      <td data-label="終点"><strong>{{ finalSire }}</strong></td>
+      <td data-label="クロス">{{ last.インブリード | join("、") if last.インブリード and last.インブリード.length else "—" }}</td>
     </tr>
     {% endfor %}
   </tbody>
 </table>
+</div>
 {% else %}
 <p class="placeholder-box">探索では見つからず（不可能とは限らない）</p>
 {% endif %}

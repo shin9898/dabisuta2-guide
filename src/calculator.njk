@@ -22,14 +22,16 @@ permalink: /calculator/
 
 <h2 id="form">入力</h2>
 <div class="horse-filters calculator-form">
-  <label>
-    父（種牡馬）
-    <select id="hb-sire"></select>
-  </label>
-  <label>
-    母（繁殖牝馬）
-    <select id="hb-dam"></select>
-  </label>
+  <div class="combobox-wrap">
+    <label for="hb-sire-input">父（種牡馬）</label>
+    <input id="hb-sire-input" class="combobox-input" type="search" autocomplete="off" enterkeyhint="search" aria-autocomplete="list" aria-controls="hb-sire-list">
+    <ul id="hb-sire-list" class="combobox-list" role="listbox" hidden></ul>
+  </div>
+  <div class="combobox-wrap">
+    <label for="hb-dam-input">母（繁殖牝馬）</label>
+    <input id="hb-dam-input" class="combobox-input" type="search" autocomplete="off" enterkeyhint="search" aria-autocomplete="list" aria-controls="hb-dam-list">
+    <ul id="hb-dam-list" class="combobox-list" role="listbox" hidden></ul>
+  </div>
   <button type="button" id="hb-calc" class="calc-button">ルートを計算</button>
 </div>
 <p id="hb-status" class="filter-count" aria-live="polite"></p>

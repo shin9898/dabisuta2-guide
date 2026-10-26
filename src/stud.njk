@@ -57,11 +57,13 @@ permalink: /stud/
   <p class="filter-count" id="horse-count" aria-live="polite"></p>
 </div>
 
-<div class="table-scroll">
-  <table class="horse-list-table" id="horse-table">
+<p id="horse-empty" class="placeholder-box" hidden>条件に合う馬がいません。フィルタを緩めてください。</p>
+
+<div class="table-scroll table-scroll--sticky">
+  <table class="horse-list-table data-table" id="horse-table">
     <thead>
       <tr>
-        <th>名前</th>
+        <th class="col-sticky">名前</th>
         <th>区分</th>
         <th>ダート</th>
         <th>成長型</th>
@@ -71,6 +73,7 @@ permalink: /stud/
     <tbody id="horse-tbody"></tbody>
   </table>
 </div>
+<button type="button" class="load-more-button" id="horse-load-more" hidden>さらに表示</button>
 
 <script type="application/json" id="horses-data">{{ collections.horsesListJson | json | safe }}</script>
 <script type="application/json" id="stud-base-url">{{ ('/stud/' | url) | json | safe }}</script>
