@@ -38,7 +38,26 @@ npx serve _site
 4. トップページの `updated` を `src/index.njk` の front matter で更新する
 5. `npm run build` でエラーが無いことを確認
 
-固定ページの本文は `src/*.md`、サイト共通設定は `src/_data/site.json` です。
+固定ページの本文は `src/*.md` / `src/*.njk`、馬データは `src/_data/horses_stats.json`・`routes.json`、サイト共通設定は `src/_data/site.json` です。
+
+## 自分の牧場の実例を追加する
+
+1. ゲーム内スクリーンショットを `src/assets/my-ranch/` に保存（**自分の画面のみ**。他人の画像は使わない）
+2. `src/_data/my_ranch.json` の `事例` 配列にオブジェクトを追加する例:
+
+```json
+{
+  "馬名": "（ゲーム内の馬名）",
+  "実績": "（短い要約）",
+  "配合メモ": "（自分の言葉で）",
+  "screenshot": "/assets/my-ranch/example.png",
+  "label": "ダビスタ2で確認済み",
+  "added": "2026-10-26"
+}
+```
+
+3. `src/my-ranch.md` のテンプレートを拡張するか、将来 `_includes/my-ranch-card.njk` でカード表示に切り替え
+4. `src/my-ranch.md` の `updated` を更新し `npm run build` で確認
 
 ## GitHub Pages を有効化する手順（公開時）
 
@@ -70,8 +89,14 @@ src/
   _includes/           # レイアウト・マクロ
   assets/css/          # スタイル
   index.njk            # トップ
-  haigo.md             # 配合
-  stud.md              # 種牡馬・繁殖牝馬
+  haigo.njk            # 配合（強い馬事例含む）
+  stud.njk             # 種牡馬・繁殖牝馬一覧
+  horse-detail.njk     # 馬個別ページ（pagination）
+  my-ranch.md          # 自分の牧場の実例
+  _data/strong_horses.json
+  _data/horses_stats.json
+  _data/routes.json
+  _data/my_ranch.json
   ikusei.md            # 育成・選別
   ranch.md             # 牧場施設
   bc.md                # BC・対人戦

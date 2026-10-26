@@ -1,0 +1,83 @@
+---
+pagination:
+  data: collections.horses
+  size: 1
+  alias: horse
+permalink: "/stud/{{ horse.slug }}/"
+layout: layouts/base.njk
+eleventyComputed:
+  title: "{{ horse.名前 }}（{{ horse.horseTypeJa }}）"
+  description: "湯一路マスターデータとおすすめ3代ルート"
+  updated: "2026-10-26"
+---
+
+<nav class="toc" aria-label="目次">
+  <p class="toc-title">目次</p>
+  <ul class="toc-list">
+    <li><a href="#stats">能力・条件</a></li>
+    <li><a href="#routes">おすすめ3代ルート</a></li>
+  </ul>
+</nav>
+
+<p><a href="{{ '/stud/' | url }}">← 一覧に戻る</a></p>
+
+<h2 id="stats">{{ horse.名前 }} <span class="horse-type-badge">{{ horse.horseTypeJa }}</span></h2>
+<p>出典: <a href="https://ds2.yublog.jp/" rel="noopener noreferrer">湯一路マスターデータ</a>（{{ horse.出典 }}）</p>
+
+{% if horse.horseType == "mare" and horse.名前 == "ドバイマジェスティ" %}
+<p class="data-note"><strong>マスター注記:</strong> 父は <strong>{{ horse.父 }}</strong> と記載（湯一路マスターの値をそのまま掲載）。</p>
+{% endif %}
+
+<table>
+  <tbody>
+    <tr><th scope="row">父</th><td>{{ horse.父 or "不明" }}</td></tr>
+    <tr><th scope="row">母</th><td>{{ horse.母 or "不明" }}</td></tr>
+    {% if horse.horseType == "stallion" %}
+    <tr><th scope="row">系統</th><td>{{ horse.系統 or "不明" }}</td></tr>
+    <tr><th scope="row">距離適性</th><td>{{ horse.距離適性 or "不明" }}</td></tr>
+    <tr><th scope="row">成長型</th><td>{{ horse.成長型 or "不明" }}</td></tr>
+    <tr><th scope="row">ダート</th><td>{{ horse.ダート or "不明" }}</td></tr>
+    <tr><th scope="row">種付料</th><td>{% if horse.種付料_万円 != null %}{{ horse.種付料_万円 }}万円{% else %}不明{% endif %}</td></tr>
+    <tr><th scope="row">解放条件</th><td>{{ horse.解放条件 or "（記載なし）" }}</td></tr>
+    <tr><th scope="row">健康/気性/実績/根性/安定</th><td>{{ horse.健康 }}/{{ horse.気性 }}/{{ horse.実績 }}/{{ horse.根性 }}/{{ horse.安定 }}</td></tr>
+    {% else %}
+    <tr><th scope="row">価格</th><td>{% if horse.価格_万円 != null %}{{ horse.価格_万円 }}万円{% else %}不明{% endif %}</td></tr>
+    <tr><th scope="row">SPD / STA / PWR</th><td>{{ horse.スピード }} / {{ horse.スタミナ }} / {{ horse.パワー }}</td></tr>
+    <tr><th scope="row">ダート</th><td>{{ horse.ダート or "不明" }}</td></tr>
+    <tr><th scope="row">代表産駒</th><td>{{ horse.代表産駒 or "（記載なし）" }}</td></tr>
+    <tr><th scope="row">解放条件</th><td>{{ horse.解放条件 or "（記載なし）" }}</td></tr>
+    <tr><th scope="row">健康/気性</th><td>{{ horse.健康 }}/{{ horse.気性 }}</td></tr>
+    {% endif %}
+  </tbody>
+</table>
+
+<h2 id="routes">おすすめ3代ルート</h2>
+<p><span class="label label-tool">ツールの計算値（ゲーム内未検証）</span> — {{ routes.注記 }}</p>
+
+{% if horse.routes and horse.routes.length %}
+<table>
+  <thead>
+    <tr>
+      <th>ルート</th>
+      <th>種付け</th>
+      <th>種付料合計</th>
+      <th>終点評価</th>
+      <th>終点インブリード</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for r in horse.routes %}
+    {% set last = r.各代[r.各代.length - 1] %}
+    <tr>
+      <td>{{ r.route }}</td>
+      <td>{{ r.種付け | join(" → ") }}</td>
+      <td>{{ r.種付料合計_万円 }}万円</td>
+      <td>{{ r | routeSummary }}{% if last.完璧 %}（完璧）{% endif %}</td>
+      <td>{{ last.インブリード | join("、") if last.インブリード and last.インブリード.length else "—" }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p class="placeholder-box">探索では見つからず（不可能とは限らない）</p>
+{% endif %}

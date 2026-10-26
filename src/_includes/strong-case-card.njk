@@ -1,0 +1,65 @@
+{% macro render(case) %}
+<article class="case-card" id="case-{{ case.馬名 | horseSlug }}">
+  <header class="case-card-header">
+    <h3 class="case-card-title">{{ case.馬名 }}</h3>
+    <p class="case-card-achievement">{{ case.実績 }}</p>
+  </header>
+
+  <table class="case-pedigree-table">
+    <caption class="visually-hidden">血統（最大3代）</caption>
+    <thead>
+      <tr><th>区分</th><th>馬名</th></tr>
+    </thead>
+    <tbody>
+      <tr><th scope="row">父</th><td>{{ case.父 or "不明" }}</td></tr>
+      <tr><th scope="row">母</th><td>{{ case.母 or "不明" }}</td></tr>
+      <tr><th scope="row">母父</th><td>{{ case.母父 or "不明" }}</td></tr>
+    </tbody>
+  </table>
+
+  {% if case.血統 %}
+  <p class="case-pedigree-full">
+    <strong>血統メモ:</strong>
+    {% if case.ツール計算 and case.ツール計算.血統表に未確定部分あり %}
+    <span class="pedigree-uncertain">※読み取り・転記に未確定あり</span>
+    {% endif %}
+    {{ case.血統 }}
+  </p>
+  {% endif %}
+
+  <div class="case-compare-grid">
+    <div class="case-compare-col">
+      <h4>出典の表示</h4>
+      <p><strong>ラベル:</strong> {{ case.出典表示ラベル | formatSourceLabels }}</p>
+      <p><strong>クロス:</strong> {{ case.出典表示クロス or "（記載なし）" }}</p>
+    </div>
+    <div class="case-compare-col">
+      <h4>ツール計算</h4>
+      <span class="label label-tool">ツールの計算値（ゲーム内未検証）</span>
+      {% if case.ツール計算 %}
+      <p><strong>ラベル:</strong> {{ case.ツール計算 | formatToolLabels }}</p>
+      <p><strong>インブリード:</strong>
+        {% if case.ツール計算.インブリード and case.ツール計算.インブリード.length %}
+        {{ case.ツール計算.インブリード | join("、") }}
+        {% else %}
+        （なし）
+        {% endif %}
+      </p>
+      <p><strong>合計血量:</strong> {{ case.ツール計算.合計血量 or "不明" }}</p>
+      {% else %}
+      <p>計算データなし</p>
+      {% endif %}
+    </div>
+  </div>
+
+  {% if case.出典との比較 %}
+  <p class="case-mismatch"><strong>出典との比較:</strong> {{ case.出典との比較 }}</p>
+  {% endif %}
+
+  <p class="case-source">
+    出典:
+    <a href="{{ case.出典URL }}" rel="noopener noreferrer">{{ case.出典URL }}</a>
+    （投稿日: {{ case.投稿日 | formatDateJa }}）
+  </p>
+</article>
+{% endmacro %}

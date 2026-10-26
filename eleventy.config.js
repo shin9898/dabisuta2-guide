@@ -3,9 +3,19 @@ const path = require("path");
 const markdownIt = require("markdown-it");
 const markdownItAnchor = require("markdown-it-anchor");
 const markdownItToc = require("markdown-it-toc-done-right");
+const horseUtils = require("./src/_data/horse-utils.js");
 
 const newsData = JSON.parse(
   fs.readFileSync(path.join(__dirname, "src/_data/news.json"), "utf8")
+);
+const strongHorsesData = JSON.parse(
+  fs.readFileSync(path.join(__dirname, "src/_data/strong_horses.json"), "utf8")
+);
+const horsesStats = JSON.parse(
+  fs.readFileSync(path.join(__dirname, "src/_data/horses_stats.json"), "utf8")
+);
+const routesData = JSON.parse(
+  fs.readFileSync(path.join(__dirname, "src/_data/routes.json"), "utf8")
 );
 
 module.exports = function (eleventyConfig) {
@@ -16,6 +26,41 @@ module.exports = function (eleventyConfig) {
       (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
     )
   );
+
+  const horses = horseUtils.buildHorses(horsesStats);
+  horses.forEach((h) => {
+    h.routes = horseUtils.routesForHorse(routesData, h);
+  });
+
+  eleventyConfig.addCollection("horses", () => horses);
+
+  eleventyConfig.addCollection("horsesListJson", () =>
+    horses.map((h) => ({
+      slug: h.slug,
+      name: h.名前,
+      type: h.horseType,
+      typeJa: h.horseTypeJa,
+      dirt: h.ダート || "",
+      growth: h.成長型 || "",
+      fee: h.種付料_万円 ?? null,
+      price: h.価格_万円 ?? null,
+    }))
+  );
+
+  const strongCases = (strongHorsesData.事例 || []).map((c) => ({
+    ...c,
+    categories: horseUtils.categorizeAchievement(c.実績),
+  }));
+
+  eleventyConfig.addCollection("strongCases", () => strongCases);
+
+  const strongCasesByCategory = {};
+  for (const cat of horseUtils.categoryOrder) {
+    strongCasesByCategory[cat] = strongCases.filter((c) =>
+      c.categories.includes(cat)
+    );
+  }
+  eleventyConfig.addGlobalData("strongCasesByCategory", strongCasesByCategory);
 
   const md = markdownIt({
     html: true,
@@ -70,6 +115,21 @@ module.exports = function (eleventyConfig) {
         return "label-unknown";
     }
   });
+
+  eleventyConfig.addFilter("horseSlug", (name) => horseUtils.horseSlug(name));
+  eleventyConfig.addFilter("formatToolLabels", (tool) =>
+    horseUtils.formatToolLabels(tool)
+  );
+  eleventyConfig.addFilter("formatSourceLabels", (text) =>
+    horseUtils.formatSourceLabels(text)
+  );
+  eleventyConfig.addFilter("routeSummary", (route) =>
+    horseUtils.routeSummary(route)
+  );
+  eleventyConfig.addFilter("json", (value) => JSON.stringify(value));
+  eleventyConfig.addFilter("join", (arr, sep = "、") =>
+    Array.isArray(arr) ? arr.join(sep) : ""
+  );
 
   const pathPrefix =
     process.env.ELEVENTY_PATH_PREFIX ||

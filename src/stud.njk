@@ -1,0 +1,77 @@
+---
+layout: layouts/base.njk
+title: 種牡馬・繁殖牝馬
+description: 湯一路マスターデータに基づく一覧・個別ページ
+updated: 2026-10-26
+permalink: /stud/
+---
+
+<nav class="toc" aria-label="目次">
+  <p class="toc-title">目次</p>
+  <ul class="toc-list">
+    <li><a href="#about">このページについて</a></li>
+    <li><a href="#list">馬一覧</a></li>
+  </ul>
+</nav>
+
+<h2 id="about">このページについて</h2>
+<p>種牡馬237頭・繁殖牝馬327頭の能力値等は、<a href="https://ds2.yublog.jp/" rel="noopener noreferrer">湯一路（ds2.yublog.jp）</a>のマスターデータに基づく掲載です（{{ horses_stats.注記 }}）。</p>
+<p>個別ページのおすすめ3代ルートは <span class="label label-tool">ツールの計算値（ゲーム内未検証）</span>（同サイトの配合ロジック）。</p>
+<p><strong>データ注記:</strong> 繁殖牝馬 <strong>ドバイマジェスティ</strong> の父は、マスター上 <strong>ディープインパクト</strong> と記載されています（実馬データと異なる場合あり。マスターのまま表示）。</p>
+
+<h2 id="list">馬一覧（{{ collections.horses.length }}頭）</h2>
+
+<div class="horse-filters" role="search">
+  <label>
+    名前検索
+    <input type="search" id="horse-search" placeholder="例: Galileo、ドバイ" autocomplete="off">
+  </label>
+  <label>
+    区分
+    <select id="horse-type">
+      <option value="">すべて</option>
+      <option value="stallion">種牡馬</option>
+      <option value="mare">繁殖牝馬</option>
+    </select>
+  </label>
+  <label>
+    ダート適性
+    <select id="horse-dirt">
+      <option value="">すべて</option>
+      <option value="◯">◯</option>
+      <option value="○">○</option>
+      <option value="△">△</option>
+      <option value="×">×</option>
+    </select>
+  </label>
+  <label>
+    成長型（種牡馬）
+    <select id="horse-growth">
+      <option value="">すべて</option>
+      <option value="早熟">早熟</option>
+      <option value="普通">普通</option>
+      <option value="持続">持続</option>
+      <option value="晩成">晩成</option>
+    </select>
+  </label>
+  <p class="filter-count" id="horse-count" aria-live="polite"></p>
+</div>
+
+<div class="table-scroll">
+  <table class="horse-list-table" id="horse-table">
+    <thead>
+      <tr>
+        <th>名前</th>
+        <th>区分</th>
+        <th>ダート</th>
+        <th>成長型</th>
+        <th>種付料/価格（万円）</th>
+      </tr>
+    </thead>
+    <tbody id="horse-tbody"></tbody>
+  </table>
+</div>
+
+<script type="application/json" id="horses-data">{{ collections.horsesListJson | json | safe }}</script>
+<script type="application/json" id="stud-base-url">{{ ('/stud/' | url) | json | safe }}</script>
+<script src="{{ '/assets/js/horse-filter.js' | url }}"></script>
