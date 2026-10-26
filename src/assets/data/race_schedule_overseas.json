@@ -1,0 +1,80 @@
+{
+  "dataset_id": "yublog_overseas_race_list",
+  "sourceURL": "https://ds2.yublog.com/info/overseas.php",
+  "source_label": "湯一路「海外レース出走条件」レース一覧表（2026年時点の掲載）",
+  "note": "番組表JSONには含まれない海外GI。格付け・種別記号は当該ページの一覧表に無いため不明として扱う。",
+  "races": [
+    {
+      "id": "overseas_dubai_wc",
+      "race_name": "ドバイワールドカップ",
+      "period_id": "m03w5",
+      "month": 3,
+      "week": 5,
+      "period_label": "3月5週",
+      "venue": "UAE・メイダン",
+      "surface": "dirt",
+      "distance_m": 2000,
+      "age": { "raw": "4歳以上", "min": 4, "max": null },
+      "class": null,
+      "grade_raw": null,
+      "type_symbols": [],
+      "sourceURL": "https://ds2.yublog.com/info/overseas.php#ov-dubai"
+    },
+    {
+      "id": "overseas_kentucky_derby",
+      "race_name": "ケンタッキーダービー",
+      "period_id": "m05w1",
+      "month": 5,
+      "week": 1,
+      "period_label": "5月1週",
+      "venue": "米国・チャーチルダウンズ",
+      "surface": "dirt",
+      "distance_m": 2000,
+      "age": { "raw": "3歳", "min": 3, "max": 3 },
+      "class": null,
+      "grade_raw": null,
+      "type_symbols": [],
+      "sourceURL": "https://ds2.yublog.com/info/overseas.php#ov-kentucky"
+    },
+    {
+      "id": "overseas_arc",
+      "race_name": "凱旋門賞",
+      "period_id": "m10w1",
+      "month": 10,
+      "week": 1,
+      "period_label": "10月1週",
+      "venue": "フランス・ロンシャン",
+      "surface": "turf",
+      "distance_m": 2400,
+      "age": {
+        "raw": "河合厩舎・4歳以下/5歳以上で条件が異なる（湯一路記載）",
+        "min": null,
+        "max": null
+      },
+      "class": null,
+      "grade_raw": null,
+      "type_symbols": [],
+      "sourceURL": "https://ds2.yublog.com/info/overseas.php#ov-arc"
+    },
+    {
+      "id": "overseas_bc_classic",
+      "race_name": "ブリーダーズカップクラシック",
+      "period_id": "m11w1",
+      "month": 11,
+      "week": 1,
+      "period_label": "11月1週",
+      "venue": "米国・チャーチルダウンズ",
+      "surface": "dirt",
+      "distance_m": 2000,
+      "age": {
+        "raw": "3歳と4歳以上で勝利実績の条件が異なる（湯一路記載）",
+        "min": null,
+        "max": null
+      },
+      "class": null,
+      "grade_raw": null,
+      "type_symbols": [],
+      "sourceURL": "https://ds2.yublog.com/info/overseas.php#ov-bc"
+    }
+  ]
+}

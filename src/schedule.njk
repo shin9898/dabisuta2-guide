@@ -1,0 +1,158 @@
+---
+layout: layouts/base.njk
+title: 年間番組
+description: ダビスタ2のゲーム内番組表（月週タイムライン・一覧・フィルタ）。湯一路番組表データに基づく
+updated: 2026-10-26
+permalink: /schedule/
+layoutWide: true
+---
+
+<nav class="toc" aria-label="目次">
+  <p class="toc-title">目次</p>
+  <ul class="toc-list">
+    <li><a href="#about">データと出典</a></li>
+    <li><a href="#browse">番組を見る</a></li>
+  </ul>
+</nav>
+
+<h2 id="about">データと出典</h2>
+<div id="schedule-dataset-meta" class="schedule-meta">
+  <p>読み込み中…</p>
+</div>
+
+<h2 id="browse">番組を見る</h2>
+<p>ゲーム内カレンダーに近い <strong>月・週タイムライン</strong> と <strong>一覧</strong> を切り替えられます。☆で「目標レース」をブラウザに保存（ハイライト）できます。</p>
+
+<div id="schedule-loading" class="placeholder-box">番組データを読み込んでいます…</div>
+
+<div id="schedule-app" class="schedule-app" hidden>
+  <div class="schedule-toolbar">
+    <div class="schedule-view-toggle" role="group" aria-label="表示形式">
+      <button type="button" class="schedule-view-btn" data-view="timeline" aria-pressed="true">タイムライン</button>
+      <button type="button" class="schedule-view-btn" data-view="list" aria-pressed="false">一覧</button>
+    </div>
+    <p id="schedule-stats" class="schedule-stats" aria-live="polite"></p>
+    <button type="button" class="schedule-clear-btn" id="schedule-clear-targets">目標をすべて解除</button>
+  </div>
+
+  <div class="schedule-presets" role="group" aria-label="ルートプリセット">
+    <button type="button" class="schedule-preset-btn" data-preset="triple">三冠ルート</button>
+    <button type="button" class="schedule-preset-btn" data-preset="fillyTriple">牝馬三冠</button>
+    <button type="button" class="schedule-preset-btn" data-preset="arcRoute">凱旋門ルート</button>
+  </div>
+  <p id="schedule-preset-note" class="schedule-preset-note"></p>
+
+  <form id="schedule-filters" class="schedule-filters" role="search">
+    <label>
+      キーワード
+      <input type="search" id="filter-kw" placeholder="レース名・競馬場" autocomplete="off">
+    </label>
+    <label>
+      表示月（タイムライン）
+      <select id="filter-month">
+        <option value="1">1月</option>
+        <option value="2">2月</option>
+        <option value="3">3月</option>
+        <option value="4" selected>4月</option>
+        <option value="5">5月</option>
+        <option value="6">6月</option>
+        <option value="7">7月</option>
+        <option value="8">8月</option>
+        <option value="9">9月</option>
+        <option value="10">10月</option>
+        <option value="11">11月</option>
+        <option value="12">12月</option>
+      </select>
+    </label>
+    <label>
+      格付け
+      <select id="filter-grade">
+        <option value="">すべて</option>
+        <option value="I">GI</option>
+        <option value="II">GII</option>
+        <option value="III">GIII</option>
+        <option value="L">L</option>
+        <option value="S">S</option>
+        <option value="none">格付けなし（—）</option>
+      </select>
+    </label>
+    <label>
+      馬場
+      <select id="filter-surface">
+        <option value="">すべて</option>
+        <option value="turf">芝</option>
+        <option value="dirt">ダート</option>
+      </select>
+    </label>
+    <label>
+      距離（m）最小
+      <input type="number" id="filter-dmin" min="1000" max="3600" step="100" placeholder="例: 1600">
+    </label>
+    <label>
+      距離（m）最大
+      <input type="number" id="filter-dmax" min="1000" max="3600" step="100" placeholder="例: 2400">
+    </label>
+    <label>
+      年齢区分
+      <select id="filter-age">
+        <option value="">すべて</option>
+        <option value="2">2歳</option>
+        <option value="3">3歳</option>
+        <option value="older">3歳上・4歳上など</option>
+        <option value="unknown">不明・海外複合</option>
+      </select>
+    </label>
+    <label>
+      性別制限
+      <select id="filter-sex">
+        <option value="">すべて</option>
+        <option value="filly">牝限定</option>
+        <option value="colt">セン馬（セ）</option>
+        <option value="open">制限なし</option>
+      </select>
+    </label>
+    <label>
+      競馬場
+      <select id="filter-venue">
+        <option value="">すべて</option>
+      </select>
+    </label>
+    <label class="schedule-check">
+      <input type="checkbox" id="filter-overseas" checked>
+      海外GI（湯一路海外一覧）を含める
+    </label>
+    <label class="schedule-check">
+      <input type="checkbox" id="filter-only-targets">
+      目標レース（☆）のみ
+    </label>
+  </form>
+
+  <div id="schedule-panel-timeline" class="schedule-panel">
+    <div id="schedule-timeline"></div>
+  </div>
+
+  <div id="schedule-panel-list" class="schedule-panel" hidden>
+    <div class="schedule-table-wrap">
+      <table class="schedule-table">
+        <thead>
+          <tr>
+            <th>週</th>
+            <th>場</th>
+            <th>レース</th>
+            <th>格</th>
+            <th>馬場</th>
+            <th>距離</th>
+            <th>年齢</th>
+            <th>種別</th>
+            <th>関連</th>
+            <th>出典</th>
+          </tr>
+        </thead>
+        <tbody id="schedule-list-body"></tbody>
+      </table>
+    </div>
+    <p id="schedule-list-more" class="schedule-list-more" hidden></p>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/schedule-ui.js' | url }}"></script>
