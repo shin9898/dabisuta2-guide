@@ -1,0 +1,60 @@
+{
+  "policy": "ゲームのスクリーンショット・公式イラスト・ロゴは使用していません。掲載画像はリポジトリ内に保存した WebP のみ（外部ホットリンクなし）。",
+  "images": [
+    {
+      "id": "hero-home",
+      "file": "hero-home.webp",
+      "alt": "競馬のスタート直前、ゲートから出走する馬たち（遠景・人物は小さい）",
+      "author": "Unknown author (via Muzeum Cyfrowe)",
+      "author_html": "Unknown author (via <a href=\"https://cyfrowe.mnw.art.pl/\">Muzeum Cyfrowe</a>)",
+      "license": "Public domain",
+      "license_url": "https://commons.wikimedia.org/wiki/File:Z_wy%C5%9Bcig%C3%B3w_-_Do_startu_(60546).jpg",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Z_wyścigów_-_Do_startu_(60546).jpg",
+      "source_site": "Wikimedia Commons"
+    },
+    {
+      "id": "hero-haigo",
+      "file": "hero-haigo.webp",
+      "alt": "牧草地にいる牝馬と子馬（配合・血統イメージ）",
+      "author": "Chris 73",
+      "author_html": "<a href=\"//commons.wikimedia.org/wiki/User:Chris_73\" title=\"User:Chris 73\">Chris 73</a>",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Iceland_Horses_Mare_and_Foal_9244.jpg",
+      "source_site": "Wikimedia Commons"
+    },
+    {
+      "id": "hero-ikusei",
+      "file": "hero-ikusei.webp",
+      "alt": "厩舎から調教コースへ向かう馬用トンネル（育成・調教のイメージ）",
+      "author": "Pitke",
+      "author_html": "<a href=\"//commons.wikimedia.org/wiki/User:Pitke\" title=\"User:Pitke\">Pitke</a>",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Disused_horse_underpass_from_stables_to_the_training_race_track,_S%C5%82u%C5%BCewiec_(2).jpg",
+      "source_site": "Wikimedia Commons"
+    },
+    {
+      "id": "hero-schedule",
+      "file": "hero-schedule.webp",
+      "alt": "競馬のスターティングゲート（番組・レース日程のイメージ）",
+      "author": "Jeff Kubina",
+      "author_html": "<a href=\"//commons.wikimedia.org/wiki/User:Kubina\" title=\"User:Kubina\">Jeff Kubina</a>",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Horse_Race_Starting_Gate_(14304242538).jpg",
+      "source_site": "Wikimedia Commons"
+    },
+    {
+      "id": "hero-overseas",
+      "file": "hero-overseas.webp",
+      "alt": "チャーチルダウンズ競馬場でのレース（海外レースのイメージ）",
+      "author": "Daniel Mayer (Dannyboymalingap)",
+      "author_html": "<a href=\"//commons.wikimedia.org/wiki/User:Dannyboymalingap\" title=\"User:Dannyboymalingap\">Daniel Mayer (Dannyboymalingap)</a>",
+      "license": "CC BY-SA 2.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Horseracing_Churchill_Downs.jpg",
+      "source_site": "Wikimedia Commons"
+    }
+  ]
+}

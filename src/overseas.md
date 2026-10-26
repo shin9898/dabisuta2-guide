@@ -4,6 +4,7 @@ title: 海外レース
 description: 凱旋門賞など海外GIの出走・打診条件（出典付き）
 updated: 2026-10-26
 permalink: /overseas/
+heroId: hero-overseas
 ---
 
 [[toc]]

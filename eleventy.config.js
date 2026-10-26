@@ -28,8 +28,18 @@ const routesData = fs.existsSync(computedRoutesPath)
   ? JSON.parse(fs.readFileSync(computedRoutesPath, "utf8"))
   : { 繁殖牝馬起点: {}, 種牡馬終点: {}, ガリレオ終点_繁殖牝馬起点: {} };
 
+const imageCreditsData = JSON.parse(
+  fs.readFileSync(path.join(__dirname, "src/_data/image_credits.json"), "utf8")
+);
+const imageCreditsById = Object.fromEntries(
+  imageCreditsData.images.map((img) => [img.id, img])
+);
+
 module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/assets");
+
+  eleventyConfig.addGlobalData("image_credits", imageCreditsData);
+  eleventyConfig.addGlobalData("imageCreditsById", imageCreditsById);
 
   eleventyConfig.addCollection("newsSorted", () =>
     [...newsData].sort(

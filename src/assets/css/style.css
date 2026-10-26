@@ -348,6 +348,51 @@ th {
   color: var(--muted);
 }
 
+.page-hero {
+  margin: 0 0 1.25rem;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: #111;
+}
+
+.page-hero__img {
+  display: block;
+  width: 100%;
+  max-height: 16rem;
+  object-fit: cover;
+  object-position: center 45%;
+}
+
+.page-hero__credit {
+  margin: 0;
+  padding: 0.4rem 0.65rem;
+  font-size: 0.72rem;
+  line-height: 1.45;
+  background: #f0f4f8;
+  color: var(--muted);
+}
+
+.page-hero__credit a {
+  color: var(--accent);
+}
+
+.page-hero__sep {
+  margin: 0 0.25rem;
+}
+
+.site-footer-legal {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.credits-table .credits-thumb {
+  display: block;
+  border-radius: 4px;
+  object-fit: cover;
+  background: #eee;
+}
+
 .site-footer {
   padding-bottom: 2rem;
   font-size: 0.8rem;

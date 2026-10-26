@@ -62,6 +62,7 @@
         {% endif %}
         {% include "label-legend.njk" %}
       </header>
+      {% include "page-hero.njk" %}
       {{ content | safe }}
     </article>
   </main>
@@ -70,6 +71,8 @@
 
   <footer class="site-footer">
     <p>個人の攻略メモ。ゲームデータの正確性は各出典でご確認ください。</p>
+    <p class="site-footer-legal">非公式ファンサイト。ゲームの著作権表記 ©ParityBit ©GAME ADDICT ©SUGIYAMA KOBO</p>
+    <p><a href="{{ '/credits/' | url }}">画像クレジット・ライセンス</a></p>
   </footer>
 
   <script src="{{ '/assets/js/route-eval-filter.js' | url }}" defer></script>

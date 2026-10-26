@@ -1,0 +1,27 @@
+{% if heroId and imageCreditsById[heroId] %}
+{% set img = imageCreditsById[heroId] %}
+<figure class="page-hero">
+  <img
+    class="page-hero__img"
+    src="{{ ('/assets/images/guide/' ~ img.file) | url }}"
+    alt="{{ img.alt }}"
+    width="1200"
+    height="675"
+    loading="lazy"
+    decoding="async"
+  >
+  <figcaption class="page-hero__credit">
+    {% if img.license == 'Public domain' %}
+    <span class="page-hero__license">{{ img.license }}</span>
+    {% else %}
+    <span class="page-hero__author">{{ img.author }}</span>
+    <span class="page-hero__sep" aria-hidden="true">·</span>
+    <a href="{{ img.license_url }}" rel="noopener noreferrer">{{ img.license }}</a>
+    {% endif %}
+    <span class="page-hero__sep" aria-hidden="true">·</span>
+    <a href="{{ img.source_page }}" rel="noopener noreferrer">Wikimedia Commons</a>
+    <span class="page-hero__sep" aria-hidden="true">·</span>
+    <a href="{{ '/credits/' | url }}">画像クレジット</a>
+  </figcaption>
+</figure>
+{% endif %}
