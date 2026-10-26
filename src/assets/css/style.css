@@ -1,0 +1,304 @@
+:root {
+  --bg: #f7f6f3;
+  --surface: #ffffff;
+  --text: #1a1a1a;
+  --muted: #5c5c5c;
+  --border: #d8d4cc;
+  --accent: #1e5a8a;
+  --label-verified: #1a6b3c;
+  --label-prev: #6b4f1a;
+  --label-tool: #5a3d8a;
+  --label-unknown: #8a3d3d;
+  --max-width: 42rem;
+  font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;
+  line-height: 1.65;
+  color: var(--text);
+  background: var(--bg);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+}
+
+.skip-link:focus {
+  left: 1rem;
+  top: 1rem;
+  z-index: 100;
+  background: var(--surface);
+  padding: 0.5rem 1rem;
+  border: 2px solid var(--accent);
+}
+
+.site-header,
+.site-nav,
+.site-main,
+.site-footer {
+  max-width: var(--max-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.site-header {
+  padding-top: 1.5rem;
+}
+
+.site-kicker {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin: 0 0 0.25rem;
+}
+
+.site-title {
+  font-size: 1.35rem;
+  margin: 0 0 0.5rem;
+}
+
+.site-title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.site-title a:hover {
+  color: var(--accent);
+}
+
+.site-lead {
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin: 0 0 1rem;
+}
+
+.site-nav {
+  margin-bottom: 1.25rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.site-nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.75rem;
+}
+
+.site-nav a {
+  font-size: 0.9rem;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.site-nav a[aria-current="page"] {
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+.site-main {
+  padding-bottom: 3rem;
+}
+
+.page {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 1.25rem 1.25rem 2rem;
+}
+
+.page-title {
+  font-size: 1.25rem;
+  margin: 0 0 0.35rem;
+}
+
+.page-meta {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin: 0 0 1.25rem;
+}
+
+.toc {
+  background: #f0eeea;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.toc-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem;
+}
+
+.toc-list {
+  margin: 0;
+  padding-left: 1.25rem;
+  font-size: 0.88rem;
+}
+
+.toc-list a {
+  color: var(--accent);
+}
+
+.label {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.15rem 0.45rem;
+  border-radius: 3px;
+  margin-bottom: 0.35rem;
+  border: 1px solid transparent;
+}
+
+.label-verified {
+  color: var(--label-verified);
+  background: #e8f5ec;
+  border-color: #b8dcc4;
+}
+
+.label-prev {
+  color: var(--label-prev);
+  background: #f5f0e8;
+  border-color: #dcc8b8;
+}
+
+.label-tool {
+  color: var(--label-tool);
+  background: #efeaf5;
+  border-color: #c8b8dc;
+}
+
+.label-unknown {
+  color: var(--label-unknown);
+  background: #f5eaea;
+  border-color: #dcb8b8;
+}
+
+.fact-block,
+.news-item {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px dashed var(--border);
+}
+
+.fact-body,
+.news-summary {
+  margin: 0.35rem 0 0.5rem;
+}
+
+.fact-source-intro,
+.news-source-intro {
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin: 0.5rem 0 0.25rem;
+}
+
+.source-list {
+  margin: 0;
+  padding-left: 1.25rem;
+  font-size: 0.88rem;
+}
+
+.source-pending {
+  color: var(--label-unknown);
+  font-style: italic;
+}
+
+.news-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.news-item h2 {
+  font-size: 1.05rem;
+  margin: 0.5rem 0 0.25rem;
+}
+
+.news-date {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin: 0;
+}
+
+.placeholder-box {
+  background: #faf9f7;
+  border: 1px dashed var(--border);
+  padding: 1rem;
+  border-radius: 4px;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+  margin: 1rem 0;
+}
+
+th,
+td {
+  border: 1px solid var(--border);
+  padding: 0.45rem 0.5rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+th {
+  background: #f0eeea;
+  font-weight: 600;
+}
+
+.page h2 {
+  font-size: 1.05rem;
+  margin-top: 1.75rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.25rem;
+}
+
+.page h3 {
+  font-size: 0.98rem;
+  margin-top: 1.25rem;
+}
+
+.heading-anchor {
+  margin-left: 0.35rem;
+  font-size: 0.75rem;
+  text-decoration: none;
+  color: var(--muted);
+}
+
+.site-footer {
+  padding-bottom: 2rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+a {
+  color: var(--accent);
+}
+
+@media (max-width: 480px) {
+  .page {
+    padding: 1rem;
+  }
+
+  table {
+    font-size: 0.8rem;
+  }
+}

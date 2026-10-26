@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% if title %}{{ title }} — {% endif %}{{ site.title }}</title>
+  <meta name="description" content="{{ description or site.description }}">
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | url }}">
+</head>
+<body>
+  <a class="skip-link" href="#main">本文へスキップ</a>
+  <header class="site-header">
+    <p class="site-kicker">{{ site.gameTitle }}（{{ site.publisher }} / {{ site.gameRelease }}）</p>
+    <h1 class="site-title"><a href="{{ '/' | url }}">{{ site.title }}</a></h1>
+    <p class="site-lead">各項目は出典リンクと確認ラベル付き。推測・転載はしていません。</p>
+  </header>
+
+  <nav class="site-nav" aria-label="主要ページ">
+    <ul>
+      <li><a href="{{ '/' | url }}" {% if page.url == "/" %}aria-current="page"{% endif %}>トップ</a></li>
+      <li><a href="{{ '/haigo/' | url }}" {% if page.url == "/haigo/" %}aria-current="page"{% endif %}>配合</a></li>
+      <li><a href="{{ '/stud/' | url }}" {% if page.url == "/stud/" %}aria-current="page"{% endif %}>種牡馬・繁殖牝馬</a></li>
+      <li><a href="{{ '/ikusei/' | url }}" {% if page.url == "/ikusei/" %}aria-current="page"{% endif %}>育成・選別</a></li>
+      <li><a href="{{ '/ranch/' | url }}" {% if page.url == "/ranch/" %}aria-current="page"{% endif %}>牧場施設</a></li>
+      <li><a href="{{ '/bc/' | url }}" {% if page.url == "/bc/" %}aria-current="page"{% endif %}>BC・対人戦</a></li>
+      <li><a href="{{ '/zen/' | url }}" {% if page.url == "/zen/" %}aria-current="page"{% endif %}>前作の情報</a></li>
+    </ul>
+  </nav>
+
+  <main id="main" class="site-main">
+    <article class="page">
+      <header class="page-header">
+        <h1 class="page-title">{{ title }}</h1>
+        {% if updated %}
+        <p class="page-meta"><time datetime="{{ updated | string }}">最終更新: {{ updated | formatDateJa }}</time></p>
+        {% endif %}
+      </header>
+      {{ content | safe }}
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <p>個人の攻略メモ。ゲームデータの正確性は各出典でご確認ください。</p>
+  </footer>
+</body>
+</html>

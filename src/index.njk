@@ -1,0 +1,70 @@
+---
+layout: layouts/base.njk
+title: トップ（最新情報）
+description: ダービースタリオン２の最新情報・パッチ・BC関連
+updated: 2026-10-26
+permalink: /
+---
+
+{% from "macros.njk" import label %}
+
+<nav class="toc" aria-label="目次">
+  <p class="toc-title">目次</p>
+  <ul class="toc-list">
+    <li><a href="#news">最新情報</a></li>
+    <li><a href="#about-labels">確認ラベルの意味</a></li>
+  </ul>
+</nav>
+
+<h2 id="news">最新情報</h2>
+<p>新しいものを上に表示しています。各項目は、記載のページ（リンク）に基づく要約です。</p>
+
+<ul class="news-list">
+{% for item in collections.newsSorted %}
+  <li class="news-item">
+    {{ label(item.label) }}
+    <p class="news-date"><time datetime="{{ item.date }}">{{ item.date | formatDateJa }}</time></p>
+    <h3>{{ item.title }}</h3>
+    <p class="news-summary">{{ item.summary }}</p>
+    {% if item.sourceNote %}
+    <p class="news-source-intro">{{ item.sourceNote }}</p>
+    {% endif %}
+    <p class="fact-source-intro">出典:</p>
+    <ul class="source-list">
+      {% for s in item.sources %}
+      <li>
+        {% if s.url %}
+        <a href="{{ s.url }}" rel="noopener noreferrer">{{ s.title }}</a>
+        {% else %}
+        <span class="source-pending">{{ s.title }}</span>
+        {% endif %}
+      </li>
+      {% endfor %}
+    </ul>
+  </li>
+{% endfor %}
+</ul>
+
+<h2 id="about-labels">確認ラベルの意味</h2>
+<table>
+  <thead>
+    <tr>
+      <th>ラベル</th>
+      <th>意味</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>ダビスタ2で確認済み</td>
+      <td>本作でプレイまたは信頼できる一次情報で確認した内容</td>
+    </tr>
+    <tr>
+      <td>前作の情報</td>
+      <td>前作ゲーム由来。本作では未確認または不明なことがある</td>
+    </tr>
+    <tr>
+      <td>ツールの計算値（ゲーム内未検証）</td>
+      <td>外部配合ツール等の計算結果。ゲーム内で再現検証していない</td>
+    </tr>
+  </tbody>
+</table>
