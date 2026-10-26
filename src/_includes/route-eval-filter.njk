@@ -1,0 +1,10 @@
+{% macro toolbar(tableId) %}
+<div class="route-eval-toolbar" data-route-eval-for="{{ tableId }}">
+  <p class="route-eval-intro">
+    <span class="label label-tool">ツールの計算値（ゲーム内未検証）</span>
+    終点の配合評価で絞り込み（湯一路 logic.js の判定名。複数選択はすべて成立＝AND）
+  </p>
+  <div class="route-eval-chips" role="group" aria-label="配合評価フィルタ"></div>
+  <p class="route-eval-status filter-count" aria-live="polite"></p>
+</div>
+{% endmacro %}

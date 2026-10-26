@@ -1,0 +1,20 @@
+{% from "line-chip.njk" import forName as lineChipForName %}
+{% macro render(startName, 種付け, finalTag) %}
+<ol class="route-chain" aria-label="配合チェーン">
+  <li class="route-chain-node route-chain-start">
+    <span class="route-chain-sire-name">{{ startName }}</span>
+    {{ lineChipForName(startName) }}
+  </li>
+  {% for sire in 種付け %}
+  {% set sl = horseLineMap[sire] %}
+  <li class="route-chain-arrow" aria-hidden="true">→</li>
+  <li class="route-chain-node{% if loop.last %} route-chain-final{% endif %}{% if sl and sl.code %} line-{{ sl.code }}{% endif %}">
+    <span class="route-chain-sire-name">{{ sire }}</span>
+    {{ lineChipForName(sire) }}
+    {% if loop.last and finalTag %}
+    <span class="route-chain-tag">{{ finalTag }}</span>
+    {% endif %}
+  </li>
+  {% endfor %}
+</ol>
+{% endmacro %}

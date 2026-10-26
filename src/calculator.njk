@@ -1,0 +1,67 @@
+---
+layout: layouts/base.njk
+title: 自家製馬ルート計算
+description: ブラウザ上で3代ルートを試算（湯一路 logic.js）
+updated: 2026-10-26
+permalink: /calculator/
+---
+
+<nav class="toc" aria-label="目次">
+  <p class="toc-title">目次</p>
+  <ul class="toc-list">
+    <li><a href="#about">使い方</a></li>
+    <li><a href="#form">入力</a></li>
+    <li><a href="#results">結果</a></li>
+    <li><a href="#homebred-stallion">自家製種牡馬</a></li>
+  </ul>
+</nav>
+
+<h2 id="about">使い方</h2>
+<p><span class="label label-tool">ツールの計算値（ゲーム内未検証）</span></p>
+<p>自家製<strong>繁殖牝馬</strong>を「父＝種牡馬」「母＝繁殖牝馬」として仮定し、湯一路公開の <code>logic.js</code> と同じ判定で<strong>3代ルート</strong>をブラウザ内探索します（危険配合は除外、ビーム幅18）。</p>
+<p>深い祖先の手入力は将来拡張予定。現版はマスター血統＋選択した父母のみで計算します。</p>
+
+<h2 id="form">入力</h2>
+<div class="horse-filters calculator-form">
+  <div class="combobox-wrap">
+    <label for="hb-sire-input">父（種牡馬）</label>
+    <input id="hb-sire-input" class="combobox-input" type="search" autocomplete="off" enterkeyhint="search" aria-autocomplete="list" aria-controls="hb-sire-list">
+    <ul id="hb-sire-list" class="combobox-list" role="listbox" hidden></ul>
+  </div>
+  <div class="combobox-wrap">
+    <label for="hb-dam-input">母（繁殖牝馬）</label>
+    <input id="hb-dam-input" class="combobox-input" type="search" autocomplete="off" enterkeyhint="search" aria-autocomplete="list" aria-controls="hb-dam-list">
+    <ul id="hb-dam-list" class="combobox-list" role="listbox" hidden></ul>
+  </div>
+  <button type="button" id="hb-calc" class="calc-button">ルートを計算</button>
+</div>
+<p id="hb-status" class="filter-count" aria-live="polite"></p>
+
+<h2 id="results">おすすめルート（全終点）</h2>
+<div id="hb-results"></div>
+
+<h3>ガリレオ（Galileo）で締めるルート</h3>
+<div id="hb-results-galileo"></div>
+
+<h2 id="homebred-stallion">自家製種牡馬 → 繁殖牝馬の試算</h2>
+<p><span class="label label-tool">ツールの計算値（ゲーム内未検証）</span></p>
+<p>父・母（いずれもマスター登録馬）から自家製<strong>種牡馬</strong>を仮定し、全繁殖牝馬との配合を評価（危険除外、上位20件）。<a href="{{ '/homebred-stallion/' | url }}">自家製種牡馬ガイド（出典メモ）</a></p>
+<div class="horse-filters calculator-form">
+  <div class="combobox-wrap">
+    <label for="hs-sire-input">種牡馬の父</label>
+    <input id="hs-sire-input" class="combobox-input" type="search" autocomplete="off" aria-controls="hs-sire-list">
+    <ul id="hs-sire-list" class="combobox-list" role="listbox" hidden></ul>
+  </div>
+  <div class="combobox-wrap">
+    <label for="hs-dam-input">種牡馬の母</label>
+    <input id="hs-dam-input" class="combobox-input" type="search" autocomplete="off" aria-controls="hs-dam-list">
+    <ul id="hs-dam-list" class="combobox-list" role="listbox" hidden></ul>
+  </div>
+  <button type="button" id="hs-calc" class="calc-button">配合を試算</button>
+</div>
+<p id="hs-status" class="filter-count" aria-live="polite"></p>
+<div id="hs-results"></div>
+
+<script type="text/plain" id="master-data-url">{{ '/assets/data/masterData.json' | url }}</script>
+<script src="{{ '/assets/vendor/logic.js' | url }}"></script>
+<script src="{{ '/assets/js/breeding-browser.js' | url }}"></script>

@@ -1,0 +1,110 @@
+---
+layout: layouts/base.njk
+title: 配合
+description: 配合理論・強い馬の事例・ルート例
+updated: 2026-10-26
+permalink: /haigo/
+---
+
+{% from "strong-case-card.njk" import render as renderCase %}
+
+<nav class="toc" aria-label="目次">
+  <p class="toc-title">目次</p>
+  <ul class="toc-list">
+    <li><a href="#about">このページについて</a></li>
+    <li><a href="#terms">用語</a></li>
+    <li><a href="#routes">ルート例（同ツール）</a></li>
+    <li><a href="#perfect">自家繁殖ガリレオ牝馬からの「完璧」</a></li>
+    <li><a href="#patterns">事例から見える共通点</a></li>
+    <li><a href="#galileo-routes">ガリレオで締めるルート</a></li>
+    <li><a href="#strong-cases">強い馬の配合事例</a></li>
+    <li><a href="#supplement">補足（血統詳細なし）</a></li>
+  </ul>
+</nav>
+
+<h2 id="about">このページについて</h2>
+<p>配合理論・ルート例は、<a href="https://ds2.yublog.jp/theory.php" rel="noopener noreferrer">湯一路 ダビスタ2 配合理論ツール</a>のページによる要約です。<strong>ゲーム内では未検証</strong>です。</p>
+<p><span class="label label-tool">ツールの計算値（ゲーム内未検証）</span></p>
+<p>参考: <a href="https://ds2.yublog.jp/bbs?id=224" rel="noopener noreferrer">湯一路 BBS（id=224）</a></p>
+
+<h2 id="terms">用語（同ツールの説明に基づく）</h2>
+<table>
+  <thead><tr><th>用語</th><th>内容（要約）</th></tr></thead>
+  <tbody>
+    <tr><td>面白い配合</td><td>同ツール上の配合評価の一種</td></tr>
+    <tr><td>凝った配合</td><td>同ツール上の配合評価の一種</td></tr>
+    <tr><td>完璧な配合</td><td>「面白い配合」と「見事な配合」の両方が成立。同ツールの説明では追加ボーナスはない</td></tr>
+  </tbody>
+</table>
+
+<h2 id="routes">ルート例（同ツール）</h2>
+<h3>NT → Monsun → ガリレオ</h3>
+<table>
+  <thead><tr><th>項目</th><th>内容</th></tr></thead>
+  <tbody>
+    <tr><td>血統</td><td>Lady Angela <strong>5×5</strong>、Northern Dancer <strong>3×4</strong></td></tr>
+    <tr><td>評価</td><td>面白い配合・凝った配合</td></tr>
+    <tr><td>起始繁殖牝馬</td><td><strong>ドバイマジェスティ</strong>・<strong>アクトレス</strong>・<strong>カルティカ</strong>・<strong>マルターズヒート</strong>のみ（同ツール）</td></tr>
+  </tbody>
+</table>
+<h3>キンカメ → Monsun → ガリレオ</h3>
+<p>同ツールによると、<strong>完璧な配合</strong>は起始牝馬が <strong>シルヴァーグレイル</strong> の場合のみ。</p>
+<h3>ドバイマジェスティ × マルゼンスキー → その牝馬子 × ガリレオ</h3>
+<p>同ツールによると面白・凝った。Buckpasser <strong>5×4</strong>、Northern Dancer <strong>3×4</strong>。</p>
+
+<h2 id="perfect">自家繁殖ガリレオ牝馬からの「完璧」</h2>
+<table>
+  <thead><tr><th>世代数</th><th>完璧な配合の可否</th></tr></thead>
+  <tbody>
+    <tr><td>1世代</td><td><strong>不可能</strong></td></tr>
+    <tr><td>2世代</td><td>母の父が <strong>Monsun</strong>・<strong>ノヴェリスト</strong>・<strong>カルストンライトオ</strong>・<strong>シンボリルドルフ</strong>のいずれかの場合のみ</td></tr>
+    <tr><td>3世代（例）</td><td>Monsun または ノヴェリスト → クリエイターII → ゴールドシップ / コントレイル / オルフェーヴル / カラヴァッジオ / ドリームジャーニー</td></tr>
+    <tr><td>3世代（例）</td><td>シンボリルドルフ → ヘニーヒューズ → パドトロワ</td></tr>
+  </tbody>
+</table>
+
+<h2 id="patterns">事例から見える共通点</h2>
+<p>添付調査メモ（<code>summary.md</code>）に基づく要約のみ掲載します。</p>
+<ul>
+  <li>BC上位の事例では、<strong>Galileo ×（Northern Dancer 系母父）</strong>の型が複数見られる（<strong>ゼウスグロリア</strong>・<strong>ハマチカラブリ</strong>・<strong>ナラントンガラグ</strong>・<strong>ウエトアヤチャン</strong> など）。</li>
+  <li>同じく BC 系では <strong>ND 3×4</strong> と <strong>Buckpasser 5×4</strong> のクロスが出典・ツールの双方で繰り返し登場する。</li>
+  <li><strong>ハマチカラブリ</strong>は出典ラベル（面白・凝った）とツール計算が一致（各出典リンクは下のカード）。</li>
+  <li><strong>ペンネニルヴァーナ</strong>は出典が「見事配合」、ツールは「面白=true・見事=false」で不一致（母名不明等の影韈の可能性）。</li>
+</ul>
+
+{% include "galileo-routes-section.njk" %}
+
+<h2 id="strong-cases">強い馬の配合事例</h2>
+<p>出典は各カードのリンク（note / X）。画像・本文は転載せず、血統は出典からの転記要約です。</p>
+
+{% set byCat = strongCasesByCategory %}
+{% for cat in ["BC上位", "凱旋門賞", "三冠", "ダート", "その他"] %}
+  {% if byCat[cat] and byCat[cat].length %}
+  <h3 id="cat-{{ cat }}">{{ cat }}（{{ byCat[cat].length }}件）</h3>
+  <div class="case-card-list">
+    {% for case in byCat[cat] %}
+      {{ renderCase(case) }}
+    {% endfor %}
+  </div>
+  {% endif %}
+{% endfor %}
+
+<h2 id="supplement">補足（血統詳細なし）</h2>
+<p>動画タイトル・短文のみの事例。血統表は出典に無いためカード化していません。</p>
+<table>
+  <thead>
+    <tr><th>馬名・メモ</th><th>実績（要約）</th><th>出典</th></tr>
+  </thead>
+  <tbody>
+    {% for item in strong_horses.補足事例_血統詳細なし %}
+    <tr>
+      <td>{{ item.馬名 }}</td>
+      <td>{{ item.実績 }}{% if item.血統 %}<br><small>{{ item.血統 }}</small>{% endif %}</td>
+      <td>
+        <a href="{{ item.出典URL }}" rel="noopener noreferrer">投稿</a>
+        {% if item.動画 %} / <a href="{{ item.動画 }}" rel="noopener noreferrer">動画</a>{% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>

@@ -1,0 +1,21 @@
+<details class="sire-line-legend" open>
+  <summary>大系統の色（凡例）</summary>
+  <p class="sire-line-source">
+    色は
+    <a href="{{ sire_line_colors.出典URL }}" rel="noopener noreferrer">湯一路配合ツール pedigree.css</a>
+    の系統チップ定義に基づく（{{ sire_line_colors.出典説明 }}）。
+  </p>
+  <ul class="sire-line-legend-list">
+    {% for item in sireLineLegend %}
+    <li>
+      <span class="line-chip line-{{ item.code }}">
+        <span class="line-chip-code">{{ item.code }}</span>
+        <span class="line-chip-label">{{ item.表示名 }}</span>
+      </span>
+    </li>
+    {% endfor %}
+    <li>
+      <span class="line-chip line-unknown"><span class="line-chip-label">未登録</span></span>
+    </li>
+  </ul>
+</details>

@@ -1,0 +1,5 @@
+node_modules/
+_site/
+src/_data/computed_routes.json
+.DS_Store
+*.log

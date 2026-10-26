@@ -1,0 +1,51 @@
+{% from "route-eval.njk" import rowData as routeEvalRowData %}
+{% from "line-chip.njk" import forName as lineChipForName %}
+
+{% macro candidateRow(c, mareName) %}
+<tr class="route-eval-candidate" data-route-eval="{{ routeEvalRowData(c.評価) }}" data-mare="{{ mareName }}">
+  <td><strong>{{ c.種牡馬 }}</strong> {{ lineChipForName(c.種牡馬) }}</td>
+  <td>{% if c.種付料_万円 != null %}{{ c.種付料_万円 }}万円{% else %}—{% endif %}</td>
+  <td>{{ c.評価 | formatToolLabels }}</td>
+  <td>{{ c.評価.インブリード | join("、") if c.評価.インブリード and c.評価.インブリード.length else "—" }}</td>
+</tr>
+{% endmacro %}
+
+{% macro render(cross, mareName, compact) %}
+{% if cross and cross.候補 and cross.候補.length %}
+<div class="galileo-filly-cross{% if compact %} galileo-filly-cross--compact{% endif %}">
+  {% if not compact %}
+  <p class="galileo-filly-cross-note">
+    基準ルート（最良のガリレオ終点3代）: <code>{{ cross.基準ルート_種付け | join(" → ") }}</code> → 自家製ガリレオ牝馬（仮）への1回配合を全種牡馬で試算。
+  </p>
+  {% endif %}
+  <div class="table-scroll">
+    <table class="data-table galileo-filly-cross-table">
+      <thead>
+        <tr>
+          <th scope="col">種牡馬</th>
+          <th scope="col">種付料</th>
+          <th scope="col">評価</th>
+          <th scope="col">クロス</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for c in cross.候補 %}
+        {{ candidateRow(c, mareName) }}
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endif %}
+{% endmacro %}
+
+{% macro detailsCell(cross, mareName) %}
+{% if cross and cross.候補 and cross.候補.length %}
+<details class="galileo-cross-details">
+  <summary>上位{{ cross.候補.length }}頭（評価フィルタ対象）</summary>
+  {{ render(cross, mareName, true) }}
+</details>
+{% else %}
+—
+{% endif %}
+{% endmacro %}

@@ -1,0 +1,3 @@
+{% macro rowData(last) -%}
+{"完璧":{{ last.完璧 and 'true' or 'false' }},"面白い":{{ last.面白い and 'true' or 'false' }},"見事":{{ last.見事 and 'true' or 'false' }},"凝った":{{ last.凝った and 'true' or 'false' }}}
+{%- endmacro %}

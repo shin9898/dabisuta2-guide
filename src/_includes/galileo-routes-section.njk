@@ -1,0 +1,55 @@
+<h2 id="galileo-routes">ガリレオで締めるルート</h2>
+<p><span class="label label-tool">ツールの計算値（ゲーム内未検証）</span></p>
+<p>繁殖牝馬起点で3代配合し、終点種牡馬が <strong>Galileo</strong> のルート。下の検索で起点牝馬を絞り込めます（例: <strong>ドバイマジェスティ</strong>）。</p>
+<p class="data-note">「ガリレオ牝馬への次配合」は、最良のガリレオ終点ルートで得た<strong>自家製ガリレオ牝馬（仮）</strong>に、種牡馬を1回配合した湯一路ツール試算です。中間世代も自家製想定。<a href="https://ds2.yublog.jp/theory.php" rel="noopener noreferrer">湯一路 配合理論</a>の「自家繁殖ガリレオ牝馬」節は当サイト<a href="{{ '/haigo/#perfect' | url }}">配合ページ</a>に要約あり（特定種牡馬の推奨リストではない）。</p>
+<p class="route-method-note">探索方法: {{ computedRoutes.探索方法.説明 }}（ビーム幅 {{ computedRoutes.探索方法.ビーム幅 }}、危険配合除外）</p>
+
+<div class="galileo-toolbar">
+  <label class="galileo-search">
+    起点牝馬を検索
+    <input type="search" id="galileo-mare-filter" placeholder="ドバイマジェスティ" autocomplete="off" enterkeyhint="search">
+  </label>
+  <p id="galileo-filter-count" class="filter-count" aria-live="polite"></p>
+</div>
+
+{% from "route-chain.njk" import render as routeChain %}
+{% from "route-eval-filter.njk" import toolbar as routeEvalToolbar %}
+{% from "route-eval.njk" import rowData as routeEvalRowData %}
+{% from "galileo-filly-cross.njk" import detailsCell as galileoCrossDetails %}
+{{ routeEvalToolbar("galileo-routes-table") }}
+<div class="table-scroll table-scroll--sticky">
+<table class="data-table galileo-route-table" id="galileo-routes-table">
+  <thead>
+    <tr>
+      <th scope="col">起点牝馬</th>
+      <th scope="col">ルート</th>
+      <th scope="col">クロス</th>
+      <th scope="col">ガリレオ牝馬への次配合</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in galileoRoutesFlat %}
+    {% set r = item.route %}
+    {% set last = r.各代[r.各代.length - 1] %}
+    {% set endLabel = (r | routeSummary) ~ (last.完璧 and '（完璧）' or '') %}
+    <tr class="route-galileo galileo-route-row route-eval-row" data-mare="{{ item.mareName }}" data-route-eval="{{ routeEvalRowData(last) }}">
+      <td data-label="起点">
+        <a href="{{ ('/stud/' + (item.mareName | horseSlug) + '/') | url }}">{{ item.mareName }}</a>
+      </td>
+      <td data-label="ルート">
+        {{ routeChain(item.mareName, r.種付け, endLabel) }}
+      </td>
+      <td data-label="クロス">{{ last.インブリード | join("、") if last.インブリード and last.インブリード.length else "—" }}</td>
+      <td data-label="次配合">
+        {% if item.isBestGalileoRoute %}
+        {{ galileoCrossDetails(item.fillyCross, item.mareName) }}
+        {% else %}
+        <span class="muted-note">（最良ルート以外）</span>
+        {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+<p class="galileo-hint" id="galileo-hint">初期表示は上位25件のみ。2文字以上入力で絞り込み。</p>

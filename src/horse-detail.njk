@@ -1,0 +1,96 @@
+---
+pagination:
+  data: collections.horses
+  size: 1
+  alias: horse
+permalink: "/stud/{{ horse.slug }}/"
+layout: layouts/base.njk
+eleventyComputed:
+  title: "{{ horse.名前 }}（{{ horse.horseTypeJa }}）"
+  description: "湯一路マスターデータとおすすめ3代ルート"
+  updated: "2026-10-26"
+---
+{% from "route-table.njk" import render as routeTable %}
+{% from "line-chip.njk" import render as lineChip %}
+{% from "galileo-filly-cross.njk" import render as galileoFillyCross %}
+
+<nav class="toc" aria-label="目次">
+  <p class="toc-title">目次</p>
+  <ul class="toc-list">
+    <li><a href="#stats">能力・条件</a></li>
+    {% if horse.horseType == "mare" %}
+    <li><a href="#routes-from">この牝馬から（3代ルート）</a></li>
+    <li><a href="#routes-galileo">ガリレオ（Galileo）で締める</a></li>
+    {% if horse.routeSets.galileoFillyCross %}
+    <li><a href="#galileo-filly-cross">ガリレオ牝馬への次配合</a></li>
+    {% endif %}
+    {% endif %}
+    {% if horse.horseType == "stallion" %}
+    <li><a href="#routes-end">終点種牡馬としてのルート</a></li>
+    {% endif %}
+  </ul>
+</nav>
+
+<p><a href="{{ '/stud/' | url }}">← 一覧に戻る</a></p>
+
+<h2 id="stats">{{ horse.名前 }} <span class="horse-type-badge">{{ horse.horseTypeJa }}</span></h2>
+<p class="horse-line-header">{{ lineChip(horse.lineCode, horse.lineLittle, horse.lineDisplay) }}</p>
+<p>出典: <a href="https://ds2.yublog.jp/" rel="noopener noreferrer">湯一路マスターデータ</a>（{{ horse.出典 }}）</p>
+
+{% if horse.horseType == "mare" and horse.名前 == "ドバイマジェスティ" %}
+<p class="data-note"><strong>マスター注記:</strong> 父は <strong>{{ horse.父 }}</strong> と記載（湯一路マスターの値をそのまま掲載）。</p>
+{% endif %}
+
+<table>
+  <tbody>
+    <tr><th scope="row">父</th><td>{{ horse.父 or "不明" }}</td></tr>
+    <tr><th scope="row">母</th><td>{{ horse.母 or "不明" }}</td></tr>
+    {% if horse.horseType == "stallion" %}
+    <tr><th scope="row">系統</th><td>{{ horse.系統 or "不明" }}</td></tr>
+    <tr><th scope="row">距離適性</th><td>{{ horse.距離適性 or "不明" }}</td></tr>
+    <tr><th scope="row">成長型</th><td>{{ horse.成長型 or "不明" }}</td></tr>
+    <tr><th scope="row">ダート</th><td>{{ horse.ダート or "不明" }}</td></tr>
+    <tr><th scope="row">種付料</th><td>{% if horse.種付料_万円 != null %}{{ horse.種付料_万円 }}万円{% else %}不明{% endif %}</td></tr>
+    <tr><th scope="row">解放条件</th><td>{{ horse.解放条件 or "（記載なし）" }}</td></tr>
+    <tr><th scope="row">健康/気性/実績/根性/安定</th><td>{{ horse.健康 }}/{{ horse.気性 }}/{{ horse.実績 }}/{{ horse.根性 }}/{{ horse.安定 }}</td></tr>
+    {% else %}
+    <tr><th scope="row">価格</th><td>{% if horse.価格_万円 != null %}{{ horse.価格_万円 }}万円{% else %}不明{% endif %}</td></tr>
+    <tr><th scope="row">SPD / STA / PWR</th><td>{{ horse.スピード }} / {{ horse.スタミナ }} / {{ horse.パワー }}</td></tr>
+    <tr><th scope="row">ダート</th><td>{{ horse.ダート or "不明" }}</td></tr>
+    <tr><th scope="row">代表産駒</th><td>{{ horse.代表産駒 or "（記載なし）" }}</td></tr>
+    <tr><th scope="row">解放条件</th><td>{{ horse.解放条件 or "（記載なし）" }}</td></tr>
+    <tr><th scope="row">健康/気性</th><td>{{ horse.健康 }}/{{ horse.気性 }}</td></tr>
+    {% endif %}
+  </tbody>
+</table>
+
+{% if horse.horseType == "mare" %}
+<h2 id="routes-from">この牝馬から（3代ルート）</h2>
+<p><span class="label label-tool">ツールの計算値（ゲーム内未検証）</span> — {{ computedRoutes.探索方法.説明 }}</p>
+{{ routeTable(horse.routeSets.fromStart, true, horse.名前, 'routes-from-' ~ horse.slug) }}
+
+<h2 id="routes-galileo">ガリレオ（Galileo）で締める</h2>
+<p>終点種牡馬が <strong>Galileo</strong> のルートのみ（最大3件）。</p>
+{{ routeTable(horse.routeSets.galileoFinish, true, horse.名前, 'routes-gal-' ~ horse.slug) }}
+
+{% if horse.routeSets.galileoFillyCross %}
+<h3 id="galileo-filly-cross">ガリレオ牝馬への次配合（4叉目）</h3>
+<p><span class="label label-tool">ツールの計算値（ゲーム内未検証）</span></p>
+<p class="data-note">上の<strong>最良</strong>ガリレオ終点3代ルートで自家製ガリレオ牝馬（仮）を想定し、全種牡馬との1回配合を評価（危険除外）。ゲーム内の手順・制約の再現ではありません。<a href="https://ds2.yublog.jp/theory.php" rel="noopener noreferrer">湯一路 配合理論</a>の自家繁殖ガリレオ牝馬の説明は<a href="{{ '/haigo/#perfect' | url }}">配合ページ</a>に要約があります。</p>
+{{ galileoFillyCross(horse.routeSets.galileoFillyCross, horse.名前) }}
+{% endif %}
+{% endif %}
+
+{% if horse.horseType == "stallion" %}
+<h2 id="routes-end">終点種牡馬としてのルート</h2>
+<p>他の繁殖牝馬から3代配合し、終点が <strong>{{ horse.名前 }}</strong> となる例（価格上位牝馬起点の探索結果から最大5件）。</p>
+<p><span class="label label-tool">ツールの計算値（ゲーム内未検証）</span></p>
+{% if horse.routeSets.asEnd and horse.routeSets.asEnd.length %}
+{{ routeTable(horse.routeSets.asEnd, horse.名前 == 'Galileo', null, 'routes-end-' ~ horse.slug) }}
+{% else %}
+<p class="placeholder-box">探索では見つからず（不可能とは限らない）</p>
+{% endif %}
+{% if horse.名前 == 'Galileo' %}
+<p class="data-note">配合ページの「ガリレオで締めるルート」に、全繁殖牝馬起点の一覧があります。</p>
+{% endif %}
+{% endif %}

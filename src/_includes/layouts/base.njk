@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% if title %}{{ title }} — {% endif %}{{ site.title }}</title>
+  <meta name="description" content="{{ description or site.description }}">
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | url }}">
+  <link rel="stylesheet" href="{{ '/assets/css/sire-line-colors.css' | url }}">
+</head>
+<body>
+  <a class="skip-link" href="#main">本文へスキップ</a>
+
+  <div class="site-chrome">
+    <header class="site-header site-header--sticky">
+      <div class="site-header-inner">
+        <p class="site-kicker">{{ site.gameTitle }}（{{ site.publisher }}）</p>
+        <h1 class="site-title"><a href="{{ '/' | url }}">{{ site.title }}</a></h1>
+      </div>
+      <nav class="site-nav" aria-label="主要ページ">
+        <ul class="site-nav-list">
+          <li><a href="{{ '/' | url }}" {% if page.url == "/" %}aria-current="page"{% endif %}>トップ</a></li>
+          <li><a href="{{ '/haigo/' | url }}" {% if page.url == "/haigo/" %}aria-current="page"{% endif %}>配合</a></li>
+          <li><a href="{{ '/stud/' | url }}" {% if page.url == "/stud/" %}aria-current="page"{% endif %}>馬一覧</a></li>
+          <li><a href="{{ '/calculator/' | url }}" {% if page.url == "/calculator/" %}aria-current="page"{% endif %}>計算</a></li>
+          <li><a href="{{ '/homebred-stallion/' | url }}" {% if page.url == "/homebred-stallion/" %}aria-current="page"{% endif %}>自家製種牡馬</a></li>
+          <li><a href="{{ '/sire-lines/' | url }}" {% if page.url == "/sire-lines/" %}aria-current="page"{% endif %}>大系統</a></li>
+          <li><a href="{{ '/ikusei/' | url }}" {% if page.url == "/ikusei/" %}aria-current="page"{% endif %}>育成</a></li>
+          <li><a href="{{ '/ranch/' | url }}" {% if page.url == "/ranch/" %}aria-current="page"{% endif %}>施設</a></li>
+          <li><a href="{{ '/bc/' | url }}" {% if page.url == "/bc/" %}aria-current="page"{% endif %}>BC</a></li>
+          <li><a href="{{ '/zen/' | url }}" {% if page.url == "/zen/" %}aria-current="page"{% endif %}>前作</a></li>
+          <li><a href="{{ '/my-ranch/' | url }}" {% if page.url == "/my-ranch/" %}aria-current="page"{% endif %}>牧場</a></li>
+        </ul>
+      </nav>
+    </header>
+  </div>
+
+  <main id="main" class="site-main">
+    <nav class="breadcrumbs" aria-label="パンくず">
+      <a href="{{ '/' | url }}">トップ</a>
+      <span class="bc-sep" aria-hidden="true">›</span>
+      {% if page.url and page.url != "/" and page.url != "/index.html" %}
+        {% if page.url.indexOf("/stud/") == 0 and page.url != "/stud/" %}
+        <a href="{{ '/stud/' | url }}">馬一覧</a>
+        <span class="bc-sep" aria-hidden="true">›</span>
+        <span aria-current="page">{{ title }}</span>
+        {% else %}
+        <span aria-current="page">{{ title }}</span>
+        {% endif %}
+      {% else %}
+        <span aria-current="page">トップ</span>
+      {% endif %}
+    </nav>
+
+    <article class="page">
+      <header class="page-header">
+        <h1 class="page-title">{{ title }}</h1>
+        {% if updated %}
+        <p class="page-meta"><time datetime="{{ updated | string }}">最終更新: {{ updated | formatDateJa }}</time></p>
+        {% endif %}
+        {% include "label-legend.njk" %}
+      </header>
+      {{ content | safe }}
+    </article>
+  </main>
+
+  <button type="button" class="back-to-top" id="back-to-top" hidden aria-label="ページ上部へ">↑</button>
+
+  <footer class="site-footer">
+    <p>個人の攻略メモ。ゲームデータの正確性は各出典でご確認ください。</p>
+  </footer>
+
+  <script src="{{ '/assets/js/route-eval-filter.js' | url }}" defer></script>
+  <script src="{{ '/assets/js/site-ui.js' | url }}" defer></script>
+</body>
+</html>

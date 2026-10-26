@@ -1,0 +1,26 @@
+{% macro label(text) %}
+<span class="label {{ text | labelClass }}">{{ text }}</span>
+{% endmacro %}
+
+{% macro sourceItem(source) %}
+<li>
+  {% if source.url %}
+  <a href="{{ source.url }}" rel="noopener noreferrer">{{ source.title }}</a>
+  {% else %}
+  <span class="source-pending">{{ source.title }}</span>
+  {% endif %}
+</li>
+{% endmacro %}
+
+{% macro fact(labelText, body, sources) %}
+<div class="fact-block">
+  {{ label(labelText) }}
+  <p class="fact-body">{{ body }}</p>
+  <p class="fact-source-intro">出典:</p>
+  <ul class="source-list">
+    {% for s in sources %}
+    {{ sourceItem(s) }}
+    {% endfor %}
+  </ul>
+</div>
+{% endmacro %}
