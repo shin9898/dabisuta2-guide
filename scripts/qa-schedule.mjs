@@ -50,7 +50,8 @@ async function runViewport(browser, viewport, prefix) {
 
   await page.goto(`${BASE}/schedule/`, { waitUntil: "networkidle" });
   await page.waitForSelector("#schedule-app:not([hidden])", { timeout: 30000 });
-  await shot(page, `${prefix}-timeline-default`);
+  await page.waitForSelector(".schedule-race-card", { timeout: 15000 });
+  await shot(page, `${prefix}-timeline-cards`);
 
   await page.locator(".schedule-preset-btn[data-preset='triple']").click();
   await page.waitForTimeout(400);
@@ -81,6 +82,11 @@ async function runViewport(browser, viewport, prefix) {
   await page.locator(".schedule-preset-btn[data-preset='arcRoute']").click();
   await page.waitForTimeout(500);
   await shot(page, `${prefix}-preset-arc`);
+
+  await page.locator(".schedule-preset-btn[data-preset='dirtRoute']").click();
+  await page.waitForTimeout(500);
+  await page.waitForSelector("#schedule-preset-chronicle:not([hidden])");
+  await shot(page, `${prefix}-preset-dirt-route`);
 
   if (consoleErrors.length) {
     issues.push(`${prefix} JS: ${consoleErrors.join(" | ")}`);
