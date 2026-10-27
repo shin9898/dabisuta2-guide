@@ -12,7 +12,7 @@ permalink: /ranch/
 
 [gamerch「ダビスタ2 牧場施設」](https://gamerch.com/dabisuta2/1022178) の記載に基づく要約です。
 
-<span class="label label-verified">ダビスタ2で確認済み</span>（当ページのゲーム内情報として掲載されている旨に基づく — 個人プレイでの再確認は別途）
+<span class="label label-unknown">未確認</span>（下表は gamerch 記事の要約。当サイトではゲーム内で未再確認）
 
 | 施設名 | コスト | 星 | 解放条件 | 効果 | 出典 |
 | --- | --- | --- | --- | --- | --- |

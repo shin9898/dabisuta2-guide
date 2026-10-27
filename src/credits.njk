@@ -9,6 +9,7 @@ permalink: /credits/
 <p>{{ image_credits.policy }}</p>
 <p>ぱくたそ・写真AC・イラストAC・いらすとやは、今回の掲載分では使用していません（すべて <strong>Wikimedia Commons</strong> からダウンロードし、リポジトリ内の WebP を配信）。</p>
 
+<div class="table-scroll table-scroll--sticky">
 <table class="data-table credits-table">
   <thead>
     <tr>
@@ -31,7 +32,6 @@ permalink: /credits/
           src="{{ ('/assets/images/guide/' ~ img.file) | url }}"
           alt="{{ img.alt }}"
           width="160"
-          height="90"
           loading="lazy"
           decoding="async"
           class="credits-thumb"
@@ -47,5 +47,6 @@ permalink: /credits/
     {% endfor %}
   </tbody>
 </table>
+</div>
 
 <p>CC BY / CC BY-SA の画像は、各ページのヒーロー直下にも作者名とライセンスリンクを表示しています（再配布条件のため）。</p>

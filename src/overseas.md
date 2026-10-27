@@ -34,7 +34,7 @@ heroId: hero-overseas
 
 ### プレイヤー報告（打診の可否・1件）
 
-<span class="label label-unknown">出典要確認</span>
+<span class="label label-unknown">未確認</span>
 
 [X の投稿（takezawa0917）](https://x.com/takezawa0917/status/2114544097520488923) では、**皐月賞＋日本ダービー**で打診あり、**日本ダービー＋宝塚記念**では打診なし、とする報告が1件ある（当サイトは投稿本文を直接取得できず、ユーザー指定のURLのみ掲載）。
 
@@ -48,7 +48,7 @@ heroId: hero-overseas
 
 ## 距離適性・脚質との関係
 
-凱旋門賞は芝2400m。距離適性は [育成ページの距離適性](/ikusei/#kyori-tekisei)、脚質・作戦・ダービー前ローテの報告は [脚質・作戦](/ikusei/#kyakushitsu-sakusen) を参照。皐月賞→ダービー→凱旋門のプレイ例（適性の記載は記事内要確認）は [ピヨたけジャパン](https://piyotakejapan.com/47708/)（<span class="label label-unknown">出典要確認</span>）。
+凱旋門賞は芝2400m。距離適性は [育成ページの距離適性](/ikusei/#kyori-tekisei)、脚質・作戦・ダービー前ローテの報告は [脚質・作戦](/ikusei/#kyakushitsu-sakusen) を参照。皐月賞→ダービー→凱旋門のプレイ例（適性の記載は記事内要確認）は [ピヨたけジャパン](https://piyotakejapan.com/47708/)（<span class="label label-unknown">未確認</span>）。
 
 ## その他の海外レース
 
