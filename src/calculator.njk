@@ -19,7 +19,7 @@ permalink: /calculator/
 <h2 id="about">使い方</h2>
 <p><span class="label label-tool">ツールの計算値（ゲーム内未検証）</span></p>
 <p>自家製<strong>繁殖牝馬</strong>を「父＝種牡馬」「母＝繁殖牝馬」として仮定し、湯一路公開の <code>logic.js</code> と同じ判定で<strong>3代ルート</strong>をブラウザ内探索します（危険配合は除外、ビーム幅18）。</p>
-<p>深い祖先の手入力は将来拡張予定。現版はマスター血統＋選択した父母のみで計算します。</p>
+<p>深い祖先の手入力は将来拡張予定。現版はマスター血統＋選択した父母のみで計算します。血統データの出典は <a href="https://ds2.yublog.jp/" rel="noopener noreferrer">湯一路マスターデータ</a>（当サイトは <a href="{{ '/stud/' | url }}">馬一覧</a> に転載）。</p>
 
 <h2 id="form">入力</h2>
 <div class="horse-filters calculator-form">
@@ -33,7 +33,7 @@ permalink: /calculator/
     <input id="hb-dam-input" class="combobox-input" type="search" autocomplete="off" enterkeyhint="search" aria-autocomplete="list" aria-controls="hb-dam-list">
     <ul id="hb-dam-list" class="combobox-list" role="listbox" hidden></ul>
   </div>
-  <button type="button" id="hb-calc" class="calc-button">ルートを計算</button>
+  <button type="button" id="hb-calc" class="calc-button" aria-describedby="hb-status">ルートを計算</button>
 </div>
 <p id="hb-status" class="filter-count" aria-live="polite"></p>
 
@@ -57,7 +57,7 @@ permalink: /calculator/
     <input id="hs-dam-input" class="combobox-input" type="search" autocomplete="off" aria-controls="hs-dam-list">
     <ul id="hs-dam-list" class="combobox-list" role="listbox" hidden></ul>
   </div>
-  <button type="button" id="hs-calc" class="calc-button">配合を試算</button>
+  <button type="button" id="hs-calc" class="calc-button" aria-describedby="hs-status">配合を試算</button>
 </div>
 <p id="hs-status" class="filter-count" aria-live="polite"></p>
 <div id="hs-results"></div>

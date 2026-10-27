@@ -1,6 +1,6 @@
 {% macro render(code, little, display) %}
 {% if code %}
-<span class="line-chip line-{{ code }}" title="{{ little or code }}">
+<span class="line-chip line-{{ code }}" title="{{ little or code }}" role="img" aria-label="大系統 {{ code }}{% if little %}（{{ little }}）{% endif %}">
   <span class="line-chip-code" aria-hidden="true">{{ code }}</span>
   <span class="line-chip-label">{% if display %}{{ display }}{% elif little %}{{ code }} · {{ little }}{% else %}{{ code }}{% endif %}</span>
 </span>
