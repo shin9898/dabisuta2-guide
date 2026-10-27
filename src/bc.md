@@ -24,6 +24,8 @@ permalink: /bc/
 
 ### アップロードエラー「不正なデータを検知しました」
 
+<span class="label label-unknown">未確認</span>（X上のプレイヤー報告・サポート返答の共有）
+
 [X の投稿](https://x.com/champon1110/status/2110207223020630191) に基づく要約:
 
 | 項目 | 内容 |
@@ -36,6 +38,8 @@ permalink: /bc/
 ## コミュニティBC
 
 ### カーノック氏 週末BC
+
+<span class="label label-unknown">未確認</span>（コミュニティ開催のX告知）
 
 [カーノック @kra_carnok の投稿](https://x.com/kra_carnok/status/2114304734438056124) に基づく要約:
 

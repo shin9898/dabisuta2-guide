@@ -41,7 +41,9 @@ eleventyComputed:
 <p class="data-note"><strong>マスター注記:</strong> 父は <strong>{{ horse.父 }}</strong> と記載（湯一路マスターの値をそのまま掲載）。</p>
 {% endif %}
 
-<table>
+<div class="table-scroll">
+<table class="horse-stats-table">
+  <caption class="visually-hidden">{{ horse.名前 }}のマスター能力・条件</caption>
   <tbody>
     <tr><th scope="row">父</th><td>{{ horse.父 or "不明" }}</td></tr>
     <tr><th scope="row">母</th><td>{{ horse.母 or "不明" }}</td></tr>
@@ -63,6 +65,7 @@ eleventyComputed:
     {% endif %}
   </tbody>
 </table>
+</div>
 
 {% if horse.horseType == "mare" %}
 <h2 id="routes-from">この牝馬から（3代ルート）</h2>

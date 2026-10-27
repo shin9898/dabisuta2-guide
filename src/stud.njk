@@ -71,7 +71,8 @@ permalink: /stud/
 <p id="horse-empty" class="placeholder-box" hidden>条件に合う馬がいません。フィルタを緩めてください。</p>
 
 <div class="table-scroll table-scroll--sticky">
-  <table class="horse-list-table data-table" id="horse-table">
+  <table class="horse-list-table data-table" id="horse-table" aria-describedby="horse-count">
+    <caption class="visually-hidden">種牡馬・繁殖牝馬一覧（フィルタで絞り込み可能）</caption>
     <thead>
       <tr>
         <th class="col-sticky">名前</th>

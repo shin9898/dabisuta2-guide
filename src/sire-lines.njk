@@ -28,7 +28,9 @@ permalink: /sire-lines/
 <p>{{ computedRoutes.大系統ランキング_典型牝馬.典型牝馬の定義 }}について、3代ルート探索の終点種牡馬の系統を集計しました（{{ computedRoutes.大系統ランキング_典型牝馬.集計 }}）。</p>
 
 <h2 id="ranking">典型牝馬向けランキング（終点系統）</h2>
-<table>
+<p class="route-method-note">集計元: 当サイトの <code>computed_routes.json</code>（湯一路 <code>logic.js</code> 相当の探索）。<a href="{{ '/calculator/' | url }}">計算ページ</a>と同じ前提です。</p>
+<div class="table-scroll">
+<table class="sire-lines-ranking-table">
   <thead>
     <tr>
       <th>系統</th>
@@ -48,6 +50,7 @@ permalink: /sire-lines/
     {% endfor %}
   </tbody>
 </table>
+</div>
 
 <h2 id="stallions">種牡馬の系統一覧</h2>
 <p>種牡馬237頭を系統でグループ化（出典: 湯一路マスター / horses_stats）。</p>
