@@ -23,7 +23,7 @@ heroId: hero-ikusei
 
 ### レース選びの考え方（攻略記事）
 
-<span class="label label-unknown">出典要確認</span>（メディア・攻略サイトの整理。ゲーム内公式ルールの再現ではない）
+<span class="label label-unknown">未確認</span>（メディア・攻略サイトの整理。ゲーム内公式ルールの再現ではない）
 
 | 内容 | 出典 |
 | --- | --- |
@@ -32,7 +32,7 @@ heroId: hero-ikusei
 
 ### 種牡馬の距離適性（マスター整理）
 
-<span class="label label-unknown">出典要確認</span>
+<span class="label label-unknown">未確認</span>
 
 攻略サイトの種牡馬一覧では、種牡馬にも距離適性（例: **ディープインパクト 1800〜3000m**、**キズナ 1600〜2400m**）が掲載されている。
 
@@ -40,7 +40,7 @@ heroId: hero-ikusei
 
 ### 胴の長さと距離の目安（wiki）
 
-<span class="label label-unknown">出典要確認</span>（サイトの信頼性は当サイト未検証）
+<span class="label label-unknown">未確認</span>（サイトの信頼性は当サイト未検証）
 
 [JPGameZ ダビスタ2攻略Wiki](https://jpgamez.com/dabisuta2-wiki/) では、**胴の長さ**などが距離の目安になる、といった説明がある（当サイトはwiki本文の個別検証は未実施）。
 
@@ -48,7 +48,7 @@ heroId: hero-ikusei
 
 ### プレイヤー報告（競馬ちゃんねる・要確認）
 
-<span class="label label-unknown">出典要確認</span>（同一チャンネル上の動画・記事要約。当サイトは動画未視聴）
+<span class="label label-unknown">未確認</span>（同一チャンネル上の動画・記事要約。当サイトは動画未視聴）
 
 | 報告の要約 | 出典 |
 | --- | --- |
@@ -58,7 +58,7 @@ heroId: hero-ikusei
 
 ### プレイヤー報告（X・各1投稿）
 
-<span class="label label-unknown">出典要確認</span>（いずれも**個人のX投稿1件**の要約。当サイトは投稿本文を直接検証していない）
+<span class="label label-unknown">未確認</span>（いずれも**個人のX投稿1件**の要約。当サイトは投稿本文を直接検証していない）
 
 | 報告の要約 | 出典 |
 | --- | --- |
@@ -72,7 +72,7 @@ heroId: hero-ikusei
 
 ### 能力パラメータと走り（攻略記事）
 
-<span class="label label-unknown">出典要確認</span>
+<span class="label label-unknown">未確認</span>
 
 | 内容 | 出典 |
 | --- | --- |
@@ -82,7 +82,7 @@ heroId: hero-ikusei
 
 ### プレイ記事（凱旋門までの例）
 
-<span class="label label-unknown">出典要確認</span>
+<span class="label label-unknown">未確認</span>
 
 [ピヨたけジャパン](https://piyotakejapan.com/47708/) に、**皐月賞→ダービー→凱旋門賞**までのプレイ記事がある。記事内で距離適性がどう記載されているかは**当サイト未確認**（海外レース条件は [海外レースページ](/overseas/)）。
 
@@ -111,7 +111,7 @@ heroId: hero-ikusei
 
 ### 本作の作戦メニュー（攻略記事）
 
-<span class="label label-unknown">出典要確認</span>
+<span class="label label-unknown">未確認</span>
 
 [こうゲーマー「作戦・サポート」](https://kou-gamer.com/ds2_strategic-support/) の整理に基づく要約:
 
@@ -127,7 +127,7 @@ heroId: hero-ikusei
 
 ### 大逃げとスタミナ（攻略記事）
 
-<span class="label label-unknown">出典要確認</span>
+<span class="label label-unknown">未確認</span>
 
 [競馬血統.com](https://keiba-bloodline.com/game/?p=896) では、**大逃げ**は**スタミナ**がないと失速する、という説明がある。
 
@@ -135,7 +135,7 @@ heroId: hero-ikusei
 
 ### プレイヤー報告（逃げ・大逃げ・先行・X）
 
-<span class="label label-unknown">出典要確認</span>（個人のX投稿。当サイトは投稿本文を直接検証していない）
+<span class="label label-unknown">未確認</span>（個人のX投稿。当サイトは投稿本文を直接検証していない）
 
 **逃げ／大逃げで長距離G1に勝った**、という報告（5件）:
 
@@ -151,7 +151,7 @@ heroId: hero-ikusei
 
 ### プレイヤー報告（ダービー前のステップ・X）
 
-<span class="label label-unknown">出典要確認</span>
+<span class="label label-unknown">未確認</span>
 
 | 報告の要約 | 出典 |
 | --- | --- |
@@ -202,6 +202,6 @@ heroId: hero-ikusei
 | ダビスタ2 | 戦績と仔の能力の相関は **不明** |
 | 参考（未検証） | ブログ執筆者の体験では関連がないように感じたとの記述がある |
 
-<span class="label label-unknown">出典要確認</span>
+<span class="label label-unknown">未確認</span>
 
 出典: piyotake ブログ（URL・記事特定は **要確認** — ユーザー提供メモのみ）

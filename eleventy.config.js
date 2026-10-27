@@ -210,6 +210,8 @@ module.exports = function (eleventyConfig) {
         return "label-prev";
       case "ツールの計算値（ゲーム内未検証）":
         return "label-tool";
+      case "未確認":
+        return "label-unknown";
       default:
         return "label-unknown";
     }

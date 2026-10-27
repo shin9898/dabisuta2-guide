@@ -367,10 +367,10 @@ th {
 .page-hero__credit {
   margin: 0;
   padding: 0.4rem 0.65rem;
-  font-size: 0.72rem;
-  line-height: 1.45;
+  font-size: 0.75rem;
+  line-height: 1.5;
   background: #f0f4f8;
-  color: var(--muted);
+  color: #3d3d3d;
 }
 
 .page-hero__credit a {
@@ -391,6 +391,22 @@ th {
   border-radius: 4px;
   object-fit: cover;
   background: #eee;
+  max-width: 10rem;
+  height: auto;
+}
+
+.credits-table {
+  min-width: 36rem;
+}
+
+@media (max-width: 480px) {
+  .page-hero__credit {
+    font-size: 0.7rem;
+  }
+
+  .credits-table {
+    font-size: 0.78rem;
+  }
 }
 
 .site-footer {
@@ -1412,12 +1428,12 @@ body.layout-wide .site-footer {
     font-size: 1.1rem;
   }
 
-  .data-table thead {
+  .data-table:not(.credits-table) thead {
     position: absolute;
     left: -9999px;
   }
 
-  .data-table tr {
+  .data-table:not(.credits-table) tr {
     display: block;
     margin-bottom: 0.75rem;
     border: 1px solid var(--border);
@@ -1425,13 +1441,13 @@ body.layout-wide .site-footer {
     padding: 0.35rem;
   }
 
-  .data-table td {
+  .data-table:not(.credits-table) td {
     display: block;
     border: none;
     padding: 0.25rem 0.35rem;
   }
 
-  .data-table td::before {
+  .data-table:not(.credits-table) td::before {
     content: attr(data-label) ": ";
     font-weight: 700;
     color: var(--muted);
