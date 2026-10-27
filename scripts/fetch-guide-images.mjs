@@ -1,12 +1,13 @@
 /**
  * Wikimedia Commons からガイド用ヒーロー画像を取得し WebP に変換する。
  * メタデータは src/_data/image_credits.json と同期すること。
- * CC BY-SA: リサイズのみ（トリミングなし）。
+ * CC BY-SA: リサイズのみ（トリミングなし）。EXIF の向きはピクセルに焼き込む（.rotate()）。
  */
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import { execSync } from "child_process";
+import sharp from "sharp";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, "..");
@@ -29,6 +30,35 @@ const DOWNLOADS = {
     "https://upload.wikimedia.org/wikipedia/commons/2/2e/Hippodrome_de_Longchamp_2021.jpg",
 };
 
+/** @param {number | undefined} orientation EXIF Orientation (1–8). */
+function orientationLabel(orientation) {
+  switch (orientation) {
+    case undefined:
+    case 1:
+      return "upright (1 or none)";
+    case 2:
+      return "mirrored horizontal (2)";
+    case 3:
+      return "rotated 180° (3)";
+    case 4:
+      return "mirrored vertical (4)";
+    case 5:
+      return "mirrored horizontal + 270° CW (5)";
+    case 6:
+      return "rotated 90° CW (6)";
+    case 7:
+      return "mirrored horizontal + 90° CW (7)";
+    case 8:
+      return "rotated 90° CCW (8)";
+    default:
+      return `unknown (${orientation})`;
+  }
+}
+
+function needsAutoOrient(orientation) {
+  return orientation !== undefined && orientation !== 1;
+}
+
 fs.mkdirSync(OUT, { recursive: true });
 fs.mkdirSync(TMP, { recursive: true });
 
@@ -41,13 +71,22 @@ for (const [id, url] of Object.entries(DOWNLOADS)) {
     continue;
   }
   const jpg = path.join(TMP, `${id}.jpg`);
-  const scaled = path.join(TMP, `${id}-s.jpg`);
   const webp = path.join(OUT, `${id}.webp`);
   execSync(`curl -sL -A "${UA}" -o "${jpg}" "${url}"`, { stdio: "inherit" });
-  execSync(
-    `convert "${jpg}" -resize 1200x> -strip -interlace Plane "${scaled}"`,
-    { stdio: "inherit" }
+
+  const before = await sharp(jpg).metadata();
+  const rotated = needsAutoOrient(before.orientation);
+  console.log(
+    `${id}: EXIF orientation ${before.orientation ?? "none"} (${orientationLabel(before.orientation)}); before ${before.width}x${before.height}; auto-orient applied: ${rotated}`
   );
-  execSync(`cwebp -q 80 -m 6 "${scaled}" -o "${webp}"`, { stdio: "inherit" });
-  console.log(`Wrote ${webp}`);
+
+  const afterMeta = await sharp(jpg)
+    .rotate()
+    .resize({ width: 1200, withoutEnlargement: true })
+    .webp({ quality: 80, effort: 6 })
+    .toFile(webp);
+
+  console.log(
+    `${id}: wrote ${webp} (${afterMeta.width}x${afterMeta.height}, ${rotated ? "fixed" : "unchanged"})`
+  );
 }
