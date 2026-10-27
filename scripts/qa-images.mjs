@@ -38,7 +38,7 @@ async function run(browser, viewport, prefix) {
   await page.goto(`${BASE}/`, { waitUntil: "networkidle" });
   await page.waitForSelector(".page-hero__img");
   await page.screenshot({
-    path: path.join(OUT, `images-${prefix}-home-hero.png`),
+    path: path.join(OUT, `images-${prefix}-hero-hero-home.png`),
     fullPage: false,
   });
 
@@ -48,11 +48,19 @@ async function run(browser, viewport, prefix) {
     fullPage: false,
   });
 
-  await page.goto(`${BASE}/haigo/`, { waitUntil: "networkidle" });
-  await page.screenshot({
-    path: path.join(OUT, `images-${prefix}-haigo-hero.png`),
-    fullPage: false,
-  });
+  for (const [slug, file] of [
+    ["haigo", "hero-haigo"],
+    ["ikusei", "hero-ikusei"],
+    ["schedule", "hero-schedule"],
+    ["overseas", "hero-overseas"],
+  ]) {
+    await page.goto(`${BASE}/${slug}/`, { waitUntil: "networkidle" });
+    await page.waitForSelector(".page-hero__img");
+    await page.screenshot({
+      path: path.join(OUT, `images-${prefix}-hero-${file}.png`),
+      fullPage: false,
+    });
+  }
 
   await ctx.close();
   return errors;

@@ -1,60 +1,70 @@
 {
-  "policy": "ゲームのスクリーンショット・公式イラスト・ロゴは使用していません。掲載画像はリポジトリ内に保存した WebP のみ（外部ホットリンクなし）。",
+  "policy": "ゲームのスクリーンショット・公式イラスト・ロゴは使用していません。掲載画像はリポジトリ内 WebP（最大幅1200px・リサイズのみ。CC BY-SA 画像はトリミングなし）。",
   "images": [
     {
       "id": "hero-home",
       "file": "hero-home.webp",
-      "alt": "競馬のスタート直前、ゲートから出走する馬たち（遠景・人物は小さい）",
-      "author": "Unknown author (via Muzeum Cyfrowe)",
-      "author_html": "Unknown author (via <a href=\"https://cyfrowe.mnw.art.pl/\">Muzeum Cyfrowe</a>)",
-      "license": "Public domain",
-      "license_url": "https://commons.wikimedia.org/wiki/File:Z_wy%C5%9Bcig%C3%B3w_-_Do_startu_(60546).jpg",
-      "source_page": "https://commons.wikimedia.org/wiki/File:Z_wyścigów_-_Do_startu_(60546).jpg",
-      "source_site": "Wikimedia Commons"
+      "year_taken": 2023,
+      "alt": "東京競馬場のスタンドとコース（2023年・全景）",
+      "author": "くろふね",
+      "author_html": "<a href=\"//commons.wikimedia.org/wiki/User:%E3%81%8F%E3%82%8D%E3%81%B5%E3%81%AD\" title=\"User:くろふね\">くろふね</a>",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0",
+      "source_page": "https://commons.wikimedia.org/wiki/File:%E6%9D%B1%E4%BA%AC%E7%AB%B6%E9%A6%AC%E5%A0%B420231014-P1032226.jpg",
+      "source_site": "Wikimedia Commons",
+      "modification": "リサイズ・WebP変換のみ"
     },
     {
       "id": "hero-haigo",
       "file": "hero-haigo.webp",
-      "alt": "牧草地にいる牝馬と子馬（配合・血統イメージ）",
-      "author": "Chris 73",
-      "author_html": "<a href=\"//commons.wikimedia.org/wiki/User:Chris_73\" title=\"User:Chris 73\">Chris 73</a>",
+      "year_taken": 2025,
+      "alt": "中山競馬場のパドックで歩く競走馬（配合・血統のイメージ）",
+      "author": "くろふね",
+      "author_html": "<a href=\"//commons.wikimedia.org/wiki/User:%E3%81%8F%E3%82%8D%E3%81%B5%E3%81%AD\" title=\"User:くろふね\">くろふね</a>",
       "license": "CC BY 4.0",
       "license_url": "https://creativecommons.org/licenses/by/4.0",
-      "source_page": "https://commons.wikimedia.org/wiki/File:Iceland_Horses_Mare_and_Foal_9244.jpg",
-      "source_site": "Wikimedia Commons"
+      "source_page": "https://commons.wikimedia.org/wiki/File:%E4%B8%AD%E5%B1%B1%E7%AB%B6%E9%A6%AC%E5%A0%B4%E3%83%91%E3%83%89%E3%83%83%E3%82%AF20250601-P1068679.jpg",
+      "source_site": "Wikimedia Commons",
+      "modification": "リサイズ・WebP変換のみ"
     },
     {
       "id": "hero-ikusei",
       "file": "hero-ikusei.webp",
-      "alt": "厩舎から調教コースへ向かう馬用トンネル（育成・調教のイメージ）",
-      "author": "Pitke",
-      "author_html": "<a href=\"//commons.wikimedia.org/wiki/User:Pitke\" title=\"User:Pitke\">Pitke</a>",
+      "year_taken": 2022,
+      "alt": "東京競馬場の芝コースとスタンド（育成・調教のイメージ）",
+      "author": "江戸村のとくぞう",
+      "author_html": "<a href=\"//commons.wikimedia.org/wiki/User:%E6%B1%9F%E6%88%B8%E6%9D%91%E3%81%AE%E3%81%A8%E3%81%8F%E3%81%9E%E3%81%86\" title=\"User:江戸村のとくぞう\">江戸村のとくぞう</a>",
       "license": "CC BY-SA 4.0",
       "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
-      "source_page": "https://commons.wikimedia.org/wiki/File:Disused_horse_underpass_from_stables_to_the_training_race_track,_S%C5%82u%C5%BCewiec_(2).jpg",
-      "source_site": "Wikimedia Commons"
+      "source_page": "https://commons.wikimedia.org/wiki/File:Tokyo_Racecourse_220605k.jpg",
+      "source_site": "Wikimedia Commons",
+      "modification": "リサイズ・WebP変換のみ（トリミングなし）"
     },
     {
       "id": "hero-schedule",
       "file": "hero-schedule.webp",
-      "alt": "競馬のスターティングゲート（番組・レース日程のイメージ）",
-      "author": "Jeff Kubina",
-      "author_html": "<a href=\"//commons.wikimedia.org/wiki/User:Kubina\" title=\"User:Kubina\">Jeff Kubina</a>",
-      "license": "CC BY 2.0",
-      "license_url": "https://creativecommons.org/licenses/by/2.0",
-      "source_page": "https://commons.wikimedia.org/wiki/File:Horse_Race_Starting_Gate_(14304242538).jpg",
-      "source_site": "Wikimedia Commons"
+      "year_taken": 2025,
+      "alt": "大井競馬場のコースと施設（番組・レース日程のイメージ）",
+      "author": "Syced",
+      "author_html": "<a href=\"//commons.wikimedia.org/wiki/User:Syced\" title=\"User:Syced\">Syced</a>",
+      "license": "CC0 1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Ohi_Racecourse_(10163).jpg",
+      "source_site": "Wikimedia Commons",
+      "modification": "リサイズ・WebP変換のみ"
     },
     {
       "id": "hero-overseas",
       "file": "hero-overseas.webp",
-      "alt": "チャーチルダウンズ競馬場でのレース（海外レースのイメージ）",
-      "author": "Daniel Mayer (Dannyboymalingap)",
-      "author_html": "<a href=\"//commons.wikimedia.org/wiki/User:Dannyboymalingap\" title=\"User:Dannyboymalingap\">Daniel Mayer (Dannyboymalingap)</a>",
-      "license": "CC BY-SA 2.0",
-      "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
-      "source_page": "https://commons.wikimedia.org/wiki/File:Horseracing_Churchill_Downs.jpg",
-      "source_site": "Wikimedia Commons"
+      "year_taken": 2021,
+      "alt": "フランス・ロンシャン競馬場の施設（海外レースのイメージ）",
+      "author": "LPLT",
+      "author_html": "<a href=\"//commons.wikimedia.org/wiki/User:LPLT\" title=\"User:LPLT\">LPLT</a>",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Hippodrome_de_Longchamp_2021.jpg",
+      "source_site": "Wikimedia Commons",
+      "modification": "リサイズ・WebP変換のみ（トリミングなし）"
     }
   ]
 }

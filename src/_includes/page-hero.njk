@@ -11,13 +11,15 @@
     decoding="async"
   >
   <figcaption class="page-hero__credit">
-    {% if img.license == 'Public domain' %}
+    {% if img.year_taken %}<span>{{ img.year_taken }}年撮影</span><span class="page-hero__sep" aria-hidden="true">·</span>{% endif %}
+    {% if img.license == 'Public domain' or img.license == 'CC0 1.0' %}
     <span class="page-hero__license">{{ img.license }}</span>
     {% else %}
     <span class="page-hero__author">{{ img.author }}</span>
     <span class="page-hero__sep" aria-hidden="true">·</span>
     <a href="{{ img.license_url }}" rel="noopener noreferrer">{{ img.license }}</a>
     {% endif %}
+    {% if img.modification %}<span class="page-hero__sep" aria-hidden="true">·</span><span>{{ img.modification }}</span>{% endif %}
     <span class="page-hero__sep" aria-hidden="true">·</span>
     <a href="{{ img.source_page }}" rel="noopener noreferrer">Wikimedia Commons</a>
     <span class="page-hero__sep" aria-hidden="true">·</span>

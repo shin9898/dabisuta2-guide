@@ -13,17 +13,19 @@ permalink: /credits/
   <thead>
     <tr>
       <th>ファイル</th>
+      <th>撮影年</th>
       <th>プレビュー</th>
       <th>作者</th>
       <th>ライセンス</th>
+      <th>加工</th>
       <th>原本ページ</th>
-      <th>掲載</th>
     </tr>
   </thead>
   <tbody>
     {% for img in image_credits.images %}
     <tr>
       <td><code>{{ img.file }}</code><br><small>{{ img.id }}</small></td>
+      <td>{{ img.year_taken or "不明" }}</td>
       <td>
         <img
           src="{{ ('/assets/images/guide/' ~ img.file) | url }}"
@@ -39,8 +41,8 @@ permalink: /credits/
       <td>
         <a href="{{ img.license_url }}" rel="noopener noreferrer">{{ img.license }}</a>
       </td>
+      <td><small>{{ img.modification or "—" }}</small></td>
       <td><a href="{{ img.source_page }}" rel="noopener noreferrer">Commons</a></td>
-      <td>{% if img.unused %}<span class="label label-unknown">未掲載（予備）</span>{% else %}ページヒーロー{% endif %}</td>
     </tr>
     {% endfor %}
   </tbody>

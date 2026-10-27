@@ -1,8 +1,7 @@
 /**
  * Wikimedia Commons からガイド用ヒーロー画像を取得し WebP に変換する。
  * メタデータは src/_data/image_credits.json と同期すること。
- *
- * 依存: curl, ImageMagick (convert), cwebp
+ * CC BY-SA: リサイズのみ（トリミングなし）。
  */
 import fs from "fs";
 import path from "path";
@@ -19,15 +18,15 @@ const UA =
 
 const DOWNLOADS = {
   "hero-home":
-    "https://upload.wikimedia.org/wikipedia/commons/2/22/Z_wy%C5%9Bcig%C3%B3w_-_Do_startu_%2860546%29.jpg",
+    "https://upload.wikimedia.org/wikipedia/commons/8/88/%E6%9D%B1%E4%BA%AC%E7%AB%B6%E9%A6%AC%E5%A0%B420231014-P1032226.jpg",
   "hero-haigo":
-    "https://upload.wikimedia.org/wikipedia/commons/a/a2/Iceland_Horses_Mare_and_Foal_9244.jpg",
+    "https://upload.wikimedia.org/wikipedia/commons/d/d1/%E4%B8%AD%E5%B1%B1%E7%AB%B6%E9%A6%AC%E5%A0%B4%E3%83%91%E3%83%89%E3%83%83%E3%82%AF20250601-P1068679.jpg",
   "hero-ikusei":
-    "https://upload.wikimedia.org/wikipedia/commons/a/ad/Disused_horse_underpass_from_stables_to_the_training_race_track%2C_S%C5%82u%C5%BCewiec_%282%29.jpg",
+    "https://upload.wikimedia.org/wikipedia/commons/5/56/Tokyo_Racecourse_220605k.jpg",
   "hero-schedule":
-    "https://upload.wikimedia.org/wikipedia/commons/7/72/Horse_Race_Starting_Gate_%2814304242538%29.jpg",
+    "https://upload.wikimedia.org/wikipedia/commons/3/31/Ohi_Racecourse_%2810163%29.jpg",
   "hero-overseas":
-    "https://upload.wikimedia.org/wikipedia/commons/7/7b/Horseracing_Churchill_Downs.jpg",
+    "https://upload.wikimedia.org/wikipedia/commons/2/2e/Hippodrome_de_Longchamp_2021.jpg",
 };
 
 fs.mkdirSync(OUT, { recursive: true });
@@ -49,6 +48,6 @@ for (const [id, url] of Object.entries(DOWNLOADS)) {
     `convert "${jpg}" -resize 1200x> -strip -interlace Plane "${scaled}"`,
     { stdio: "inherit" }
   );
-  execSync(`cwebp -q 78 -m 6 "${scaled}" -o "${webp}"`, { stdio: "inherit" });
+  execSync(`cwebp -q 80 -m 6 "${scaled}" -o "${webp}"`, { stdio: "inherit" });
   console.log(`Wrote ${webp}`);
 }
