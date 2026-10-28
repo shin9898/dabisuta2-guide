@@ -2,7 +2,7 @@
 layout: layouts/base.njk
 title: トップ（最新情報）
 description: ダービースタリオン２の最新情報・パッチ・BC関連
-updated: 2026-10-27
+updated: 2026-10-28
 permalink: /
 heroId: hero-home
 ---
@@ -12,10 +12,35 @@ heroId: hero-home
 <nav class="toc" aria-label="目次">
   <p class="toc-title">目次</p>
   <ul class="toc-list">
+    <li><a href="#updates">公式アップデート</a></li>
     <li><a href="#news">最新情報</a></li>
     <li><a href="#about-labels">確認ラベルの意味</a></li>
   </ul>
 </nav>
+
+<h2 id="updates">公式アップデート情報</h2>
+<p>Game Addict の告知に基づくバージョン履歴（当サイト要約）。最新は <strong>Ver.1.0.2</strong>（2026年10月28日）。</p>
+
+{% for u in game_updates %}
+<article class="update-block">
+  {{ label("公式") }}
+  <h3>Ver.{{ u.version }} — {{ u.kind }}（<time datetime="{{ u.date }}">{{ u.date | formatDateJa }}</time>）</h3>
+  <p>{{ u.summary }}</p>
+  {% if u.fixes and u.fixes.length %}
+  <ul class="update-fix-list">
+    {% for fix in u.fixes %}
+    <li>{{ fix }}</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+  <p class="fact-source-intro">出典:</p>
+  <ul class="source-list">
+    {% for s in u.sources %}
+    <li><a href="{{ s.url }}" rel="noopener noreferrer">{{ s.title }}</a></li>
+    {% endfor %}
+  </ul>
+</article>
+{% endfor %}
 
 <h2 id="news">最新情報</h2>
 <p>新しいものを上に表示しています。各項目は、記載のページ（リンク）に基づく要約です。</p>
@@ -55,6 +80,10 @@ heroId: hero-home
     </tr>
   </thead>
   <tbody>
+    <tr>
+      <td>公式</td>
+      <td>Game Addict またはダービースタリオン2公式Xなど、開発・発売元の告知</td>
+    </tr>
     <tr>
       <td>ダビスタ2で確認済み</td>
       <td>本作でプレイまたは信頼できる一次情報で確認した内容</td>

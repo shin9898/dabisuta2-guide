@@ -2,7 +2,7 @@
 layout: layouts/base.njk
 title: BC・対人戦
 description: ブリーダーズカップ・タイムアタック・コミュニティ大会
-updated: 2026-10-26
+updated: 2026-10-28
 permalink: /bc/
 ---
 
@@ -24,16 +24,25 @@ permalink: /bc/
 
 ### アップロードエラー「不正なデータを検知しました」
 
-<span class="label label-unknown">未確認</span>（X上のプレイヤー報告・サポート返答の共有）
+<span class="label label-verified">公式</span>（Ver.1.0.2 で修正 — 2026年10月28日）
 
-[X の投稿](https://x.com/champon1110/status/2110207223020630191) に基づく要約:
+[Game Addict Ver.1.0.2](https://www.gameaddict.co.jp/derbystallion2/update1028.php) では、BC登録馬アップロード時に「不正なデータを検知しましたのでアップロードはできません」と表示され失敗する不具合の**修正**が告知されています。
+
+<details>
+<summary>修正前のプレイヤー報告（参考）</summary>
+
+<span class="label label-unknown">未確認</span>（X上のプレイヤー報告・サポート返答の共有・修正前）
+
+[X の投稿（champon1110）](https://x.com/champon1110/status/2110207223020630191) に基づく要約:
 
 | 項目 | 内容 |
 | --- | --- |
 | 内容 | プレイヤー報告で、サポートからBCアップロード拒否への**修正対応が予定**されているとの返答が共有されている |
-| 修正日・公式告知 | **不明**（公式サイトでは未確認） |
+| 修正日・公式告知 | **当時は不明**（のち Ver.1.0.2 で公式修正告知） |
 
 出典: [champon1110 の投稿](https://x.com/champon1110/status/2110207223020630191)
+
+</details>
 
 ## コミュニティBC
 
