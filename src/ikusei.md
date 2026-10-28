@@ -2,7 +2,7 @@
 layout: layouts/base.njk
 title: 育成・選別
 description: コメント・繁殖移行・距離適性・脚質・作戦
-updated: 2026-10-26
+updated: 2026-10-28
 permalink: /ikusei/
 heroId: hero-ikusei
 ---
@@ -20,6 +20,14 @@ heroId: hero-ikusei
 [PR TIMES（Game Addict）](https://prtimes.jp/main/html/rd/p/000000020.000022342.html) では、入厩前に**距離適性**・**芝／ダート適性**・**重馬場適性**が分かる旨が掲載されている（本作で新たに追加されたパラメータとしての説明）。
 
 出典: [PR TIMES リリース](https://prtimes.jp/main/html/rd/p/000000020.000022342.html)
+
+### 重馬場適性の段階（公式・Ver.1.0.2で表記統一）
+
+<span class="label label-verified">公式</span>
+
+[Game Addict Ver.1.0.2 告知](https://www.gameaddict.co.jp/derbystallion2/update1028.php) および [公式X](https://x.com/DerbyStallion2/status/2115254173482856761) によると、**重馬場適性**の正しい段階は **5段階** で、弱い順に **× ＜ △ ＜ ○ ＜ ◎ ＜ ⦿** です。ダビスタチャンネルおよびローディングTipsでは、誤って **3段階（△ ＜ ○ ＜ ◎）** と表示されていた箇所が Ver.1.0.2 で修正された、とされています。
+
+出典: [Game Addict — Ver.1.0.2](https://www.gameaddict.co.jp/derbystallion2/update1028.php) / [公式X](https://x.com/DerbyStallion2/status/2115254173482856761)
 
 ### レース選びの考え方（攻略記事）
 

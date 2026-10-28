@@ -283,6 +283,22 @@ body {
   font-style: italic;
 }
 
+.update-block {
+  margin: 0 0 1.5rem;
+  padding: 0 0 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.update-fix-list {
+  margin: 0.5rem 0 0.75rem;
+  padding-left: 1.25rem;
+  font-size: 0.92rem;
+}
+
+.update-fix-list li {
+  margin-bottom: 0.35rem;
+}
+
 .news-list {
   list-style: none;
   padding: 0;

@@ -35,11 +35,16 @@ const imageCreditsById = Object.fromEntries(
   imageCreditsData.images.map((img) => [img.id, img])
 );
 
+const gameUpdatesData = JSON.parse(
+  fs.readFileSync(path.join(__dirname, "src/_data/game_updates.json"), "utf8")
+);
+
 module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/assets");
 
   eleventyConfig.addGlobalData("image_credits", imageCreditsData);
   eleventyConfig.addGlobalData("imageCreditsById", imageCreditsById);
+  eleventyConfig.addGlobalData("game_updates", gameUpdatesData);
 
   eleventyConfig.addCollection("newsSorted", () =>
     [...newsData].sort(
@@ -205,6 +210,7 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addFilter("labelClass", (label) => {
     switch (label) {
       case "ダビスタ2で確認済み":
+      case "公式":
         return "label-verified";
       case "前作の情報":
         return "label-prev";
