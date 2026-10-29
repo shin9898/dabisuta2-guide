@@ -39,12 +39,24 @@ const gameUpdatesData = JSON.parse(
   fs.readFileSync(path.join(__dirname, "src/_data/game_updates.json"), "utf8")
 );
 
+const rotationSamplesData = JSON.parse(
+  fs.readFileSync(path.join(__dirname, "src/_data/rotation_samples.json"), "utf8")
+);
+const rotationOverseasUi = JSON.parse(
+  fs.readFileSync(
+    path.join(__dirname, "src/_data/rotation_overseas_ui.json"),
+    "utf8"
+  )
+);
+
 module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/assets");
 
   eleventyConfig.addGlobalData("image_credits", imageCreditsData);
   eleventyConfig.addGlobalData("imageCreditsById", imageCreditsById);
   eleventyConfig.addGlobalData("game_updates", gameUpdatesData);
+  eleventyConfig.addGlobalData("rotation_samples", rotationSamplesData);
+  eleventyConfig.addGlobalData("rotation_overseas_ui", rotationOverseasUi);
 
   eleventyConfig.addCollection("newsSorted", () =>
     [...newsData].sort(
@@ -218,6 +230,8 @@ module.exports = function (eleventyConfig) {
         return "label-tool";
       case "未確認":
       case "未確認（推定）":
+        return "label-unknown";
+      case "未確認（自分の牧場の実例）":
         return "label-unknown";
       default:
         return "label-unknown";
