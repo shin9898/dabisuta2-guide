@@ -186,7 +186,7 @@
     }
 
     if (!store.horses?.length) {
-      const h = emptyHorse("新しい馬");
+      const h = emptyHorse("（馬名）");
       store.horses = [h];
       store.activeHorseId = h.id;
       store.activeSeasonAge = h.age;
@@ -312,80 +312,371 @@
     return wins.some((w) => w.race_name === resolveName(name));
   }
 
-  function renderOverseasCheck() {
-    const host = $("#rotation-overseas-check-out");
-    const enabled = $("#rot-overseas-check")?.checked;
+  /** 湯一路: GI・JpnI — データ上は grade I のみ（JpnIは未確定） */
+  function isGiOrJpnI(r) {
+    return r.grade_raw === "I";
+  }
+
+  function winRecordFromEntry(entry, r) {
+    return {
+      race_name: r.race_name,
+      grade_raw: r.grade_raw,
+      surface: r.surface,
+      distance_m: r.distance_m,
+      order_index: r.order_index,
+      isOverseas: r.isOverseas,
+    };
+  }
+
+  function collectWinRecords(horse) {
+    return collectWins(horse);
+  }
+
+  function collectHypotheticalWins(horse) {
+    const wins = collectWinRecords(horse);
+    const seen = new Set(wins.map((w) => w.race_name));
+    for (const { ageKey, entry } of iterAllEntries(horse)) {
+      const r = raceById.get(entry.raceId);
+      if (!r) continue;
+      const res = entry.result || {};
+      if (res.status !== "pending") continue;
+      if (seen.has(r.race_name)) continue;
+      wins.push({ ...winRecordFromEntry(entry, r), seasonAge: Number(ageKey) });
+      seen.add(r.race_name);
+    }
+    return wins;
+  }
+
+  function countDirtGiJpnI(wins, minDist) {
+    return wins.filter(
+      (w) => w.surface === "dirt" && isGiOrJpnI(w) && w.distance_m >= minDist
+    ).length;
+  }
+
+  function isArcTargetGi(r) {
+    return (
+      r.surface === "turf" &&
+      r.distance_m >= 2000 &&
+      isGiOrJpnI(r) &&
+      r.race_name !== "ホープフルステークス"
+    );
+  }
+
+  function countArcTargetGi(wins) {
+    return wins.filter((w) => isArcTargetGi(w)).length;
+  }
+
+  function isKawaiStable(horse) {
+    return horse.stable && /河合/.test(horse.stable);
+  }
+
+  function horseAgeForInvite(horse) {
+    return store.activeSeasonAge || horse.age || 4;
+  }
+
+  function evalVerdict(kind, text, routeNote, planNote) {
+    return { kind, text, routeNote, planNote };
+  }
+
+  function evaluateDubai(wins, horse) {
+    const age = horseAgeForInvite(horse);
+    if (age < 4) {
+      return evalVerdict(
+        "impossible",
+        "満たせない（4歳以上が条件）",
+        "湯一路: 年齢4歳以上",
+        null
+      );
+    }
+    const feb = hasWinNamed(wins, "フェブラリーS");
+    const cc = hasWinNamed(wins, "チャンピオンズC");
+    const bc = hasWinNamed(wins, "ブリーダーズカップクラシック");
+    if (bc) {
+      return evalVerdict(
+        "met",
+        "満たしている（ルート1: 前年BC勝利の可能性）",
+        "前年の扱いは未確定のため、BC1着をルート1参考",
+        null
+      );
+    }
+    if (cc && feb) {
+      return evalVerdict(
+        "met",
+        "満たしている（ルート2参考）",
+        "前年CC＋同年フェブラリーS（開催年の厳密判定は未確定）",
+        null
+      );
+    }
+    const c1600 = countDirtGiJpnI(wins, 1600);
+    if (c1600 >= 4) {
+      return evalVerdict("met", "満たしている", "ルート3: 1600m以上×4勝", null);
+    }
+    const c2000 = countDirtGiJpnI(wins, 2000);
+    if (c2000 >= 3) {
+      return evalVerdict("met", "満たしている", "ルート4: 2000m以上×3勝", null);
+    }
+    const miss3 = 4 - c1600;
+    const miss4 = 3 - c2000;
+    if (miss3 <= miss4) {
+      return evalVerdict(
+        "partial",
+        `あとダート1600m以上のGI・JpnIを${miss3}勝`,
+        `ルート3（優先3）: 現在${c1600}/4勝`,
+        null
+      );
+    }
+    return evalVerdict(
+      "partial",
+      `あとダート2000m以上のGI・JpnIを${miss4}勝`,
+      `ルート4: 現在${c2000}/3勝`,
+      null
+    );
+  }
+
+  function evaluateBcClassic(wins, horse) {
+    const age = horseAgeForInvite(horse);
+      if (age === 3) {
+      const kd = hasWinNamed(wins, "ケンタッキーダービー");
+      const jpnI3 = wins.filter((w) => w.seasonAge === 3 && isGiOrJpnI(w)).length;
+      if (kd) {
+        return evalVerdict("met", "満たしている", "ルートA: ケンタッキーダービー勝利", null);
+      }
+      if (jpnI3 >= 2) {
+        return evalVerdict(
+          "met",
+          "満たしている",
+          "ルートA: 3歳GI/JpnI 2勝以上（JpnI未確定）",
+          null
+        );
+      }
+      return evalVerdict(
+        "partial",
+        `あと3歳GI・JpnIを${Math.max(0, 2 - jpnI3)}勝`,
+        "ルートA（3歳）",
+        null
+      );
+    }
+    if (age >= 4) {
+      const dubai = hasWinNamed(wins, "ドバイワールドカップ");
+      if (dubai) {
+        return evalVerdict("met", "満たしている", "ルートB: 同年ドバイWC勝利", null);
+      }
+      const c1600 = countDirtGiJpnI(wins, 1600);
+      if (c1600 >= 4) {
+        return evalVerdict("met", "満たしている", "ルートB: 1600m以上×4勝", null);
+      }
+      const c2000 = countDirtGiJpnI(wins, 2000);
+      if (c2000 >= 3) {
+        return evalVerdict("met", "満たしている", "ルートB: 2000m以上×3勝", null);
+      }
+      const miss3 = 4 - c1600;
+      return evalVerdict(
+        "partial",
+        `あとダート1600m以上のGI・JpnIを${miss3}勝`,
+        `ルートB（4歳以上）: 現在${c1600}/4勝`,
+        null
+      );
+    }
+    return evalVerdict("impossible", "満たせない（年齢不明）", "", null);
+  }
+
+  function evaluateArc(wins, horse, variant) {
+    const age = horseAgeForInvite(horse);
+    const derby = hasWinNamed(wins, "日本ダービー");
+    const takarazuka = hasWinNamed(wins, "宝塚記念");
+    const targetCount = countArcTargetGi(wins);
+    const san = ["皐月賞", "オークス", "宝塚記念"].some((n) => hasWinNamed(wins, n));
+
+    if (variant === "kawai3") {
+      if (age !== 3) {
+        return evalVerdict(
+          "impossible",
+          "満たせない（河合3歳ルートは3歳のみ）",
+          "ルートC",
+          null
+        );
+      }
+      if (!isKawaiStable(horse)) {
+        return evalVerdict(
+          "partial",
+          "厩舎欄に河合未登録（3歳打診は河合前提）",
+          "ルートC（未確定で検証中）",
+          null
+        );
+      }
+      if (derby && san) {
+        return evalVerdict("met", "満たしている", "ルートC: ダービー＋皐月/オークス/宝塚", null);
+      }
+      const need = [];
+      if (!derby) need.push("日本ダービー1勝");
+      if (!san) need.push("皐月・オークス・宝塚のいずれか1勝");
+      return evalVerdict(
+        "partial",
+        need.length ? `あと${need.join("、")}` : "判定中",
+        "ルートC（河合3歳）",
+        null
+      );
+    }
+
+    if (age <= 4) {
+      if (targetCount >= 3 && takarazuka) {
+        return evalVerdict("met", "満たしている", "ルートA: 対象GI3勝＋同年宝塚", null);
+      }
+      const need = [];
+      if (targetCount < 3) {
+        need.push(`対象GIをあと${3 - targetCount}勝`);
+      }
+      if (!takarazuka) need.push("同年宝塚記念1勝");
+      return evalVerdict(
+        "partial",
+        need.join("、"),
+        `ルートA（4歳以下）: 対象GI ${targetCount}/3`,
+        null
+      );
+    }
+
+    if (age >= 5) {
+      const lastYear = targetCount;
+      if (targetCount >= 3 && lastYear >= 2 && takarazuka) {
+        return evalVerdict("met", "満たしている", "ルートB: 5歳以上", null);
+      }
+      return evalVerdict(
+        "partial",
+        "対象GI3勝・直近1年2勝・宝塚（直近1年は通算近似）",
+        "ルートB（5歳以上・未確定多）",
+        null
+      );
+    }
+    return evalVerdict("partial", "年齢を確認してください", "", null);
+  }
+
+  function evaluateTarget(id, wins, horse) {
+    let base;
+    switch (id) {
+      case "dubai":
+        base = evaluateDubai(wins, horse);
+        break;
+      case "bc":
+        base = evaluateBcClassic(wins, horse);
+        break;
+      case "arc4":
+        base = evaluateArc(wins, horse, "age4");
+        break;
+      case "arcKawai3":
+        base = evaluateArc(wins, horse, "kawai3");
+        break;
+      default:
+        base = evalVerdict("partial", "—", "", null);
+    }
+    const planWins = collectHypotheticalWins(horse);
+    let planEval = base;
+    if (base.kind !== "met") {
+      switch (id) {
+        case "dubai":
+          planEval = evaluateDubai(planWins, horse);
+          break;
+        case "bc":
+          planEval = evaluateBcClassic(planWins, horse);
+          break;
+        case "arc4":
+          planEval = evaluateArc(planWins, horse, "age4");
+          break;
+        case "arcKawai3":
+          planEval = evaluateArc(planWins, horse, "kawai3");
+          break;
+        default:
+          break;
+      }
+    }
+    const planText =
+      planEval.kind === "met"
+        ? "予定レースをすべて1着想定: 満たせる参考"
+        : planEval.kind === "partial"
+          ? `予定を全勝想定: まだ ${planEval.text}`
+          : "予定を全勝想定: 満たせない参考";
+    return { ...base, planText };
+  }
+
+  const INVITE_TARGETS = [
+    {
+      id: "dubai",
+      title: "ドバイワールドカップ",
+      url: "https://ds2.yublog.com/info/overseas.php#ov-dubai",
+    },
+    {
+      id: "bc",
+      title: "ブリーダーズカップクラシック",
+      url: "https://ds2.yublog.com/info/overseas.php#ov-bc",
+    },
+    {
+      id: "arc4",
+      title: "凱旋門賞（4歳以下ルートA）",
+      url: "https://ds2.yublog.com/info/overseas.php#ov-arc",
+    },
+    {
+      id: "arcKawai3",
+      title: "凱旋門賞（河合3歳ルートC）",
+      url: "https://ds2.yublog.com/info/overseas.php#ov-arc",
+    },
+  ];
+
+  function inviteCardHtml(t, ev) {
+    const cls =
+      ev.kind === "met"
+        ? "rotation-invite-card--met"
+        : ev.kind === "impossible"
+          ? "rotation-invite-card--no"
+          : "rotation-invite-card--partial";
+    return `<article class="rotation-invite-card ${cls}">
+      <h3>${esc(t.title)} <span class="label label-unknown">未確認（推定）</span></h3>
+      <p class="rotation-invite-verdict">${esc(ev.text)}</p>
+      <p class="rotation-invite-route">${esc(ev.routeNote || "")}</p>
+      <p class="rotation-invite-plan">${esc(ev.planText || "")}</p>
+      <p class="source-list"><a href="${esc(t.url)}" rel="noopener noreferrer">湯一路 overseas.php</a></p>
+    </article>`;
+  }
+
+  function renderInvitePanel() {
+    const host = $("#rotation-invite-panel");
     if (!host) return;
-    if (!enabled) {
-      host.hidden = true;
+    const horse = activeHorse();
+    if (!horse) {
       host.innerHTML = "";
       return;
     }
+    const wins = collectWinRecords(horse);
+    host.innerHTML = INVITE_TARGETS.map((t) =>
+      inviteCardHtml(t, evaluateTarget(t.id, wins, horse))
+    ).join("");
+    renderInviteSummaryMobile();
+  }
+
+  function renderInviteSummaryMobile() {
+    const el = $("#rotation-invite-summary-mobile");
+    if (!el) return;
     const horse = activeHorse();
-    if (!horse) return;
-    const wins = collectWins(horse);
-    const stableNote =
-      horse.stable && /河合/.test(horse.stable)
-        ? "厩舎欄に河合を登録済み（参考）。"
-        : "河合厩舎かは厩舎欄未登録のため未判定。";
+    if (!horse) {
+      el.textContent = "";
+      return;
+    }
+    const wins = collectWinRecords(horse);
+    const dub = evaluateTarget("dubai", wins, horse);
+    const bc = evaluateTarget("bc", wins, horse);
+    el.textContent = `ドバイ: ${dub.text} / BC: ${bc.text}`;
+  }
 
-    const dirtG1 = wins.filter((w) => w.grade_raw === "I" && w.surface === "dirt");
-    const turfG1_2000 = wins.filter(
-      (w) => w.grade_raw === "I" && w.surface === "turf" && w.distance_m >= 2000
-    );
-    const derby = hasWinNamed(wins, "日本ダービー");
+  function isEntryDone(res) {
+    if (!res) return false;
+    if (res.status === "dns" || res.status === "scr") return true;
+    if (res.status === "ran" && res.place !== "" && res.place != null) return true;
+    return false;
+  }
 
-    const blocks = [
-      {
-        title: "ドバイワールドカップ",
-        url: "https://ds2.yublog.com/info/overseas.php#ov-dubai",
-        lines: [
-          `<span class="label label-unknown">未確認（推定）</span>`,
-          dirtG1.length
-            ? `登録勝ち: ダートGI ${dirtG1.map((w) => esc(w.race_name)).join("、")} あり（湯一路表の詳細条件は未転載）。`
-            : "登録勝ち: ダートGI の1着記録なし（参考）。",
-          "I格とJpnIの扱い・「直近1年」の範囲は<strong>未確定</strong>のためここでは判定しません。",
-        ],
-      },
-      {
-        title: "ブリーダーズカップクラシック",
-        url: "https://ds2.yublog.com/info/overseas.php#ov-bc",
-        lines: [
-          `<span class="label label-unknown">未確認（推定）</span>`,
-          dirtG1.length
-            ? `登録勝ち: ダートGI ${dirtG1.length}勝（3歳/4歳以上で条件が異なる旨は湯一路記載どおり・詳細は未転載）。`
-            : "登録勝ち: ダートGI の1着記録なし（参考）。",
-          "I格/JpnI・直近1年の定義は<strong>未確定</strong>。",
-        ],
-      },
-      {
-        title: "凱旋門賞",
-        url: "https://ds2.yublog.com/info/overseas.php#ov-arc",
-        lines: [
-          `<span class="label label-unknown">未確認（推定）</span>`,
-          stableNote,
-          derby
-            ? "登録勝ち: 日本ダービー1着あり。"
-            : "登録勝ち: 日本ダービー1着なし（河合3歳ルート参考）。",
-          turfG1_2000.length
-            ? `芝2000m以上GI勝ち: ${turfG1_2000.map((w) => esc(w.race_name)).join("、")}（湯一路掲示板整理の参考）。`
-            : "芝2000m以上GI の1着記録なし（参考）。",
-          "打診条件の確定版ではなく、GII要件などは<strong>未確定</strong>。",
-        ],
-      },
-    ];
-
-    host.hidden = false;
-    host.innerHTML = blocks
-      .map(
-        (b) =>
-          `<article class="rotation-overseas-check-item"><h3>${esc(b.title)}</h3><ul>${b.lines
-            .map((l) => `<li>${l}</li>`)
-            .join("")}</ul><p class="source-list"><a href="${esc(
-            b.url
-          )}" rel="noopener noreferrer">湯一路 overseas.php</a></p></article>`
-      )
-      .join("");
+  function stableWeekLabel(r) {
+    if (r.month === 3 && r.week === 1) return "在厩（ドバイWC:3月1週）";
+    if (r.month === 10 && r.week === 1) return "在厩（BC:10月1週）";
+    if (r.month === 8) return "凱旋門:9月1週前に在厩";
+    return "";
   }
 
   function syncFormFromHorse() {
@@ -602,107 +893,115 @@
       const r = raceById.get(entry.raceId);
       if (!r) continue;
       const res = entry.result || emptyResult();
-      const card = document.createElement("article");
-      card.className = "rotation-timeline-card";
+      const done = isEntryDone(res);
+      const row = document.createElement("article");
+      row.className =
+        "rotation-row" + (done ? " rotation-row--done" : " rotation-row--planned");
+      const stable = stableWeekLabel(r);
+      if (stable) row.classList.add("rotation-row--stable");
       const distWarn = isOutOfDistRange(h, r) ? distWarnTag() : "";
-      card.innerHTML = `
-        <header class="rotation-timeline-card-head">
+      const placeVal = res.place ?? "";
+      row.innerHTML = `
+        <div class="rotation-row-main">
+          <span class="rotation-row-badge">${done ? "済" : "予定"}</span>
           <span class="rotation-timeline-when">${esc(r.period_label)}</span>
           <strong class="rotation-timeline-name">${esc(r.race_name || "—")}</strong>
           ${distWarn}
-        </header>
-        <p class="rotation-timeline-meta">${esc(r.venue)} · ${surfaceLabel(r.surface)}${r.distance_m}m · ${gradeLabel(r.grade_raw)}${r.isOverseas ? " · 海外" : ""}</p>
-        <label class="rotation-timeline-plan">ローテメモ <input type="text" class="rotation-plan-note" data-race-id="${esc(
-          r.id
-        )}" value="${esc(entry.planNote || "")}"></label>
-        <fieldset class="rotation-result-fieldset">
-          <legend>結果</legend>
-          <label>状態
-            <select class="rotation-result-status" data-race-id="${esc(r.id)}">
-              <option value="pending"${res.status === "pending" ? " selected" : ""}>未入力</option>
-              <option value="ran"${res.status === "ran" ? " selected" : ""}>出走（着順あり）</option>
-              <option value="dns"${res.status === "dns" ? " selected" : ""}>未出走</option>
-              <option value="scr"${res.status === "scr" ? " selected" : ""}>取消</option>
-            </select>
-          </label>
-          <label>着順 <input type="number" class="rotation-result-place" data-race-id="${esc(
-            r.id
-          )}" min="1" max="30" value="${esc(res.place ?? "")}" inputmode="numeric"></label>
-          <label>人気 <input type="number" class="rotation-result-pop" data-race-id="${esc(
-            r.id
-          )}" min="1" max="30" value="${esc(res.popularity ?? "")}" inputmode="numeric"></label>
-          <label>馬場 ${goingSelect("rg-" + r.id, res.going)}</label>
-          <label class="rotation-full">メモ <input type="text" class="rotation-result-memo" data-race-id="${esc(
-            r.id
-          )}" value="${esc(res.memo || "")}"></label>
-        </fieldset>
-        <p class="rotation-result-summary">${esc(resultStatusLabel(res.status))}${
-          res.status === "ran" && res.place ? ` · ${res.place}着` : ""
-        }</p>
-        <button type="button" class="rotation-btn rotation-btn--small rotation-remove" data-race-id="${esc(
-          r.id
-        )}">削除</button>`;
+          ${stable ? `<span class="rotation-stable-tag">${esc(stable)}</span>` : ""}
+          <span class="rotation-timeline-meta">${surfaceLabel(r.surface)}${r.distance_m}m · ${gradeLabel(r.grade_raw)}</span>
+        </div>
+        <div class="rotation-row-results" data-race-id="${esc(r.id)}">
+          <div class="rotation-place-btns" role="group" aria-label="着順">
+            ${[1, 2, 3]
+              .map(
+                (p) =>
+                  `<button type="button" class="rotation-place-btn${res.status === "ran" && Number(res.place) === p ? " is-active" : ""}" data-place="${p}">${p}着</button>`
+              )
+              .join("")}
+            <button type="button" class="rotation-place-btn rotation-place-btn--other" data-place="other">他</button>
+            <input type="number" class="rotation-place-other" min="4" max="30" value="${Number(placeVal) >= 4 ? esc(placeVal) : ""}" placeholder="着" inputmode="numeric" ${Number(placeVal) >= 4 ? "" : "hidden"}>
+            <button type="button" class="rotation-place-btn${res.status === "dns" ? " is-active" : ""}" data-place="dns">未出走</button>
+            <button type="button" class="rotation-place-btn${res.status === "scr" ? " is-active" : ""}" data-place="scr">取消</button>
+          </div>
+          <details class="rotation-row-extra">
+            <summary>詳細</summary>
+            <label>人気 <input type="number" class="rotation-result-pop" min="1" max="30" value="${esc(res.popularity ?? "")}" inputmode="numeric"></label>
+            <label>馬場 ${goingSelect("rg-" + r.id, res.going)}</label>
+            <label>ローテメモ <input type="text" class="rotation-plan-note" value="${esc(entry.planNote || "")}"></label>
+            <label>結果メモ <input type="text" class="rotation-result-memo" value="${esc(res.memo || "")}"></label>
+          </details>
+        </div>
+        <button type="button" class="rotation-btn rotation-btn--small rotation-remove" data-race-id="${esc(r.id)}">削除</button>`;
 
-      host.appendChild(card);
+      host.appendChild(row);
+
+      const resultRoot = row.querySelector(".rotation-row-results");
+      const applyResult = (patch) => {
+        if (!entry.result) entry.result = emptyResult();
+        Object.assign(entry.result, patch);
+        saveStore();
+        renderHorseList();
+        renderHorseStats();
+        renderInvitePanel();
+        renderTimeline();
+      };
+
+      $$(".rotation-place-btn", resultRoot).forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const p = btn.getAttribute("data-place");
+          if (p === "dns") applyResult({ status: "dns", place: "" });
+          else if (p === "scr") applyResult({ status: "scr", place: "" });
+          else if (p === "other") {
+            const inp = resultRoot.querySelector(".rotation-place-other");
+            inp.hidden = false;
+            inp.focus();
+          } else applyResult({ status: "ran", place: String(p) });
+        });
+      });
+
+      const otherInp = resultRoot.querySelector(".rotation-place-other");
+      if (otherInp) {
+        otherInp.addEventListener("change", () => {
+          if (otherInp.value) applyResult({ status: "ran", place: otherInp.value });
+        });
+      }
+
+      const pop = resultRoot.querySelector(".rotation-result-pop");
+      if (pop) {
+        pop.addEventListener("change", () => {
+          if (!entry.result) entry.result = emptyResult();
+          entry.result.popularity = pop.value;
+          saveStore();
+        });
+      }
+      const memo = resultRoot.querySelector(".rotation-result-memo");
+      if (memo) {
+        memo.addEventListener("change", () => {
+          if (!entry.result) entry.result = emptyResult();
+          entry.result.memo = memo.value;
+          saveStore();
+        });
+      }
+      const plan = resultRoot.querySelector(".rotation-plan-note");
+      if (plan) {
+        plan.addEventListener("change", () => {
+          entry.planNote = plan.value;
+          saveStore();
+        });
+      }
+      const going = resultRoot.querySelector(".rotation-result-going");
+      if (going) {
+        going.addEventListener("change", () => {
+          if (!entry.result) entry.result = emptyResult();
+          entry.result.going = going.value;
+          saveStore();
+        });
+      }
     }
 
     $$(".rotation-remove", host).forEach((btn) => {
       btn.addEventListener("click", () => {
         removeTimelineEntry(btn.getAttribute("data-race-id"));
-      });
-    });
-
-    const bindResult = (selector, fn) => {
-      $$(selector, host).forEach((el) => {
-        el.addEventListener("change", () => {
-          const raceId = el.getAttribute("data-race-id");
-          const e = season.timeline.find((x) => x.raceId === raceId);
-          if (!e) return;
-          if (!e.result) e.result = emptyResult();
-          fn(e, el);
-          saveStore();
-          renderHorseList();
-          renderHorseStats();
-          renderOverseasCheck();
-          const sum = host.querySelector(
-            `.rotation-remove[data-race-id="${raceId}"]`
-          )?.previousElementSibling;
-          if (sum) {
-            sum.textContent = `${resultStatusLabel(e.result.status)}${
-              e.result.status === "ran" && e.result.place
-                ? ` · ${e.result.place}着`
-                : ""
-            }`;
-          }
-        });
-      });
-    };
-
-    bindResult(".rotation-plan-note", (e, el) => {
-      e.planNote = el.value;
-    });
-    bindResult(".rotation-result-status", (e, el) => {
-      e.result.status = el.value;
-      if (e.result.status === "ran" && !e.result.place) e.result.place = "1";
-    });
-    bindResult(".rotation-result-place", (e, el) => {
-      e.result.place = el.value;
-      if (el.value) e.result.status = "ran";
-    });
-    bindResult(".rotation-result-pop", (e, el) => {
-      e.result.popularity = el.value;
-    });
-    bindResult(".rotation-result-memo", (e, el) => {
-      e.result.memo = el.value;
-    });
-    $$(".rotation-result-going", host).forEach((el) => {
-      el.addEventListener("change", () => {
-        const id = el.id.replace(/^rg-/, "");
-        const e = season.timeline.find((x) => x.raceId === id);
-        if (!e) return;
-        if (!e.result) e.result = emptyResult();
-        e.result.going = el.value;
-        saveStore();
       });
     });
   }
@@ -734,13 +1033,14 @@
   }
 
   function filterRaces() {
-    const kw = ($("#rot-kw").value || "").trim().toLowerCase();
-    const month = $("#rot-month").value;
-    const surface = $("#rot-surface").value;
-    const grade = $("#rot-grade").value;
-    const dmin = $("#rot-dmin").value;
-    const dmax = $("#rot-dmax").value;
-    const overseas = $("#rot-overseas").checked;
+    const kw = ($("#rot-kw")?.value || "").trim().toLowerCase();
+    const month = $("#rot-month")?.value || "";
+    const surface = $("#rot-surface")?.value || "";
+    const grade = $("#rot-grade")?.value || "";
+    const dmin = $("#rot-dmin")?.value || "";
+    const dmax = $("#rot-dmax")?.value || "";
+    const overseasEl = $("#rot-overseas");
+    const overseas = overseasEl ? overseasEl.checked : true;
 
     return allRaces
       .filter((r) => {
@@ -791,7 +1091,7 @@
     renderWeekGrid();
     renderPickResults();
     renderHorseStats();
-    renderOverseasCheck();
+    renderInvitePanel();
   }
 
   function applySampleHorseDef(def) {
@@ -1079,7 +1379,6 @@
       renderAll();
     });
 
-    $("#rot-overseas-check").addEventListener("change", renderOverseasCheck);
 
     $$("#rotation-filters input, #rotation-filters select").forEach((el) => {
       el.addEventListener("input", renderPickResults);
@@ -1099,6 +1398,12 @@
         if (r) addRaceToTimeline(r.id);
         else setStatus(`${name} がデータ内に見つかりません`);
       });
+    });
+
+    $("#rot-name").addEventListener("input", () => {
+      syncHorseFromForm();
+      renderHorseList();
+      saveStore();
     });
 
     const formIds = [
@@ -1131,6 +1436,7 @@
         }
         renderHorseList();
         renderPickResults();
+        renderInvitePanel();
         saveStore();
       });
     });
