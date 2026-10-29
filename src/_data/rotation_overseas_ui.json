@@ -1,0 +1,45 @@
+{
+  "intro": "海外3レースの出走・打診条件は、当サイトの海外ページと同じ出典・ラベルで整理しています。ローテに追加しても条件を満たす保証はありません。",
+  "sourcePage": "/overseas/",
+  "races": [
+    {
+      "matchName": "ドバイワールドカップ",
+      "period": "3月5週",
+      "label": "未確認（推定）",
+      "summary": "湯一路 overseas.php の出走条件表に記載。詳細は海外ページまたは湯一路原典を参照。",
+      "sources": [
+        {
+          "url": "https://ds2.yublog.com/info/overseas.php#ov-dubai",
+          "title": "湯一路 overseas.php（ドバイWC）"
+        },
+        { "url": "/overseas/", "title": "当サイト 海外レース" }
+      ]
+    },
+    {
+      "matchName": "凱旋門賞",
+      "period": "10月1週",
+      "label": "未確認（推定）",
+      "summary": "河合厩舎・3歳打診などは掲示板整理あり（未確認（推定））。4歳以下/5歳以上で条件が異なる旨は湯一路記載どおり。",
+      "sources": [
+        {
+          "url": "https://ds2.yublog.com/info/overseas.php#ov-arc",
+          "title": "湯一路 overseas.php（凱旋門）"
+        },
+        { "url": "/overseas/", "title": "当サイト 海外レース" }
+      ]
+    },
+    {
+      "matchName": "ブリーダーズカップクラシック",
+      "period": "11月1週",
+      "label": "未確認（推定）",
+      "summary": "3歳と4歳以上で勝利実績条件が異なる旨は湯一路記載どおり。",
+      "sources": [
+        {
+          "url": "https://ds2.yublog.com/info/overseas.php#ov-bc",
+          "title": "湯一路 overseas.php（BCクラシック）"
+        },
+        { "url": "/overseas/", "title": "当サイト 海外レース" }
+      ]
+    }
+  ]
+}
