@@ -18,6 +18,12 @@
       "style": "先行",
       "defaultSeasonAge": 4,
       "seasons": {
+        "3": {
+          "domesticNames": ["フェブラリーS"],
+          "results": {
+            "フェブラリーS": { "status": "ran", "place": 1, "going": "良" }
+          }
+        },
         "4": {
           "domesticNames": [
             "プロキオンS",
@@ -37,19 +43,15 @@
           },
           "results": {
             "プロキオンS": { "status": "ran", "place": 2, "popularity": 3, "going": "良" },
-            "フェブラリーS": { "status": "ran", "place": 1, "popularity": 2, "going": "良" },
+            "フェブラリーS": { "status": "pending" },
             "平安ステークス": { "status": "ran", "place": 1, "popularity": 1, "going": "稍重" },
             "帝王賞": { "status": "ran", "place": 1, "popularity": 1, "going": "良" },
             "エルムステークス": { "status": "ran", "place": 1, "popularity": 1, "going": "良" },
             "シリウスステークス": { "status": "ran", "place": 1, "popularity": 1, "going": "良" },
             "チャンピオンズC": { "status": "ran", "place": 1, "popularity": 1, "going": "良" },
-            "東京大賞典": { "status": "ran", "place": 3, "popularity": 1, "going": "良", "memo": "3〜4着の記憶に近い例" },
-            "ドバイワールドカップ": { "status": "ran", "place": 5, "going": "良" },
-            "ブリーダーズカップクラシック": {
-              "status": "ran",
-              "place": 10,
-              "memo": "10着付近の記憶に近い例（未確認）"
-            }
+            "東京大賞典": { "status": "pending" },
+            "ドバイワールドカップ": { "status": "pending" },
+            "ブリーダーズカップクラシック": { "status": "pending" }
           }
         }
       }
