@@ -40,6 +40,10 @@ async function main() {
       console.error("Dubai check failed:", dubaiText.slice(0, 400));
       process.exitCode = 1;
     }
+    if (!dubaiText.includes("予定レースをすべて1着想定: 満たせる参考")) {
+      console.error("Dubai plan check failed:", dubaiText.slice(0, 500));
+      process.exitCode = 1;
+    }
     await page.screenshot({
       path: path.join(OUT, `rotation-v3-sample-a-${tag}.png`),
       fullPage: tag === "mobile",

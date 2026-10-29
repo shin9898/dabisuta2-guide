@@ -19,9 +19,27 @@
       "defaultSeasonAge": 4,
       "seasons": {
         "3": {
-          "domesticNames": ["フェブラリーS"],
+          "domesticNames": [
+            "羽田盃",
+            "東京ダービー",
+            "ジャパンダートC",
+            "東京大賞典"
+          ],
+          "overseasNames": ["ブリーダーズカップクラシック"],
           "results": {
-            "フェブラリーS": { "status": "ran", "place": 1, "going": "良" }
+            "羽田盃": { "status": "ran", "place": 1, "going": "良" },
+            "東京ダービー": { "status": "ran", "place": 1, "going": "良" },
+            "ジャパンダートC": { "status": "ran", "place": 1, "going": "良" },
+            "ブリーダーズカップクラシック": {
+              "status": "ran",
+              "place": 10,
+              "memo": "10着くらい"
+            },
+            "東京大賞典": {
+              "status": "ran",
+              "place": 4,
+              "memo": "3か4着"
+            }
           }
         },
         "4": {
@@ -42,16 +60,16 @@
             "m10w1": "在厩（BCクラシック前）"
           },
           "results": {
-            "プロキオンS": { "status": "ran", "place": 2, "popularity": 3, "going": "良" },
+            "プロキオンS": { "status": "pending" },
             "フェブラリーS": { "status": "pending" },
-            "平安ステークス": { "status": "ran", "place": 1, "popularity": 1, "going": "稍重" },
-            "帝王賞": { "status": "ran", "place": 1, "popularity": 1, "going": "良" },
-            "エルムステークス": { "status": "ran", "place": 1, "popularity": 1, "going": "良" },
-            "シリウスステークス": { "status": "ran", "place": 1, "popularity": 1, "going": "良" },
-            "チャンピオンズC": { "status": "ran", "place": 1, "popularity": 1, "going": "良" },
-            "東京大賞典": { "status": "pending" },
             "ドバイワールドカップ": { "status": "pending" },
-            "ブリーダーズカップクラシック": { "status": "pending" }
+            "平安ステークス": { "status": "pending" },
+            "帝王賞": { "status": "pending" },
+            "エルムステークス": { "status": "pending" },
+            "シリウスステークス": { "status": "pending" },
+            "ブリーダーズカップクラシック": { "status": "pending" },
+            "チャンピオンズC": { "status": "pending" },
+            "東京大賞典": { "status": "pending" }
           }
         }
       }
@@ -70,14 +88,16 @@
       "turfSymbol": "◎",
       "style": "差し",
       "stable": "河合",
-      "defaultSeasonAge": 4,
+      "defaultSeasonAge": 3,
       "seasons": {
         "3": {
-          "domesticNames": ["皐月賞", "日本ダービー", "オークス"],
+          "domesticNames": ["皐月賞", "日本ダービー", "宝塚記念"],
+          "overseasNames": ["凱旋門賞"],
           "results": {
             "皐月賞": { "status": "ran", "place": 1, "popularity": 2, "going": "良" },
             "日本ダービー": { "status": "ran", "place": 1, "popularity": 1, "going": "良" },
-            "オークス": { "status": "ran", "place": 3, "going": "良" }
+            "宝塚記念": { "status": "ran", "place": 4, "going": "稍重", "memo": "負け" },
+            "凱旋門賞": { "status": "ran", "place": 7, "going": "良", "memo": "6、8着くらい" }
           }
         },
         "4": {
@@ -88,21 +108,16 @@
             "ジャパンカップ",
             "有馬記念"
           ],
-          "overseasNames": ["凱旋門賞"],
-          "raceNotes": {
-            "凱旋門賞": "打診がなければ天皇賞（秋）（プレイヤー判断・未確認）"
-          },
           "weekNotes": {
             "m04w2": "放牧",
             "m07w2": "放牧",
             "m08w4": "9月1週より前に入厩"
           },
           "results": {
-            "京都記念": { "status": "ran", "place": 1, "going": "良" },
-            "大阪杯": { "status": "ran", "place": 2, "going": "良" },
-            "宝塚記念": { "status": "ran", "place": 4, "going": "稍重", "memo": "負けても打診例の参考" },
-            "凱旋門賞": { "status": "ran", "place": 7, "going": "良", "memo": "6〜8着付近の記憶に近い例" },
-            "ジャパンカップ": { "status": "dns" },
+            "京都記念": { "status": "pending" },
+            "大阪杯": { "status": "pending" },
+            "宝塚記念": { "status": "pending" },
+            "ジャパンカップ": { "status": "pending" },
             "有馬記念": { "status": "pending" }
           }
         }
