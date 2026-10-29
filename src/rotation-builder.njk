@@ -1,31 +1,32 @@
 ---
 layout: layouts/base.njk
-title: ローテ組み
-description: 番組表データから年間ローテを組み、メモ付きで保存（localStorage）
+title: 自家製馬の戦績ノート
+description: 自家製馬の基本情報・年別ローテ・戦績を localStorage に保存（JSON バックアップ推奨）
 updated: 2026-10-29
 permalink: /rotation-builder/
 layoutWide: true
 ---
 
-<p class="data-note"><span class="label label-tool">ツール（ゲーム内未検証）</span> レース名・週は <code>race_schedule.json</code>（湯一路番組表由来）および海外一覧どおりです。間隔・入厩・打診の可否は<strong>未確認</strong>のことが多く、本ページはメモ用です。</p>
+<p class="data-note"><span class="label label-tool">ツール（ゲーム内未検証）</span> レース名・週は <code>race_schedule.json</code>（湯一路番組表由来）および海外一覧どおりです。勝敗予想・出走可否の<strong>断定はしません</strong>。</p>
+<p class="rotation-backup-note"><strong>ブラウザのデータを消すと保存内容も消えます。</strong> 定期的に JSON 書き出しでバックアップしてください。</p>
 
 <div id="rotation-app" class="rotation-app">
   <p id="rotation-load" class="placeholder-box">番組データを読み込んでいます…</p>
 
   <div id="rotation-main" hidden>
-    <div class="rotation-layout">
-      <aside class="rotation-sidebar" aria-label="保存したローテ">
-        <h2 class="rotation-sidebar-title">保存一覧</h2>
-        <ul id="rotation-profile-list" class="rotation-profile-list"></ul>
-        <button type="button" class="rotation-btn" id="rotation-new">＋ 新規</button>
-        <button type="button" class="rotation-btn rotation-btn--danger" id="rotation-delete">削除</button>
+    <div class="rotation-layout rotation-layout--notebook">
+      <aside class="rotation-sidebar" aria-label="馬一覧">
+        <h2 class="rotation-sidebar-title">馬一覧</h2>
+        <div id="rotation-horse-list" class="rotation-horse-list"></div>
+        <button type="button" class="rotation-btn" id="rotation-new">＋ 馬を追加</button>
+        <button type="button" class="rotation-btn rotation-btn--danger" id="rotation-delete">馬を削除</button>
       </aside>
 
       <div class="rotation-workspace">
         <section class="rotation-panel" aria-labelledby="rotation-horse-heading">
-          <h2 id="rotation-horse-heading">馬情報</h2>
-          <div class="rotation-horse-form">
-            <label>馬名 <input type="text" id="rot-name" autocomplete="off"></label>
+          <h2 id="rotation-horse-heading">基本情報</h2>
+          <div class="rotation-horse-form rotation-horse-form--wide">
+            <label>名前 <input type="text" id="rot-name" autocomplete="off"></label>
             <label>性別
               <select id="rot-sex">
                 <option value="牡">牡</option>
@@ -41,19 +42,79 @@ layoutWide: true
                 <option value="晩成">晩成</option>
               </select>
             </label>
+            <label class="rotation-check"><input type="radio" name="rot-age-mode" id="rot-age-mode-year" value="year" checked> 生まれ年</label>
+            <label>生まれ年 <input type="number" id="rot-birth-year" min="1990" max="2040" placeholder="例: 2022"></label>
+            <label class="rotation-check"><input type="radio" name="rot-age-mode" id="rot-age-mode-age" value="age"> 年齢のみ</label>
             <label>年齢 <input type="number" id="rot-age" min="2" max="15" value="4"></label>
+            <label>適性距離 下限(m) <input type="number" id="rot-dist-min" min="800" step="100"></label>
+            <label>適性距離 上限(m) <input type="number" id="rot-dist-max" min="800" step="100"></label>
+            <label>芝適性
+              <select id="rot-turf-mode">
+                <option value="symbol">段階（◎○△×◯）</option>
+                <option value="custom">自由入力</option>
+              </select>
+            </label>
+            <label id="rot-turf-symbol-wrap">段階
+              <select id="rot-turf-symbol">
+                <option value="">—</option>
+                <option value="◎">◎</option>
+                <option value="○">○</option>
+                <option value="△">△</option>
+                <option value="×">×</option>
+                <option value="◯">◯</option>
+              </select>
+            </label>
+            <label id="rot-turf-custom-wrap" hidden>芝（自由） <input type="text" id="rot-turf-custom"></label>
+            <label>ダート適性
+              <select id="rot-dirt-mode">
+                <option value="symbol">段階（◎○△×◯）</option>
+                <option value="custom">自由入力</option>
+              </select>
+            </label>
+            <label id="rot-dirt-symbol-wrap">段階
+              <select id="rot-dirt-symbol">
+                <option value="">—</option>
+                <option value="◎">◎</option>
+                <option value="○">○</option>
+                <option value="△">△</option>
+                <option value="×">×</option>
+                <option value="◯">◯</option>
+              </select>
+            </label>
+            <label id="rot-dirt-custom-wrap" hidden>ダート（自由） <input type="text" id="rot-dirt-custom"></label>
+            <label>脚質（騎手おすすめ） <input type="text" id="rot-style" placeholder="逃げ・先行など"></label>
+            <label>父（任意） <input type="text" id="rot-sire"></label>
+            <label>母（任意） <input type="text" id="rot-dam"></label>
+            <label>厩舎（任意） <input type="text" id="rot-stable"></label>
+            <label class="rotation-full">自由メモ <textarea id="rot-memo" rows="2"></textarea></label>
           </div>
+          <div id="rotation-horse-stats" class="rotation-horse-stats" aria-live="polite"></div>
+        </section>
+
+        <section class="rotation-panel" aria-labelledby="rotation-season-heading">
+          <h2 id="rotation-season-heading">年別ローテ</h2>
+          <label>編集中の年齢
+            <select id="rot-season"></select>
+          </label>
         </section>
 
         <section class="rotation-panel" aria-labelledby="rotation-io-heading">
-          <h2 id="rotation-io-heading">保存・共有</h2>
+          <h2 id="rotation-io-heading">保存・バックアップ</h2>
           <div class="rotation-io-row">
             <button type="button" class="rotation-btn" id="rotation-save">localStorage に保存</button>
-            <button type="button" class="rotation-btn" id="rotation-export">JSON 書き出し</button>
-            <label class="rotation-file-label">JSON 読み込み <input type="file" id="rotation-import" accept="application/json"></label>
-            <button type="button" class="rotation-btn" id="rotation-share">共有URLをコピー</button>
+            <button type="button" class="rotation-btn" id="rotation-export-all">全馬 JSON 書出</button>
+            <button type="button" class="rotation-btn" id="rotation-export-one">この馬 JSON 書出</button>
+            <label class="rotation-file-label">JSON 読込 <input type="file" id="rotation-import" accept="application/json"></label>
+            <button type="button" class="rotation-btn" id="rotation-share">この馬の共有URL</button>
           </div>
           <p id="rotation-io-status" class="filter-count" aria-live="polite"></p>
+        </section>
+
+        <section class="rotation-panel" aria-labelledby="rotation-overseas-check-heading">
+          <h2 id="rotation-overseas-check-heading">海外出走条件（参考）</h2>
+          <label class="rotation-check"><input type="checkbox" id="rot-overseas-check"> 登録した<strong>勝ち</strong>から湯一路掲載条件を参考表示（任意）</label>
+          <p class="route-method-note"><span class="label label-unknown">未確認（推定）</span> I格/JpnIの扱い・「直近1年」の定義など<strong>未確定</strong>の点は満たせません。出典: <a href="https://ds2.yublog.com/info/overseas.php">湯一路 overseas.php</a> · <a href="{{ '/overseas/' | url }}">当サイト 海外</a></p>
+          <div id="rotation-overseas-check-out" class="rotation-overseas-check-out" hidden></div>
         </section>
 
         <section class="rotation-panel" aria-labelledby="rotation-filter-heading">
@@ -95,7 +156,7 @@ layoutWide: true
             </label>
             <label>距離 min <input type="number" id="rot-dmin" min="800" step="100"></label>
             <label>距離 max <input type="number" id="rot-dmax" min="800" step="100"></label>
-            <label class="rotation-check"><input type="checkbox" id="rot-overseas" checked> 海外GI（3件）を含む</label>
+            <label class="rotation-check"><input type="checkbox" id="rot-overseas" checked> 海外GI（3件）</label>
           </form>
           <div id="rotation-pick-results" class="rotation-pick-results"></div>
         </section>
@@ -123,17 +184,16 @@ layoutWide: true
         <section class="rotation-panel" aria-labelledby="rotation-timeline-heading">
           <h2 id="rotation-timeline-heading">年間タイムライン</h2>
           <p id="rotation-interval-warn" class="rotation-warn" hidden></p>
-          <ol id="rotation-timeline" class="rotation-timeline"></ol>
+          <div id="rotation-timeline" class="rotation-timeline-cards"></div>
         </section>
 
         <section class="rotation-panel" aria-labelledby="rotation-weeks-heading">
           <h2 id="rotation-weeks-heading">週メモ（入厩・放牧など）</h2>
-          <p class="route-method-note">各週に自由記述メモ。ゲーム内操作の再現保証はありません。</p>
           <div id="rotation-week-grid" class="rotation-week-grid"></div>
         </section>
 
         <section class="rotation-panel" aria-labelledby="rotation-samples-heading">
-          <h2 id="rotation-samples-heading">サンプルローテ</h2>
+          <h2 id="rotation-samples-heading">サンプル</h2>
           <p>{{ rotation_samples.disclaimer }}</p>
           <div class="rotation-sample-actions">
             {% for s in rotation_samples.samples %}
