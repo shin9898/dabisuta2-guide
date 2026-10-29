@@ -1775,3 +1775,110 @@ body.layout-wide .site-footer {
   flex-wrap: wrap;
   gap: 0.5rem;
 }
+
+.rotation-backup-note {
+  padding: 0.5rem 0.75rem;
+  margin: 0.5rem 0 1rem;
+  border: 1px solid #c9a227;
+  border-radius: 6px;
+  background: #fff9e8;
+  font-size: 0.9rem;
+}
+
+.rotation-horse-form--wide {
+  grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+}
+
+.rotation-full {
+  grid-column: 1 / -1;
+}
+
+.rotation-horse-stats {
+  margin-top: 0.75rem;
+  padding: 0.5rem 0.65rem;
+  border-radius: 6px;
+  background: #f7f6f3;
+  font-size: 0.88rem;
+}
+
+.rotation-horse-stats p {
+  margin: 0.25rem 0;
+}
+
+.rotation-timeline-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.rotation-timeline-card {
+  padding: 0.65rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #faf9f7;
+}
+
+.rotation-timeline-card-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem 0.5rem;
+}
+
+.rotation-timeline-plan,
+.rotation-result-fieldset {
+  margin: 0.5rem 0 0;
+  border: none;
+  padding: 0;
+}
+
+.rotation-result-fieldset {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(7.5rem, 1fr));
+  gap: 0.5rem;
+}
+
+.rotation-result-fieldset legend {
+  grid-column: 1 / -1;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.rotation-result-summary {
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin: 0.35rem 0;
+}
+
+.rotation-dist-warn {
+  display: inline-block;
+  font-size: 0.75rem;
+  padding: 0.1rem 0.35rem;
+  border-radius: 4px;
+  background: #ffe8e8;
+  color: #8a2020;
+  border: 1px solid #d88;
+}
+
+.rotation-overseas-check-out {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.rotation-overseas-check-item {
+  padding: 0.65rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 0.85rem;
+}
+
+.rotation-overseas-check-item h3 {
+  margin: 0 0 0.35rem;
+  font-size: 0.92rem;
+}
+
+.rotation-overseas-check-item ul {
+  margin: 0 0 0.35rem;
+  padding-left: 1.1rem;
+}

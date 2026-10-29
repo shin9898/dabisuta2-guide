@@ -1,5 +1,5 @@
 {
-  "disclaimer": "以下は当サイト用のローテ組みサンプルです。一つの牧場での実例を想定したメモであり、勝ちを保証するものではありません。",
+  "disclaimer": "以下は当サイト用の戦績ノートサンプルです。一つの牧場での実例を想定したメモであり、勝ちを保証するものではありません。",
   "samples": [
     {
       "id": "sample-dirt-route-4yo",
@@ -8,21 +8,50 @@
       "sex": "牡",
       "growth": "晩成",
       "age": 4,
-      "domesticNames": [
-        "プロキオンS",
-        "フェブラリーS",
-        "平安ステークス",
-        "帝王賞",
-        "エルムステークス",
-        "シリウスステークス",
-        "チャンピオンズC",
-        "東京大賞典"
-      ],
-      "overseasNames": ["ドバイワールドカップ", "ブリーダーズカップクラシック"],
-      "weekNotes": {
-        "m03w1": "在厩（ドバイWC前）",
-        "m04w1": "放牧",
-        "m10w1": "在厩（BCクラシック前）"
+      "ageMode": "age",
+      "distMin": 1600,
+      "distMax": 2400,
+      "dirtMode": "symbol",
+      "dirtSymbol": "◎",
+      "turfMode": "symbol",
+      "turfSymbol": "△",
+      "style": "先行",
+      "defaultSeasonAge": 4,
+      "seasons": {
+        "4": {
+          "domesticNames": [
+            "プロキオンS",
+            "フェブラリーS",
+            "平安ステークス",
+            "帝王賞",
+            "エルムステークス",
+            "シリウスステークス",
+            "チャンピオンズC",
+            "東京大賞典"
+          ],
+          "overseasNames": ["ドバイワールドカップ", "ブリーダーズカップクラシック"],
+          "weekNotes": {
+            "m03w1": "在厩（ドバイWC前）",
+            "m04w1": "放牧",
+            "m10w1": "在厩（BCクラシック前）"
+          },
+          "results": {
+            "プロキオンS": { "status": "ran", "place": 2, "popularity": 3, "going": "良" },
+            "フェブラリーS": { "status": "ran", "place": 1, "popularity": 2, "going": "良" },
+            "平安ステークス": { "status": "ran", "place": 1, "popularity": 1, "going": "稍重" },
+            "帝王賞": { "status": "ran", "place": 1, "popularity": 1, "going": "良" },
+            "エルムステークス": { "status": "ran", "place": 1, "popularity": 1, "going": "良" },
+            "シリウスステークス": { "status": "ran", "place": 1, "popularity": 1, "going": "良" },
+            "チャンピオンズC": { "status": "ran", "place": 1, "popularity": 1, "going": "良" },
+            "東京大賞典": { "status": "ran", "place": 3, "popularity": 1, "going": "良", "memo": "3〜4着の記憶に近い例" },
+            "ドバイワールドカップ": { "status": "ran", "place": 5, "going": "良" },
+            "ブリーダーズカップクラシック": {
+              "status": "ran",
+              "place": 10,
+              "memo": "10着付近の記憶に近い例（未確認）"
+            }
+          }
+        }
       }
     },
     {
@@ -32,21 +61,49 @@
       "sex": "牝",
       "growth": "持続",
       "age": 4,
-      "domesticNames": [
-        "京都記念",
-        "大阪杯",
-        "宝塚記念",
-        "ジャパンカップ",
-        "有馬記念"
-      ],
-      "overseasNames": ["凱旋門賞"],
-      "raceNotes": {
-        "凱旋門賞": "打診がなければ天皇賞（秋）（プレイヤー判断・未確認）"
-      },
-      "weekNotes": {
-        "m04w2": "放牧",
-        "m07w2": "放牧",
-        "m08w4": "9月1週より前に入厩"
+      "ageMode": "age",
+      "distMin": 1800,
+      "distMax": 3200,
+      "turfMode": "symbol",
+      "turfSymbol": "◎",
+      "style": "差し",
+      "stable": "河合",
+      "defaultSeasonAge": 4,
+      "seasons": {
+        "3": {
+          "domesticNames": ["皐月賞", "日本ダービー", "オークス"],
+          "results": {
+            "皐月賞": { "status": "ran", "place": 1, "popularity": 2, "going": "良" },
+            "日本ダービー": { "status": "ran", "place": 1, "popularity": 1, "going": "良" },
+            "オークス": { "status": "ran", "place": 3, "going": "良" }
+          }
+        },
+        "4": {
+          "domesticNames": [
+            "京都記念",
+            "大阪杯",
+            "宝塚記念",
+            "ジャパンカップ",
+            "有馬記念"
+          ],
+          "overseasNames": ["凱旋門賞"],
+          "raceNotes": {
+            "凱旋門賞": "打診がなければ天皇賞（秋）（プレイヤー判断・未確認）"
+          },
+          "weekNotes": {
+            "m04w2": "放牧",
+            "m07w2": "放牧",
+            "m08w4": "9月1週より前に入厩"
+          },
+          "results": {
+            "京都記念": { "status": "ran", "place": 1, "going": "良" },
+            "大阪杯": { "status": "ran", "place": 2, "going": "良" },
+            "宝塚記念": { "status": "ran", "place": 4, "going": "稍重", "memo": "負けても打診例の参考" },
+            "凱旋門賞": { "status": "ran", "place": 7, "going": "良", "memo": "6〜8着付近の記憶に近い例" },
+            "ジャパンカップ": { "status": "dns" },
+            "有馬記念": { "status": "pending" }
+          }
+        }
       }
     }
   ]
